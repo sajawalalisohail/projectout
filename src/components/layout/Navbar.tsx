@@ -6,14 +6,15 @@ import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { label: "Security", href: "#security" },
-  { label: "Company", href: "#company" },
+  { label: "Security", href: "/security" },
+  { label: "Company", href: "/company" },
 ];
 
 const productDropdownItems = [
-  { label: "Workflows", href: "#workflows" },
-  { label: "Capabilities", href: "#capabilities" },
-  { label: "Integrations", href: "#integrations" },
+  { label: "Overview", href: "/product" },
+  { label: "Workflows", href: "/product#workflows" },
+  { label: "Capabilities", href: "/product#capabilities" },
+  { label: "Integrations", href: "/product#integrations" },
 ];
 
 export function Navbar() {
@@ -147,6 +148,7 @@ export function Navbar() {
           {/* Desktop CTA */}
           <div className="hidden md:block">
             <Button
+              asChild
               className={cn(
                 "transition-colors duration-200",
                 isOnHero
@@ -154,7 +156,7 @@ export function Navbar() {
                   : ""
               )}
             >
-              Request Access
+              <a href="/request-access">Request Access</a>
             </Button>
           </div>
 
@@ -246,6 +248,7 @@ export function Navbar() {
               </a>
             ))}
             <Button
+              asChild
               className={cn(
                 "mt-2 w-full",
                 isOnHero
@@ -253,7 +256,7 @@ export function Navbar() {
                   : ""
               )}
             >
-              Request Access
+              <a href="/request-access">Request Access</a>
             </Button>
           </div>
         </div>
