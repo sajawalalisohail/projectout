@@ -29,28 +29,36 @@ export function Navbar() {
   const [isOnHero, setIsOnHero] = useState(isHomePage);
   const [navTheme, setNavTheme] = useState<NavTheme>(isHomePage ? "dark" : "light");
   const lastScrollY = useRef(0);
+  const intersectingSections = useRef<Set<Element>>(new Set());
 
   // IntersectionObserver to detect which section is at the top
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        // Find the section that is most visible at the top of viewport
-        let topSection: Element | null = null;
-        let minTop = Infinity;
-
+        // Update tracked intersecting sections
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const rect = entry.boundingClientRect;
-            // We want the section whose top is closest to (but not far above) the viewport top
-            if (rect.top < minTop && rect.bottom > 64) {
-              minTop = rect.top;
-              topSection = entry.target;
-            }
+            intersectingSections.current.add(entry.target);
+          } else {
+            intersectingSections.current.delete(entry.target);
+          }
+        });
+
+        // Find the section currently "under" the navbar from ALL intersecting sections
+        let topSection: Element | null = null;
+        let maxTop = -Infinity;
+
+        intersectingSections.current.forEach((section) => {
+          const rect = section.getBoundingClientRect();
+          // Section spans the navbar position (64px): top <= 64 and bottom > 64
+          if (rect.top <= 64 && rect.bottom > 64 && rect.top > maxTop) {
+            maxTop = rect.top;
+            topSection = section;
           }
         });
 
         if (topSection !== null) {
-          const theme = (topSection as Element).getAttribute("data-nav-theme") as NavTheme;
+          const theme = topSection.getAttribute("data-nav-theme") as NavTheme;
           if (theme) {
             setNavTheme(theme);
           }
@@ -79,6 +87,7 @@ export function Navbar() {
     return () => {
       observer.disconnect();
       mutationObserver.disconnect();
+      intersectingSections.current.clear();
     };
   }, []);
 
@@ -122,11 +131,10 @@ export function Navbar() {
   const closeDropdown = useCallback(() => setProductDropdownOpen(false), []);
 
   // Determine navbar appearance based on context
-  // Home hero: transparent bg with white text (unless dropdown is open)
-  // Home hero + dropdown open: dark bg with white text
-  // Other sections: follow navTheme
+  // Home hero: transparent bg (unless dropdown is open)
+  // Theme always follows navTheme from IntersectionObserver
   const isHeroTransparent = isHomePage && isOnHero && !productDropdownOpen && !mobileMenuOpen;
-  const effectiveTheme: NavTheme = isHomePage && isOnHero ? "dark" : navTheme;
+  const effectiveTheme: NavTheme = navTheme;
 
   // Navbar background
   const navBg = isHeroTransparent
