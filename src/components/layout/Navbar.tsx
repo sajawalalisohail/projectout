@@ -173,15 +173,15 @@ export function Navbar() {
       )}
     >
       <div className="w-full px-6 lg:px-10">
-        <nav className="flex h-14 items-center justify-between">
+        <nav className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <a href="/" className="relative h-5 w-auto shrink-0">
+          <a href="/" className="relative h-6 w-auto shrink-0">
             <Image
               src={logoSrc}
               alt="Nextlex"
-              height={20}
-              width={100}
-              className="h-5 w-auto object-contain"
+              height={24}
+              width={120}
+              className="h-6 w-auto object-contain"
               priority
             />
           </a>
@@ -197,7 +197,7 @@ export function Navbar() {
             >
               <button
                 className={cn(
-                  "flex items-center gap-1 text-[13px] font-medium tracking-wide transition-colors duration-200",
+                  "flex items-center gap-1 text-sm font-medium tracking-wide transition-colors duration-200",
                   textColorMuted
                 )}
               >
@@ -226,7 +226,7 @@ export function Navbar() {
                 key={link.label}
                 href={link.href}
                 className={cn(
-                  "text-[13px] font-medium tracking-wide transition-colors duration-200",
+                  "text-sm font-medium tracking-wide transition-colors duration-200",
                   textColorMuted
                 )}
               >
@@ -239,7 +239,7 @@ export function Navbar() {
           <a
             href="/request-access"
             className={cn(
-              "hidden text-[13px] font-medium tracking-wide transition-colors duration-200 md:block",
+              "hidden text-sm font-medium tracking-wide transition-colors duration-200 md:block",
               textColorMuted
             )}
           >
@@ -310,7 +310,7 @@ export function Navbar() {
                     key={item.label}
                     href={item.href}
                     className={cn(
-                      "rounded-lg px-4 py-2.5 text-[13px] font-medium transition-colors duration-150",
+                      "rounded-lg px-4 py-2.5 text-sm font-medium transition-colors duration-150",
                       effectiveTheme === "dark"
                         ? "text-white/70 hover:bg-white/10 hover:text-white"
                         : "text-[#1C1F26]/70 hover:bg-black/5 hover:text-[#1C1F26]"
@@ -346,7 +346,7 @@ export function Navbar() {
               <div className="flex flex-col gap-2">
                 <span
                   className={cn(
-                    "text-[13px] font-medium",
+                    "text-sm font-medium",
                     effectiveTheme === "dark" ? "text-white" : "text-[#1C1F26]"
                   )}
                 >
@@ -358,7 +358,7 @@ export function Navbar() {
                       key={item.label}
                       href={item.href}
                       className={cn(
-                        "text-[13px] transition-colors",
+                        "text-sm transition-colors",
                         effectiveTheme === "dark"
                           ? "text-white/60 hover:text-white"
                           : "text-[#1C1F26]/60 hover:text-[#1C1F26]"
@@ -375,7 +375,7 @@ export function Navbar() {
                   key={link.label}
                   href={link.href}
                   className={cn(
-                    "text-[13px] transition-colors",
+                    "text-sm transition-colors",
                     effectiveTheme === "dark"
                       ? "text-white/60 hover:text-white"
                       : "text-[#1C1F26]/60 hover:text-[#1C1F26]"

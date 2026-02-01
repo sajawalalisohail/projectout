@@ -88,10 +88,10 @@ export function Capabilities() {
           description="Legal intelligence designed for high-trust environments."
         />
 
-        <div className="mt-16 grid gap-12 lg:grid-cols-[1fr,400px] lg:gap-20">
+        <div className="mt-16 flex flex-col gap-12 md:flex-row md:gap-16 lg:gap-20">
           {/* Typographic List */}
           <ul
-            className="space-y-1"
+            className="flex-1 space-y-1"
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
           >
@@ -132,7 +132,7 @@ export function Capabilities() {
           </ul>
 
           {/* Description Panel */}
-          <div className="lg:pt-2">
+          <div className="w-full md:w-[360px] lg:w-[400px] md:pt-2 shrink-0">
             <div className="sticky top-32">
               <motion.div
                 key={activeIndex}

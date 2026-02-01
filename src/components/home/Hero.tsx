@@ -14,7 +14,7 @@ const heroImages = [
 ];
 
 const CYCLE_INTERVAL = 6000;
-const CROSSFADE_DURATION = 0.3;
+const CROSSFADE_DURATION = 0.5;
 
 export function Hero() {
   const prefersReducedMotion = useReducedMotion();

@@ -99,7 +99,7 @@ export function Footer({ theme = "dark" }: FooterProps) {
         </div>
 
         {/* Links Grid */}
-        <div className={`mt-12 grid grid-cols-2 gap-8 border-t ${borderColor} pt-12 md:grid-cols-3`}>
+        <div className={`mt-12 grid grid-cols-2 gap-8 border-t ${borderColor} pt-12 sm:grid-cols-3`}>
           {Object.entries(footerLinks).map(([category, links]) => (
             <div key={category}>
               <h3 className={`text-sm font-medium ${textColor}`}>{category}</h3>
