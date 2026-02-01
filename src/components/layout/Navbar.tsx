@@ -2,8 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { usePathname } from "next/navigation";
-import { Container } from "@/components/ui/Container";
-import { Button } from "@/components/ui/Button";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
@@ -27,23 +26,26 @@ export function Navbar() {
   const [productDropdownOpen, setProductDropdownOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isOnHero, setIsOnHero] = useState(isHomePage);
-  const [navTheme, setNavTheme] = useState<NavTheme>(isHomePage ? "dark" : "light");
+  const [navTheme, setNavTheme] = useState<NavTheme>("light");
   const lastScrollY = useRef(0);
 
   // IntersectionObserver to detect which section is at the top
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        // Find the section that is most visible at the top of viewport
+        // Find the section currently "under" the navbar
+        // We want the section whose top has scrolled past the navbar (top <= threshold)
+        // but is still visible (bottom > navbar height), with the highest top value
         let topSection: Element | null = null;
-        let minTop = Infinity;
+        let maxTop = -Infinity;
 
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const rect = entry.boundingClientRect;
-            // We want the section whose top is closest to (but not far above) the viewport top
-            if (rect.top < minTop && rect.bottom > 64) {
-              minTop = rect.top;
+            // Section's top must be at or above navbar area (with buffer)
+            // and section must still be visible below navbar
+            if (rect.top <= 100 && rect.bottom > 64 && rect.top > maxTop) {
+              maxTop = rect.top;
               topSection = entry.target;
             }
           }
@@ -88,7 +90,7 @@ export function Navbar() {
       const currentScrollY = window.scrollY;
 
       if (isHomePage) {
-        const heroThreshold = window.innerHeight * 0.8;
+        const heroThreshold = 100;
         const onHero = currentScrollY < heroThreshold;
         setIsOnHero(onHero);
 
@@ -150,20 +152,18 @@ export function Navbar() {
         navBg
       )}
     >
-      <Container>
+      <div className="w-full px-6 lg:px-10">
         <nav className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <a
-            href="/"
-            className={cn(
-              "text-lg font-semibold tracking-tight transition-colors duration-200",
-              textColor
-            )}
-          >
-            Nextle
-            <span className="bg-brand-gradient bg-clip-text text-transparent">
-              x
-            </span>
+          <a href="/" className="relative h-7 w-auto shrink-0">
+            <Image
+              src={effectiveTheme === "dark" ? "/logo/2.png" : "/logo/1.png"}
+              alt="Nextlex"
+              height={28}
+              width={140}
+              className="h-7 w-auto object-contain"
+              priority
+            />
           </a>
 
           {/* Desktop Links */}
@@ -176,7 +176,7 @@ export function Navbar() {
             >
               <button
                 className={cn(
-                  "flex items-center gap-1 text-sm transition-colors duration-200",
+                  "flex items-center gap-1 text-base transition-colors duration-200",
                   textColorMuted
                 )}
               >
@@ -204,7 +204,7 @@ export function Navbar() {
               <a
                 key={link.label}
                 href={link.href}
-                className={cn("text-sm transition-colors duration-200", textColorMuted)}
+                className={cn("text-base transition-colors duration-200", textColorMuted)}
               >
                 {link.label}
               </a>
@@ -213,17 +213,12 @@ export function Navbar() {
 
           {/* Desktop CTA */}
           <div className="hidden md:block">
-            <Button
-              asChild
-              className={cn(
-                "transition-colors duration-200",
-                effectiveTheme === "dark"
-                  ? "bg-white text-[#1C1F26] hover:bg-white/90"
-                  : ""
-              )}
+            <a
+              href="/request-access"
+              className={cn("text-base transition-colors duration-200", textColorMuted)}
             >
-              <a href="/request-access">Request Access</a>
-            </Button>
+              Request Access
+            </a>
           </div>
 
           {/* Mobile Menu Button */}
@@ -261,7 +256,7 @@ export function Navbar() {
             </svg>
           </button>
         </nav>
-      </Container>
+      </div>
 
       {/* Full-width Product Dropdown (Desktop) */}
       <div
@@ -282,7 +277,7 @@ export function Navbar() {
               : "bg-white border-black/5"
           )}
         >
-          <Container>
+          <div className="w-full px-6 lg:px-10">
             <div className="py-6">
               <div className="grid grid-cols-3 gap-4 max-w-xl">
                 {productDropdownItems.map((item) => (
@@ -301,7 +296,7 @@ export function Navbar() {
                 ))}
               </div>
             </div>
-          </Container>
+          </div>
         </div>
       </div>
 
@@ -320,7 +315,7 @@ export function Navbar() {
               : "bg-white border-black/5"
           )}
         >
-          <Container>
+          <div className="w-full px-6 lg:px-10">
             <div className="flex flex-col gap-4 py-6">
               {/* Mobile Product Section */}
               <div className="flex flex-col gap-2">
@@ -364,19 +359,19 @@ export function Navbar() {
                   {link.label}
                 </a>
               ))}
-              <Button
-                asChild
+              <a
+                href="/request-access"
                 className={cn(
-                  "mt-2 w-full",
+                  "mt-2 text-sm transition-colors",
                   effectiveTheme === "dark"
-                    ? "bg-white text-[#1C1F26] hover:bg-white/90"
-                    : ""
+                    ? "text-white/70 hover:text-white"
+                    : "text-[#1C1F26]/70 hover:text-[#1C1F26]"
                 )}
               >
-                <a href="/request-access">Request Access</a>
-              </Button>
+                Request Access
+              </a>
             </div>
-          </Container>
+          </div>
         </div>
       </div>
     </header>

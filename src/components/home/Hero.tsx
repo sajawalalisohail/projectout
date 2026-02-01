@@ -1,20 +1,19 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 
 const heroImages = [
-  "/hero-pics/hero-1.jpg",
-  "/hero-pics/hero-2.jpg",
-  "/hero-pics/hero-3.jpg",
-  "/hero-pics/hero-4.jpg",
-  "/hero-pics/hero-5.jpg",
+  "/hero-pics/hero-1.png",
+  "/hero-pics/hero-2.png",
+  "/hero-pics/hero-3.png",
+  "/hero-pics/hero-4.png",
+  "/hero-pics/hero-5.png",
 ];
 
 const CYCLE_INTERVAL = 6000;
-const CROSSFADE_DURATION = 1.5;
 
 export function Hero() {
   const prefersReducedMotion = useReducedMotion();
@@ -85,26 +84,23 @@ export function Hero() {
     : null;
 
   return (
-    <section data-nav-theme="dark" className="relative min-h-[88vh] overflow-hidden pt-32 md:pt-40">
-      {/* Crossfading background images */}
-      <AnimatePresence mode="wait">
-        {currentImage && (
-          <motion.div
-            key={currentImage}
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${currentImage})` }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={
-              prefersReducedMotion
-                ? { duration: 0 }
-                : { duration: CROSSFADE_DURATION, ease: "easeOut" }
-            }
-            aria-hidden="true"
-          />
-        )}
-      </AnimatePresence>
+    <section data-nav-theme="dark" className="relative min-h-screen overflow-hidden pt-32 md:pt-40">
+      {/* Background image - instant swap with subtle scale */}
+      {currentImage && (
+        <motion.div
+          key={currentImage}
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${currentImage})` }}
+          initial={prefersReducedMotion ? false : { scale: 1.02 }}
+          animate={{ scale: 1 }}
+          transition={
+            prefersReducedMotion
+              ? { duration: 0 }
+              : { duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }
+          }
+          aria-hidden="true"
+        />
+      )}
 
       {/* Dark overlay for text legibility */}
       <div
