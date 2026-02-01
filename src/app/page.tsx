@@ -10,14 +10,23 @@ import { FinalCTA } from "@/components/home/FinalCTA";
 export default function Home() {
   return (
     <>
+      {/* Hero section - has its own dark background with images */}
       <Hero />
-      <TrustBar />
-      <ValueSection />
-      <Capabilities />
-      <Metrics />
-      <Security />
-      <Testimonial />
-      <FinalCTA />
+
+      {/* LIGHT SECTION - Top half of content after hero */}
+      <section data-nav-theme="light" className="bg-white text-[#1C1F26]">
+        <TrustBar />
+        <ValueSection />
+        <Capabilities />
+      </section>
+
+      {/* DARK SECTION - Bottom half of content */}
+      <section data-nav-theme="dark" className="bg-[#0b0d12] text-white">
+        <Metrics />
+        <Security />
+        <Testimonial />
+        <FinalCTA />
+      </section>
     </>
   );
 }

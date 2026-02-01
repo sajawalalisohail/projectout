@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Card } from "@/components/ui/Card";
 import { fadeUp } from "@/lib/motion";
 
 const metrics = [
@@ -21,6 +20,7 @@ export function Metrics() {
           <SectionHeading
             eyebrow="Results"
             title="Measurable clarity."
+            dark
           />
         </motion.div>
 
@@ -30,22 +30,25 @@ export function Metrics() {
           transition={{ duration: 0.6, delay: 0.1 }}
         >
           {metrics.map((metric) => (
-            <Card key={metric.label} className="text-center">
-              <p className="text-4xl font-semibold tracking-tight text-fg md:text-5xl">
+            <div
+              key={metric.label}
+              className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center transition-shadow duration-200 hover:shadow-lg"
+            >
+              <p className="text-4xl font-semibold tracking-tight text-white md:text-5xl">
                 {metric.value}
                 {metric.unit && (
-                  <span className="ml-1 text-lg font-normal text-muted md:text-xl">
+                  <span className="ml-1 text-lg font-normal text-white/60 md:text-xl">
                     {metric.unit}
                   </span>
                 )}
               </p>
-              <p className="mt-3 text-sm text-muted">{metric.label}</p>
-            </Card>
+              <p className="mt-3 text-sm text-white/60">{metric.label}</p>
+            </div>
           ))}
         </motion.div>
 
         <motion.p
-          className="mt-8 text-center text-xs text-muted/70"
+          className="mt-8 text-center text-xs text-white/40"
           {...fadeUp}
           transition={{ duration: 0.6, delay: 0.2 }}
         >

@@ -5,6 +5,7 @@ interface SectionHeadingProps {
   title: string;
   description?: string;
   className?: string;
+  dark?: boolean;
 }
 
 export function SectionHeading({
@@ -12,19 +13,32 @@ export function SectionHeading({
   title,
   description,
   className,
+  dark = false,
 }: SectionHeadingProps) {
   return (
     <div className={cn("space-y-4", className)}>
       {eyebrow && (
-        <p className="text-xs uppercase tracking-widest text-muted">
+        <p
+          className={cn(
+            "text-xs uppercase tracking-widest",
+            dark ? "text-white/60" : "text-muted"
+          )}
+        >
           {eyebrow}
         </p>
       )}
-      <h2 className="text-3xl font-semibold tracking-tight text-fg md:text-5xl">
+      <h2
+        className={cn(
+          "text-3xl font-semibold tracking-tight md:text-5xl",
+          dark ? "text-white" : "text-fg"
+        )}
+      >
         {title}
       </h2>
       {description && (
-        <p className="max-w-xl text-muted">{description}</p>
+        <p className={cn("max-w-xl", dark ? "text-white/60" : "text-muted")}>
+          {description}
+        </p>
       )}
     </div>
   );

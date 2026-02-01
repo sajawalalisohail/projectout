@@ -77,7 +77,7 @@ export function Hero() {
       : {
           initial: { opacity: 0, y: 20 },
           animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.6, delay, ease: [0.25, 0.4, 0.25, 1] },
+          transition: { duration: 0.6, delay, ease: [0.25, 0.4, 0.25, 1] as const },
         };
 
   const currentImage = imagesLoaded[currentIndex]
@@ -85,7 +85,7 @@ export function Hero() {
     : null;
 
   return (
-    <section className="relative min-h-[88vh] overflow-hidden pt-32 md:pt-40">
+    <section data-nav-theme="dark" className="relative min-h-[88vh] overflow-hidden pt-32 md:pt-40">
       {/* Crossfading background images */}
       <AnimatePresence mode="wait">
         {currentImage && (

@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Card } from "@/components/ui/Card";
 import { fadeUp } from "@/lib/motion";
 
 const securityFeatures = [
@@ -74,6 +73,7 @@ export function Security() {
             eyebrow="Security"
             title="Enterprise-grade. Zero compromise."
             description="Built for firms where trust and compliance are non-negotiable."
+            dark
           />
         </motion.div>
 
@@ -83,13 +83,16 @@ export function Security() {
           transition={{ duration: 0.6, delay: 0.1 }}
         >
           {securityFeatures.map((feature) => (
-            <Card key={feature.title} className="space-y-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-black/[0.03] text-muted">
+            <div
+              key={feature.title}
+              className="space-y-3 rounded-2xl border border-white/10 bg-white/5 p-6 transition-shadow duration-200 hover:shadow-lg"
+            >
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 text-white/60">
                 {feature.icon}
               </div>
-              <h3 className="font-medium text-fg">{feature.title}</h3>
-              <p className="text-sm text-muted">{feature.description}</p>
-            </Card>
+              <h3 className="font-medium text-white">{feature.title}</h3>
+              <p className="text-sm text-white/60">{feature.description}</p>
+            </div>
           ))}
         </motion.div>
       </Container>
