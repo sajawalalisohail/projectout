@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 import { Container } from "@/components/ui/Container";
-import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
@@ -30,12 +30,13 @@ export function Navbar() {
   const [navTheme, setNavTheme] = useState<NavTheme>(isHomePage ? "dark" : "light");
   const lastScrollY = useRef(0);
   const intersectingSections = useRef<Set<Element>>(new Set());
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // IntersectionObserver to detect which section is at the top
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        // Update tracked intersecting sections
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             intersectingSections.current.add(entry.target);
@@ -44,13 +45,11 @@ export function Navbar() {
           }
         });
 
-        // Find the section currently "under" the navbar from ALL intersecting sections
         let topSection: Element | null = null;
         let maxTop = -Infinity;
 
         intersectingSections.current.forEach((section) => {
           const rect = section.getBoundingClientRect();
-          // Section spans the navbar position (64px): top <= 64 and bottom > 64
           if (rect.top <= 64 && rect.bottom > 64 && rect.top > maxTop) {
             maxTop = rect.top;
             topSection = section;
@@ -65,22 +64,18 @@ export function Navbar() {
         }
       },
       {
-        // Check near the top of viewport (navbar height is 64px)
         rootMargin: "-64px 0px -80% 0px",
         threshold: [0, 0.1, 0.5],
       }
     );
 
-    // Observe all theme sections
     const observeSections = () => {
       const sections = document.querySelectorAll("[data-nav-theme]");
       sections.forEach((section) => observer.observe(section));
     };
 
-    // Initial observation
     observeSections();
 
-    // Re-observe when DOM changes
     const mutationObserver = new MutationObserver(observeSections);
     mutationObserver.observe(document.body, { childList: true, subtree: true });
 
@@ -91,7 +86,7 @@ export function Navbar() {
     };
   }, []);
 
-  // Scroll-based visibility and hero detection (homepage only)
+  // Scroll-based visibility and hero detection
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -127,71 +122,89 @@ export function Navbar() {
     setProductDropdownOpen(false);
   }, [pathname]);
 
-  const openDropdown = useCallback(() => setProductDropdownOpen(true), []);
-  const closeDropdown = useCallback(() => setProductDropdownOpen(false), []);
+  // Dropdown handlers with delay to prevent scroll-close
+  const openDropdown = useCallback(() => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+      dropdownTimeoutRef.current = null;
+    }
+    setProductDropdownOpen(true);
+  }, []);
 
-  // Determine navbar appearance based on context
-  // Home hero: transparent bg (unless dropdown is open)
-  // Theme always follows navTheme from IntersectionObserver
+  const closeDropdown = useCallback(() => {
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setProductDropdownOpen(false);
+    }, 150);
+  }, []);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (dropdownTimeoutRef.current) {
+        clearTimeout(dropdownTimeoutRef.current);
+      }
+    };
+  }, []);
+
   const isHeroTransparent = isHomePage && isOnHero && !productDropdownOpen && !mobileMenuOpen;
   const effectiveTheme: NavTheme = navTheme;
 
-  // Navbar background
   const navBg = isHeroTransparent
     ? "bg-transparent"
     : effectiveTheme === "dark"
-    ? "bg-[#0b0d12]"
-    : "bg-white";
+    ? "bg-[#0b0d12]/95 backdrop-blur-md"
+    : "bg-white/95 backdrop-blur-md";
 
-  // Text colors
-  const textColor = effectiveTheme === "dark" ? "text-white" : "text-[#1C1F26]";
   const textColorMuted =
     effectiveTheme === "dark"
-      ? "text-white/70 hover:text-white"
-      : "text-[#1C1F26]/70 hover:text-[#1C1F26]";
+      ? "text-white/60 hover:text-white"
+      : "text-[#1C1F26]/60 hover:text-[#1C1F26]";
+
+  const logoSrc = effectiveTheme === "dark" || isHeroTransparent
+    ? "/logo/main logo.png"
+    : "/logo/main logo 2.png";
 
   return (
     <header
       className={cn(
-        "fixed top-0 z-50 w-full transition-all duration-200",
+        "fixed top-0 z-50 w-full transition-all duration-300",
         isVisible ? "translate-y-0" : "-translate-y-full",
         navBg
       )}
     >
-      <Container>
-        <nav className="flex h-16 items-center justify-between">
+      <div className="w-full px-6 lg:px-10">
+        <nav className="flex h-14 items-center justify-between">
           {/* Logo */}
-          <a
-            href="/"
-            className={cn(
-              "text-lg font-semibold tracking-tight transition-colors duration-200",
-              textColor
-            )}
-          >
-            Nextle
-            <span className="bg-brand-gradient bg-clip-text text-transparent">
-              x
-            </span>
+          <a href="/" className="relative h-5 w-auto shrink-0">
+            <Image
+              src={logoSrc}
+              alt="Nextlex"
+              height={20}
+              width={100}
+              className="h-5 w-auto object-contain"
+              priority
+            />
           </a>
 
-          {/* Desktop Links */}
-          <div className="hidden items-center gap-8 md:flex">
+          {/* Desktop Links - Center */}
+          <div className="hidden items-center gap-6 md:flex">
             {/* Product Dropdown */}
             <div
+              ref={dropdownRef}
               className="relative"
               onMouseEnter={openDropdown}
               onMouseLeave={closeDropdown}
             >
               <button
                 className={cn(
-                  "flex items-center gap-1 text-sm transition-colors duration-200",
+                  "flex items-center gap-1 text-[13px] font-medium tracking-wide transition-colors duration-200",
                   textColorMuted
                 )}
               >
                 Product
                 <svg
                   className={cn(
-                    "h-4 w-4 transition-transform duration-200",
+                    "h-3.5 w-3.5 transition-transform duration-200",
                     productDropdownOpen && "rotate-180"
                   )}
                   fill="none"
@@ -212,32 +225,31 @@ export function Navbar() {
               <a
                 key={link.label}
                 href={link.href}
-                className={cn("text-sm transition-colors duration-200", textColorMuted)}
+                className={cn(
+                  "text-[13px] font-medium tracking-wide transition-colors duration-200",
+                  textColorMuted
+                )}
               >
                 {link.label}
               </a>
             ))}
           </div>
 
-          {/* Desktop CTA */}
-          <div className="hidden md:block">
-            <Button
-              asChild
-              className={cn(
-                "transition-colors duration-200",
-                effectiveTheme === "dark"
-                  ? "bg-white text-[#1C1F26] hover:bg-white/90"
-                  : ""
-              )}
-            >
-              <a href="/request-access">Request Access</a>
-            </Button>
-          </div>
+          {/* Right side: Request Access */}
+          <a
+            href="/request-access"
+            className={cn(
+              "hidden text-[13px] font-medium tracking-wide transition-colors duration-200 md:block",
+              textColorMuted
+            )}
+          >
+            Request Access
+          </a>
 
           {/* Mobile Menu Button */}
           <button
             className={cn(
-              "flex h-10 w-10 items-center justify-center rounded-full transition-colors duration-200 md:hidden",
+              "flex h-9 w-9 items-center justify-center rounded-full transition-colors duration-200 md:hidden",
               effectiveTheme === "dark"
                 ? "text-white hover:bg-white/10"
                 : "text-[#1C1F26] hover:bg-black/5"
@@ -269,7 +281,7 @@ export function Navbar() {
             </svg>
           </button>
         </nav>
-      </Container>
+      </div>
 
       {/* Full-width Product Dropdown (Desktop) */}
       <div
@@ -286,22 +298,22 @@ export function Navbar() {
           className={cn(
             "w-full border-t transition-colors duration-200",
             effectiveTheme === "dark"
-              ? "bg-[#0b0d12] border-white/10"
-              : "bg-white border-black/5"
+              ? "bg-[#0b0d12]/95 backdrop-blur-md border-white/10"
+              : "bg-white/95 backdrop-blur-md border-black/5"
           )}
         >
           <Container>
-            <div className="py-6">
-              <div className="grid grid-cols-3 gap-4 max-w-xl">
+            <div className="py-5">
+              <div className="grid grid-cols-3 gap-3 max-w-md">
                 {productDropdownItems.map((item) => (
                   <a
                     key={item.label}
                     href={item.href}
                     className={cn(
-                      "rounded-lg px-4 py-3 text-sm font-medium transition-colors duration-150",
+                      "rounded-lg px-4 py-2.5 text-[13px] font-medium transition-colors duration-150",
                       effectiveTheme === "dark"
-                        ? "text-white/80 hover:bg-white/10 hover:text-white"
-                        : "text-[#1C1F26]/80 hover:bg-black/5 hover:text-[#1C1F26]"
+                        ? "text-white/70 hover:bg-white/10 hover:text-white"
+                        : "text-[#1C1F26]/70 hover:bg-black/5 hover:text-[#1C1F26]"
                     )}
                   >
                     {item.label}
@@ -317,7 +329,7 @@ export function Navbar() {
       <div
         className={cn(
           "overflow-hidden transition-all duration-200 md:hidden",
-          mobileMenuOpen ? "max-h-96" : "max-h-0"
+          mobileMenuOpen ? "max-h-[400px]" : "max-h-0"
         )}
       >
         <div
@@ -328,13 +340,13 @@ export function Navbar() {
               : "bg-white border-black/5"
           )}
         >
-          <Container>
+          <div className="w-full px-6">
             <div className="flex flex-col gap-4 py-6">
               {/* Mobile Product Section */}
               <div className="flex flex-col gap-2">
                 <span
                   className={cn(
-                    "text-sm font-medium",
+                    "text-[13px] font-medium",
                     effectiveTheme === "dark" ? "text-white" : "text-[#1C1F26]"
                   )}
                 >
@@ -346,10 +358,10 @@ export function Navbar() {
                       key={item.label}
                       href={item.href}
                       className={cn(
-                        "text-sm transition-colors",
+                        "text-[13px] transition-colors",
                         effectiveTheme === "dark"
-                          ? "text-white/70 hover:text-white"
-                          : "text-[#1C1F26]/70 hover:text-[#1C1F26]"
+                          ? "text-white/60 hover:text-white"
+                          : "text-[#1C1F26]/60 hover:text-[#1C1F26]"
                       )}
                     >
                       {item.label}
@@ -363,28 +375,29 @@ export function Navbar() {
                   key={link.label}
                   href={link.href}
                   className={cn(
-                    "text-sm transition-colors",
+                    "text-[13px] transition-colors",
                     effectiveTheme === "dark"
-                      ? "text-white/70 hover:text-white"
-                      : "text-[#1C1F26]/70 hover:text-[#1C1F26]"
+                      ? "text-white/60 hover:text-white"
+                      : "text-[#1C1F26]/60 hover:text-[#1C1F26]"
                   )}
                 >
                   {link.label}
                 </a>
               ))}
-              <Button
-                asChild
+
+              <a
+                href="/request-access"
                 className={cn(
-                  "mt-2 w-full",
+                  "mt-2 text-[13px] transition-colors",
                   effectiveTheme === "dark"
-                    ? "bg-white text-[#1C1F26] hover:bg-white/90"
-                    : ""
+                    ? "text-white/60 hover:text-white"
+                    : "text-[#1C1F26]/60 hover:text-[#1C1F26]"
                 )}
               >
-                <a href="/request-access">Request Access</a>
-              </Button>
+                Request Access
+              </a>
             </div>
-          </Container>
+          </div>
         </div>
       </div>
     </header>

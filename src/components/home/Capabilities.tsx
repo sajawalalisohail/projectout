@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
@@ -39,11 +40,47 @@ const capabilities = [
   },
 ];
 
+const AUTO_CYCLE_INTERVAL = 3000;
+
 export function Capabilities() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Auto-cycle through capabilities when in view and not hovering
+  useEffect(() => {
+    if (!isInView || isHovering) return;
+
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % capabilities.length);
+    }, AUTO_CYCLE_INTERVAL);
+
+    return () => clearInterval(interval);
+  }, [isInView, isHovering]);
+
+  // Intersection observer to detect when section is in view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.3 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section id="capabilities" className="scroll-mt-20 py-20 md:py-32">
+    <section
+      ref={sectionRef}
+      id="capabilities"
+      className="scroll-mt-20 py-20 md:py-32"
+    >
       <Container>
         <SectionHeading
           eyebrow="Workflows"
@@ -51,45 +88,72 @@ export function Capabilities() {
           description="Legal intelligence designed for high-trust environments."
         />
 
-        <div className="mt-16 grid gap-8 lg:grid-cols-[1fr,320px] lg:gap-16">
+        <div className="mt-16 grid gap-12 lg:grid-cols-[1fr,400px] lg:gap-20">
           {/* Typographic List */}
-          <ul className="space-y-2 md:space-y-3">
+          <ul
+            className="space-y-1"
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
+          >
             {capabilities.map((cap, index) => (
               <li key={cap.title}>
                 <button
-                  className="w-full text-left text-3xl font-semibold tracking-tight transition-colors duration-200 md:text-5xl"
-                  style={{
-                    color: activeIndex === index ? "var(--color-fg)" : "rgba(0,0,0,0.15)",
-                  }}
+                  className="group flex w-full items-center gap-4 py-2 text-left transition-all duration-300"
                   onMouseEnter={() => setActiveIndex(index)}
-                  onMouseLeave={() => setActiveIndex(null)}
                   onFocus={() => setActiveIndex(index)}
-                  onBlur={() => setActiveIndex(null)}
                 >
-                  {cap.title}
+                  {/* Progress indicator */}
+                  <div className="relative h-[2px] w-8 overflow-hidden rounded-full bg-black/10">
+                    <motion.div
+                      className="absolute inset-y-0 left-0 bg-[#1C1F26]"
+                      initial={{ width: 0 }}
+                      animate={{
+                        width: activeIndex === index ? "100%" : "0%",
+                      }}
+                      transition={{
+                        duration: activeIndex === index && !isHovering ? AUTO_CYCLE_INTERVAL / 1000 : 0.3,
+                        ease: "linear",
+                      }}
+                    />
+                  </div>
+
+                  {/* Title */}
+                  <span
+                    className="text-2xl font-semibold tracking-tight transition-colors duration-300 md:text-3xl lg:text-4xl"
+                    style={{
+                      color: activeIndex === index ? "var(--color-fg)" : "rgba(0,0,0,0.15)",
+                    }}
+                  >
+                    {cap.title}
+                  </span>
                 </button>
               </li>
             ))}
           </ul>
 
-          {/* Description Panel (Desktop) */}
-          <div className="hidden lg:block">
+          {/* Description Panel */}
+          <div className="lg:pt-2">
             <div className="sticky top-32">
-              <div
-                className="min-h-[120px] rounded-xl border border-black/5 bg-black/[0.02] p-6 transition-opacity duration-200"
-                style={{ opacity: activeIndex !== null ? 1 : 0 }}
+              <motion.div
+                key={activeIndex}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="rounded-2xl border border-black/5 bg-gradient-to-br from-black/[0.02] to-transparent p-8"
               >
-                {activeIndex !== null && (
-                  <>
-                    <p className="text-xs uppercase tracking-widest text-muted">
-                      {capabilities[activeIndex].title}
-                    </p>
-                    <p className="mt-3 text-base text-fg/80">
-                      {capabilities[activeIndex].description}
-                    </p>
-                  </>
-                )}
-              </div>
+                <div className="flex items-center gap-3 text-xs uppercase tracking-widest text-muted">
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-black/5 text-[10px] font-semibold">
+                    {String(activeIndex + 1).padStart(2, "0")}
+                  </span>
+                  {capabilities[activeIndex].title}
+                </div>
+                <p className="mt-4 text-lg leading-relaxed text-fg/80">
+                  {capabilities[activeIndex].description}
+                </p>
+
+                {/* Visual placeholder */}
+                <div className="mt-6 aspect-[4/3] rounded-xl bg-gradient-to-br from-black/[0.03] to-black/[0.06]" />
+              </motion.div>
             </div>
           </div>
         </div>

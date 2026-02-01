@@ -1,5 +1,6 @@
 import { Hero } from "@/components/home/Hero";
 import { TrustBar } from "@/components/home/TrustBar";
+import { VideoSection } from "@/components/home/VideoSection";
 import { ValueSection } from "@/components/home/ValueSection";
 import { Capabilities } from "@/components/home/Capabilities";
 import { Metrics } from "@/components/home/Metrics";
@@ -16,6 +17,7 @@ export default function Home() {
       {/* LIGHT SECTION - Top half of content after hero */}
       <section data-nav-theme="light" className="bg-white text-[#1C1F26]">
         <TrustBar />
+        <VideoSection />
         <ValueSection />
         <Capabilities />
       </section>

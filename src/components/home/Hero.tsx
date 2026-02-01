@@ -14,7 +14,7 @@ const heroImages = [
 ];
 
 const CYCLE_INTERVAL = 6000;
-const CROSSFADE_DURATION = 1.5;
+const CROSSFADE_DURATION = 0.3;
 
 export function Hero() {
   const prefersReducedMotion = useReducedMotion();
@@ -85,21 +85,21 @@ export function Hero() {
     : null;
 
   return (
-    <section data-nav-theme="dark" className="relative min-h-[88vh] overflow-hidden pt-32 md:pt-40">
-      {/* Crossfading background images */}
-      <AnimatePresence mode="wait">
+    <section data-nav-theme="dark" className="relative min-h-screen overflow-hidden pt-32 md:pt-40">
+      {/* Background images with short crossfade */}
+      <AnimatePresence mode="sync">
         {currentImage && (
           <motion.div
             key={currentImage}
-            className="absolute inset-0 bg-cover bg-center"
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: `url(${currentImage})` }}
-            initial={{ opacity: 0 }}
+            initial={prefersReducedMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={
               prefersReducedMotion
                 ? { duration: 0 }
-                : { duration: CROSSFADE_DURATION, ease: "easeOut" }
+                : { duration: CROSSFADE_DURATION, ease: "easeInOut" }
             }
             aria-hidden="true"
           />
@@ -108,7 +108,7 @@ export function Hero() {
 
       {/* Dark overlay for text legibility */}
       <div
-        className="pointer-events-none absolute inset-0 bg-black/25"
+        className="pointer-events-none absolute inset-0 bg-black/35"
         aria-hidden="true"
       />
 
