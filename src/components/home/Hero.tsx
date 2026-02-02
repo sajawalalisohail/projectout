@@ -85,7 +85,7 @@ export function Hero() {
     : null;
 
   return (
-    <section data-nav-theme="dark" className="relative min-h-screen overflow-hidden pt-32 md:pt-40">
+    <section data-nav-theme="dark" className="relative min-h-screen overflow-hidden pt-40 md:pt-52">
       {/* Background images with short crossfade */}
       <AnimatePresence mode="sync">
         {currentImage && (
@@ -117,7 +117,7 @@ export function Hero() {
         <div className="max-w-2xl">
           {/* Eyebrow */}
           <motion.p
-            className="text-sm uppercase tracking-widest text-white/70"
+            className="text-base uppercase tracking-widest text-white/70 md:text-lg"
             {...fadeUp(0)}
           >
             Invite-only &bull; Early 2026
@@ -125,18 +125,18 @@ export function Hero() {
 
           {/* Title */}
           <motion.h1
-            className="mt-6 text-4xl font-semibold tracking-tight text-white sm:text-5xl md:text-6xl"
+            className="mt-6 text-5xl font-semibold tracking-tight text-white sm:text-6xl md:text-7xl"
             {...fadeUp(0.1)}
           >
-            Your Legal Command Center.
+            Your Legal Command Center
           </motion.h1>
 
           {/* Subtitle */}
           <motion.p
-            className="mt-6 max-w-lg text-lg text-white/80"
+            className="mt-6 max-w-lg text-xl text-white/80 md:text-2xl"
             {...fadeUp(0.2)}
           >
-            Built by lawyers for lawyers—secure, precise, and designed to give
+            Built by lawyers for lawyers-secure, precise, and designed to give
             your firm back its time.
           </motion.p>
 
@@ -146,7 +146,7 @@ export function Hero() {
             {...fadeUp(0.3)}
           >
             <Button asChild>
-              <a href="/request-access">Request Early Access</a>
+              <a href="/request-access">Request a Demo</a>
             </Button>
             <Button variant="ghost" className="text-white hover:bg-white/10" asChild>
               <a href="#capabilities">View Workflows</a>

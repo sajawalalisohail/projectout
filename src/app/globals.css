@@ -19,6 +19,9 @@
    ======================================== */
 
 @theme inline {
+  /* Typography */
+  --font-sans: var(--font-duplet), ui-sans-serif, system-ui, sans-serif;
+
   /* Core colors */
   --color-bg: var(--bg);
   --color-fg: var(--fg);
@@ -72,4 +75,27 @@ body {
 /* Remove default focus for mouse users */
 :focus:not(:focus-visible) {
   outline: none;
+}
+
+/* ========================================
+   Trust Bar Carousel Animation
+   ======================================== */
+
+@keyframes trust-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-trust-scroll {
+  animation: trust-scroll 45s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-trust-scroll {
+    animation: none;
+  }
 }

@@ -33,7 +33,7 @@ export function FinalCTA() {
 
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Button asChild className="bg-white text-[#1C1F26] hover:bg-white/90">
-              <a href="/request-access">Request Access</a>
+              <a href="/request-access">Request a Demo</a>
             </Button>
             <Button variant="ghost" asChild className="text-white hover:bg-white/10">
               <a href="/product">Explore Product</a>

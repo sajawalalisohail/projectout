@@ -132,14 +132,14 @@ export function Capabilities() {
           </ul>
 
           {/* Description Panel */}
-          <div className="w-full md:w-[360px] lg:w-[400px] md:pt-2 shrink-0">
+          <div className="w-full md:w-[400px] lg:w-[480px] xl:w-[520px] md:pt-2 shrink-0">
             <div className="sticky top-32">
               <motion.div
                 key={activeIndex}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
-                className="rounded-2xl border border-black/5 bg-gradient-to-br from-black/[0.02] to-transparent p-8"
+                className="rounded-2xl border border-black/5 bg-gradient-to-br from-black/[0.02] to-transparent p-8 lg:p-10"
               >
                 <div className="flex items-center gap-3 text-xs uppercase tracking-widest text-muted">
                   <span className="flex h-6 w-6 items-center justify-center rounded-full bg-black/5 text-[10px] font-semibold">
@@ -147,12 +147,12 @@ export function Capabilities() {
                   </span>
                   {capabilities[activeIndex].title}
                 </div>
-                <p className="mt-4 text-lg leading-relaxed text-fg/80">
+                <p className="mt-5 text-lg leading-relaxed text-fg/80 lg:text-xl lg:mt-6">
                   {capabilities[activeIndex].description}
                 </p>
 
                 {/* Visual placeholder */}
-                <div className="mt-6 aspect-[4/3] rounded-xl bg-gradient-to-br from-black/[0.03] to-black/[0.06]" />
+                <div className="mt-8 aspect-[4/3] rounded-xl bg-gradient-to-br from-black/[0.03] to-black/[0.06] lg:mt-10" />
               </motion.div>
             </div>
           </div>

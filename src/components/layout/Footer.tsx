@@ -1,3 +1,6 @@
+"use client";
+
+import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 
@@ -54,6 +57,21 @@ interface FooterProps {
 
 export function Footer({ theme = "dark" }: FooterProps) {
   const isDark = theme === "dark";
+  const footerRef = useRef<HTMLElement>(null);
+  const [footerHeight, setFooterHeight] = useState(0);
+
+  // Measure footer height for the spacer
+  useEffect(() => {
+    const updateHeight = () => {
+      if (footerRef.current) {
+        setFooterHeight(footerRef.current.offsetHeight);
+      }
+    };
+
+    updateHeight();
+    window.addEventListener("resize", updateHeight);
+    return () => window.removeEventListener("resize", updateHeight);
+  }, []);
 
   const textColor = isDark ? "text-white" : "text-[#1C1F26]";
   const textColorMuted = isDark ? "text-white/60" : "text-[#1C1F26]/60";
@@ -62,79 +80,89 @@ export function Footer({ theme = "dark" }: FooterProps) {
   const bgColor = isDark ? "bg-[#0b0d12]" : "bg-white";
 
   return (
-    <footer className={`${bgColor} py-16`}>
-      <Container>
-        {/* Top: Logo + Social */}
-        <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
-          {/* Logo */}
-          <a href="/" className="relative h-6 w-auto">
-            <Image
-              src={isDark ? "/logo/main logo.png" : "/logo/main logo 2.png"}
-              alt="Nextlex"
-              height={24}
-              width={120}
-              className="h-6 w-auto object-contain"
-            />
-          </a>
+    <>
+      {/* Spacer to push content and make room for sticky footer */}
+      <div style={{ height: footerHeight }} aria-hidden="true" />
 
-          {/* Social Icons */}
-          <div className="flex items-center gap-4">
-            {socialLinks.map((social) => (
-              <a
-                key={social.label}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`transition-colors duration-200 ${
-                  isDark
-                    ? "text-white/40 hover:text-white"
-                    : "text-[#1C1F26]/40 hover:text-[#1C1F26]"
-                }`}
-                aria-label={social.label}
-              >
-                {social.icon}
-              </a>
-            ))}
-          </div>
-        </div>
+      <footer
+        ref={footerRef}
+        className={`${bgColor} fixed bottom-0 left-0 right-0 z-0 py-16`}
+      >
+        <Container>
+          {/* Top: Logo + Social */}
+          <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
+            {/* Logo */}
+            <a href="/" className="relative h-6 w-auto">
+              <Image
+                src={isDark ? "/logo/main logo.png" : "/logo/main logo 2.png"}
+                alt="Nextlex"
+                height={24}
+                width={120}
+                className="h-6 w-auto object-contain"
+              />
+            </a>
 
-        {/* Links Grid */}
-        <div className={`mt-12 grid grid-cols-2 gap-8 border-t ${borderColor} pt-12 sm:grid-cols-3`}>
-          {Object.entries(footerLinks).map(([category, links]) => (
-            <div key={category}>
-              <h3 className={`text-sm font-medium ${textColor}`}>{category}</h3>
-              <ul className="mt-4 space-y-3">
-                {links.map((link) => (
-                  <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className={`text-sm transition-colors ${
-                        isDark
-                          ? "text-white/60 hover:text-white"
-                          : "text-[#1C1F26]/60 hover:text-[#1C1F26]"
-                      }`}
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+            {/* Social Icons */}
+            <div className="flex items-center gap-4">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`transition-colors duration-200 ${
+                    isDark
+                      ? "text-white/40 hover:text-white"
+                      : "text-[#1C1F26]/40 hover:text-[#1C1F26]"
+                  }`}
+                  aria-label={social.label}
+                >
+                  {social.icon}
+                </a>
+              ))}
             </div>
-          ))}
-        </div>
-
-        {/* Bottom Line */}
-        <div className={`mt-12 border-t ${borderColor} pt-8`}>
-          <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-            <p className={`text-sm ${textColorMuted}`}>
-              &copy; 2026 Nextlex. All rights reserved.
-            </p>
-            <p className={`text-xs ${textColorSubtle}`}>
-              Certain technologies used by Nextlex™ are patent pending.
-            </p>
           </div>
-        </div>
-      </Container>
-    </footer>
+
+          {/* Links Grid */}
+          <div className={`mt-12 border-t ${borderColor} pt-12`}>
+            <div className="mx-auto grid max-w-2xl grid-cols-3 gap-8 text-center">
+              {Object.entries(footerLinks).map(([category, links]) => (
+                <div key={category}>
+                  <h3 className={`text-sm font-medium ${textColor}`}>{category}</h3>
+                  <ul className="mt-4 space-y-3">
+                    {links.map((link) => (
+                      <li key={link.label}>
+                        <a
+                          href={link.href}
+                          className={`text-sm transition-colors ${
+                            isDark
+                              ? "text-white/60 hover:text-white"
+                              : "text-[#1C1F26]/60 hover:text-[#1C1F26]"
+                          }`}
+                        >
+                          {link.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Bottom Line */}
+          <div className={`mt-12 border-t ${borderColor} pt-8`}>
+            <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+              <p className={`text-sm ${textColorMuted}`}>
+                &copy; 2026 Nextlex. All rights reserved.
+              </p>
+              <p className={`text-xs ${textColorSubtle}`}>
+                Certain technologies used by Nextlex™ are patent pending.
+              </p>
+            </div>
+          </div>
+        </Container>
+      </footer>
+    </>
   );
 }

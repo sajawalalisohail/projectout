@@ -8,13 +8,17 @@ import { cn } from "@/lib/utils";
 
 const navLinks = [
   { label: "Security", href: "/security" },
-  { label: "Company", href: "/company" },
 ];
 
 const productDropdownItems = [
   { label: "Workflows", href: "/product#workflows" },
   { label: "Capabilities", href: "/product#capabilities" },
   { label: "Integrations", href: "/product#integrations" },
+];
+
+const companyDropdownItems = [
+  { label: "About", href: "/company" },
+  { label: "Meet our Team", href: "/company#team" },
 ];
 
 type NavTheme = "light" | "dark";
@@ -25,13 +29,16 @@ export function Navbar() {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [productDropdownOpen, setProductDropdownOpen] = useState(false);
+  const [companyDropdownOpen, setCompanyDropdownOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isOnHero, setIsOnHero] = useState(isHomePage);
   const [navTheme, setNavTheme] = useState<NavTheme>(isHomePage ? "dark" : "light");
   const lastScrollY = useRef(0);
   const intersectingSections = useRef<Set<Element>>(new Set());
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const companyDropdownRef = useRef<HTMLDivElement>(null);
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const companyDropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // IntersectionObserver to detect which section is at the top
   useEffect(() => {
@@ -120,33 +127,54 @@ export function Navbar() {
   useEffect(() => {
     setMobileMenuOpen(false);
     setProductDropdownOpen(false);
+    setCompanyDropdownOpen(false);
   }, [pathname]);
 
-  // Dropdown handlers with delay to prevent scroll-close
-  const openDropdown = useCallback(() => {
+  // Product dropdown handlers
+  const openProductDropdown = useCallback(() => {
     if (dropdownTimeoutRef.current) {
       clearTimeout(dropdownTimeoutRef.current);
       dropdownTimeoutRef.current = null;
     }
+    setCompanyDropdownOpen(false);
     setProductDropdownOpen(true);
   }, []);
 
-  const closeDropdown = useCallback(() => {
+  const closeProductDropdown = useCallback(() => {
     dropdownTimeoutRef.current = setTimeout(() => {
       setProductDropdownOpen(false);
     }, 150);
   }, []);
 
-  // Cleanup timeout on unmount
+  // Company dropdown handlers
+  const openCompanyDropdown = useCallback(() => {
+    if (companyDropdownTimeoutRef.current) {
+      clearTimeout(companyDropdownTimeoutRef.current);
+      companyDropdownTimeoutRef.current = null;
+    }
+    setProductDropdownOpen(false);
+    setCompanyDropdownOpen(true);
+  }, []);
+
+  const closeCompanyDropdown = useCallback(() => {
+    companyDropdownTimeoutRef.current = setTimeout(() => {
+      setCompanyDropdownOpen(false);
+    }, 150);
+  }, []);
+
+  // Cleanup timeouts on unmount
   useEffect(() => {
     return () => {
       if (dropdownTimeoutRef.current) {
         clearTimeout(dropdownTimeoutRef.current);
       }
+      if (companyDropdownTimeoutRef.current) {
+        clearTimeout(companyDropdownTimeoutRef.current);
+      }
     };
   }, []);
 
-  const isHeroTransparent = isHomePage && isOnHero && !productDropdownOpen && !mobileMenuOpen;
+  const isHeroTransparent = isHomePage && isOnHero && !productDropdownOpen && !companyDropdownOpen && !mobileMenuOpen;
   const effectiveTheme: NavTheme = navTheme;
 
   const navBg = isHeroTransparent
@@ -192,8 +220,8 @@ export function Navbar() {
             <div
               ref={dropdownRef}
               className="relative"
-              onMouseEnter={openDropdown}
-              onMouseLeave={closeDropdown}
+              onMouseEnter={openProductDropdown}
+              onMouseLeave={closeProductDropdown}
             >
               <button
                 className={cn(
@@ -233,6 +261,39 @@ export function Navbar() {
                 {link.label}
               </a>
             ))}
+
+            {/* Company Dropdown */}
+            <div
+              ref={companyDropdownRef}
+              className="relative"
+              onMouseEnter={openCompanyDropdown}
+              onMouseLeave={closeCompanyDropdown}
+            >
+              <button
+                className={cn(
+                  "flex items-center gap-1 text-sm font-medium tracking-wide transition-colors duration-200",
+                  textColorMuted
+                )}
+              >
+                Company
+                <svg
+                  className={cn(
+                    "h-3.5 w-3.5 transition-transform duration-200",
+                    companyDropdownOpen && "rotate-180"
+                  )}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.5}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
 
           {/* Right side: Request Access */}
@@ -243,7 +304,7 @@ export function Navbar() {
               textColorMuted
             )}
           >
-            Request Access
+            Request a Demo
           </a>
 
           {/* Mobile Menu Button */}
@@ -291,8 +352,8 @@ export function Navbar() {
             ? "opacity-100 visible translate-y-0"
             : "opacity-0 invisible -translate-y-2 pointer-events-none"
         )}
-        onMouseEnter={openDropdown}
-        onMouseLeave={closeDropdown}
+        onMouseEnter={openProductDropdown}
+        onMouseLeave={closeProductDropdown}
       >
         <div
           className={cn(
@@ -306,6 +367,48 @@ export function Navbar() {
             <div className="py-5">
               <div className="grid grid-cols-3 gap-3 max-w-md">
                 {productDropdownItems.map((item) => (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    className={cn(
+                      "rounded-lg px-4 py-2.5 text-sm font-medium transition-colors duration-150",
+                      effectiveTheme === "dark"
+                        ? "text-white/70 hover:bg-white/10 hover:text-white"
+                        : "text-[#1C1F26]/70 hover:bg-black/5 hover:text-[#1C1F26]"
+                    )}
+                  >
+                    {item.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </Container>
+        </div>
+      </div>
+
+      {/* Full-width Company Dropdown (Desktop) */}
+      <div
+        className={cn(
+          "absolute left-0 top-full w-full transition-all duration-200 hidden md:block",
+          companyDropdownOpen
+            ? "opacity-100 visible translate-y-0"
+            : "opacity-0 invisible -translate-y-2 pointer-events-none"
+        )}
+        onMouseEnter={openCompanyDropdown}
+        onMouseLeave={closeCompanyDropdown}
+      >
+        <div
+          className={cn(
+            "w-full border-t transition-colors duration-200",
+            effectiveTheme === "dark"
+              ? "bg-[#0b0d12]/95 backdrop-blur-md border-white/10"
+              : "bg-white/95 backdrop-blur-md border-black/5"
+          )}
+        >
+          <Container>
+            <div className="py-5">
+              <div className="grid grid-cols-2 gap-3 max-w-xs">
+                {companyDropdownItems.map((item) => (
                   <a
                     key={item.label}
                     href={item.href}
@@ -385,6 +488,34 @@ export function Navbar() {
                 </a>
               ))}
 
+              {/* Mobile Company Section */}
+              <div className="flex flex-col gap-2">
+                <span
+                  className={cn(
+                    "text-sm font-medium",
+                    effectiveTheme === "dark" ? "text-white" : "text-[#1C1F26]"
+                  )}
+                >
+                  Company
+                </span>
+                <div className="flex flex-col gap-2 pl-3">
+                  {companyDropdownItems.map((item) => (
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      className={cn(
+                        "text-sm transition-colors",
+                        effectiveTheme === "dark"
+                          ? "text-white/60 hover:text-white"
+                          : "text-[#1C1F26]/60 hover:text-[#1C1F26]"
+                      )}
+                    >
+                      {item.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+
               <a
                 href="/request-access"
                 className={cn(
@@ -394,7 +525,7 @@ export function Navbar() {
                     : "text-[#1C1F26]/60 hover:text-[#1C1F26]"
                 )}
               >
-                Request Access
+                Request a Demo
               </a>
             </div>
           </div>

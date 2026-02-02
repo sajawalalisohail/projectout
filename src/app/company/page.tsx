@@ -1,5 +1,6 @@
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { TeamSection } from "@/components/company/TeamSection";
 
 const values = [
   {
@@ -93,6 +94,11 @@ export default function CompanyPage() {
             </p>
           </div>
         </Container>
+      </section>
+
+      {/* Team Section */}
+      <section data-nav-theme="dark" className="bg-[#0b0d12] text-white border-t border-white/5">
+        <TeamSection />
       </section>
     </main>
   );
