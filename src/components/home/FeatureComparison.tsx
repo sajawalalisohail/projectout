@@ -27,6 +27,33 @@ const features = [
   { name: "Priority enterprise support", nextlex: true, claude: false, chatgpt: false },
 ];
 
+// Gradient check icon for Nextlex column
+function GradientCheckIcon() {
+  return (
+    <svg
+      className="h-5 w-5"
+      viewBox="0 0 20 20"
+      fill="none"
+      aria-hidden="true"
+    >
+      <defs>
+        <linearGradient id="checkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#519DFD" />
+          <stop offset="50%" stopColor="#8712F7" />
+          <stop offset="100%" stopColor="#F012E5" />
+        </linearGradient>
+      </defs>
+      <path
+        fill="url(#checkGradient)"
+        fillRule="evenodd"
+        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+        clipRule="evenodd"
+      />
+    </svg>
+  );
+}
+
+// Regular check icon for other columns
 function CheckIcon() {
   return (
     <svg
@@ -85,19 +112,43 @@ export function FeatureComparison() {
         />
 
         <motion.div className="mt-16" {...containerAnimation}>
-          {/* Card wrapper */}
-          <div className="overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_4px_40px_rgba(0,0,0,0.2)]">
+          {/* Card wrapper with premium styling */}
+          <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.02] shadow-[0_4px_40px_rgba(0,0,0,0.2)]">
+            {/* Gradient accent line at top */}
+            <div
+              className="absolute top-0 left-8 right-8 h-px opacity-40"
+              style={{ background: 'linear-gradient(90deg, transparent 0%, #519DFD 25%, #8712F7 50%, #F012E5 75%, transparent 100%)' }}
+              aria-hidden="true"
+            />
+
+            {/* Subtle glow effect */}
+            <div
+              className="pointer-events-none absolute inset-0 opacity-50"
+              style={{
+                background: 'radial-gradient(ellipse 60% 30% at 50% 0%, rgba(135, 18, 247, 0.06) 0%, transparent 70%)'
+              }}
+              aria-hidden="true"
+            />
+
             {/* Scrollable table container */}
-            <div className="overflow-x-auto">
+            <div className="relative overflow-x-auto">
               <table className="w-full min-w-[600px]">
                 {/* Header */}
                 <thead>
-                  <tr className="border-b border-white/10 bg-white/5">
+                  <tr className="border-b border-white/10 bg-white/[0.03]">
                     <th className="px-6 py-5 text-left text-sm font-semibold text-white">
                       Features
                     </th>
-                    <th className="px-6 py-5 text-center text-sm font-semibold text-white w-[120px]">
-                      Nextlex
+                    <th className="relative px-6 py-5 text-center text-sm font-semibold text-white w-[120px]">
+                      <span className="relative">
+                        Nextlex
+                        {/* Gradient underline for Nextlex column */}
+                        <span
+                          className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full"
+                          style={{ background: 'linear-gradient(90deg, #519DFD 0%, #8712F7 50%, #F012E5 100%)' }}
+                          aria-hidden="true"
+                        />
+                      </span>
                     </th>
                     <th className="px-6 py-5 text-center text-sm font-semibold text-white/50 w-[120px]">
                       Claude
@@ -113,8 +164,8 @@ export function FeatureComparison() {
                   {features.map((feature, index) => (
                     <tr
                       key={feature.name}
-                      className={`border-b border-white/5 last:border-b-0 ${
-                        index % 2 === 1 ? "bg-white/[0.02]" : ""
+                      className={`border-b border-white/5 last:border-b-0 transition-colors duration-150 hover:bg-white/[0.02] ${
+                        index % 2 === 1 ? "bg-white/[0.01]" : ""
                       }`}
                     >
                       <td className="px-6 py-4 text-sm text-white/70">
@@ -122,7 +173,7 @@ export function FeatureComparison() {
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex justify-center">
-                          {feature.nextlex ? <CheckIcon /> : <XIcon />}
+                          {feature.nextlex ? <GradientCheckIcon /> : <XIcon />}
                         </div>
                       </td>
                       <td className="px-6 py-4">

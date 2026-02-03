@@ -86,82 +86,124 @@ export function Footer({ theme = "dark" }: FooterProps) {
 
       <footer
         ref={footerRef}
-        className={`${bgColor} fixed bottom-0 left-0 right-0 z-0 py-16`}
+        className={`${bgColor} fixed bottom-0 left-0 right-0 z-0 overflow-hidden`}
       >
-        <Container>
-          {/* Top: Logo + Social */}
-          <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
-            {/* Logo */}
-            <a href="/" className="relative h-6 w-auto">
-              <Image
-                src={isDark ? "/logo/main logo.png" : "/logo/main logo 2.png"}
-                alt="Nextlex"
-                height={24}
-                width={120}
-                className="h-6 w-auto object-contain"
-              />
-            </a>
+        {/* Gradient divider line at top */}
+        <div
+          className="absolute top-0 left-0 right-0 h-px"
+          style={{
+            background: isDark
+              ? 'linear-gradient(90deg, transparent 0%, rgba(135, 18, 247, 0.3) 50%, transparent 100%)'
+              : 'linear-gradient(90deg, transparent 0%, rgba(135, 18, 247, 0.15) 50%, transparent 100%)'
+          }}
+          aria-hidden="true"
+        />
 
-            {/* Social Icons */}
-            <div className="flex items-center gap-4">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`transition-colors duration-200 ${
-                    isDark
-                      ? "text-white/40 hover:text-white"
-                      : "text-[#1C1F26]/40 hover:text-[#1C1F26]"
-                  }`}
-                  aria-label={social.label}
-                >
-                  {social.icon}
-                </a>
-              ))}
-            </div>
-          </div>
+        {/* Subtle background glow */}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background: isDark
+              ? 'radial-gradient(ellipse 80% 60% at 50% 100%, rgba(135, 18, 247, 0.06) 0%, transparent 60%)'
+              : 'radial-gradient(ellipse 80% 60% at 50% 100%, rgba(135, 18, 247, 0.03) 0%, transparent 60%)'
+          }}
+          aria-hidden="true"
+        />
 
-          {/* Links Grid */}
-          <div className={`mt-12 border-t ${borderColor} pt-12`}>
-            <div className="mx-auto grid max-w-2xl grid-cols-3 gap-8 text-center">
-              {Object.entries(footerLinks).map(([category, links]) => (
-                <div key={category}>
-                  <h3 className={`text-sm font-medium ${textColor}`}>{category}</h3>
-                  <ul className="mt-4 space-y-3">
-                    {links.map((link) => (
-                      <li key={link.label}>
-                        <a
-                          href={link.href}
-                          className={`text-sm transition-colors ${
-                            isDark
-                              ? "text-white/60 hover:text-white"
-                              : "text-[#1C1F26]/60 hover:text-[#1C1F26]"
-                          }`}
-                        >
-                          {link.label}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </div>
+        <div className="relative py-16">
+          <Container>
+            {/* Top: Logo + Social */}
+            <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
+              {/* Logo */}
+              <a href="/" className="relative h-6 w-auto">
+                <Image
+                  src={isDark ? "/logo/main logo.png" : "/logo/main logo 2.png"}
+                  alt="Nextlex"
+                  height={24}
+                  width={120}
+                  className="h-6 w-auto object-contain"
+                />
+              </a>
 
-          {/* Bottom Line */}
-          <div className={`mt-12 border-t ${borderColor} pt-8`}>
-            <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-              <p className={`text-sm ${textColorMuted}`}>
-                &copy; 2026 Nextlex. All rights reserved.
-              </p>
-              <p className={`text-xs ${textColorSubtle}`}>
-                Certain technologies used by Nextlex™ are patent pending.
-              </p>
+              {/* Social Icons */}
+              <div className="flex items-center gap-4">
+                {socialLinks.map((social) => (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`group relative transition-colors duration-200 ${
+                      isDark
+                        ? "text-white/40 hover:text-white"
+                        : "text-[#1C1F26]/40 hover:text-[#1C1F26]"
+                    }`}
+                    aria-label={social.label}
+                  >
+                    {/* Subtle gradient hover effect */}
+                    <span className="absolute inset-0 rounded-full opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                      style={{
+                        background: 'radial-gradient(circle at 50% 50%, rgba(135, 18, 247, 0.15) 0%, transparent 70%)'
+                      }}
+                      aria-hidden="true"
+                    />
+                    <span className="relative">{social.icon}</span>
+                  </a>
+                ))}
+              </div>
             </div>
-          </div>
-        </Container>
+
+            {/* Links Grid */}
+            <div className={`mt-12 border-t ${borderColor} pt-12`}>
+              <div className="mx-auto grid max-w-2xl grid-cols-3 gap-8 text-center">
+                {Object.entries(footerLinks).map(([category, links]) => (
+                  <div key={category}>
+                    <h3 className={`text-sm font-medium ${textColor}`}>{category}</h3>
+                    <ul className="mt-4 space-y-3">
+                      {links.map((link) => (
+                        <li key={link.label}>
+                          <a
+                            href={link.href}
+                            className={`group relative text-sm transition-colors duration-200 ${
+                              isDark
+                                ? "text-white/60 hover:text-white"
+                                : "text-[#1C1F26]/60 hover:text-[#1C1F26]"
+                            }`}
+                          >
+                            <span className="relative">
+                              {link.label}
+                              {/* Subtle gradient underline on hover */}
+                              <span
+                                className="absolute -bottom-0.5 left-0 right-0 h-px scale-x-0 transition-transform duration-200 group-hover:scale-x-100"
+                                style={{
+                                  background: 'linear-gradient(90deg, #519DFD 0%, #8712F7 100%)',
+                                  opacity: 0.5
+                                }}
+                                aria-hidden="true"
+                              />
+                            </span>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Bottom Line */}
+            <div className={`mt-12 border-t ${borderColor} pt-8`}>
+              <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+                <p className={`text-sm ${textColorMuted}`}>
+                  &copy; 2026 Nextlex. All rights reserved.
+                </p>
+                <p className={`text-xs ${textColorSubtle}`}>
+                  Certain technologies used by Nextlex™ are patent pending.
+                </p>
+              </div>
+            </div>
+          </Container>
+        </div>
       </footer>
     </>
   );

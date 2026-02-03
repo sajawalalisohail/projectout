@@ -98,14 +98,19 @@ export function Capabilities() {
             {capabilities.map((cap, index) => (
               <li key={cap.title}>
                 <button
-                  className="group flex w-full items-center gap-4 py-2 text-left transition-all duration-300"
+                  className="group relative flex w-full items-center gap-4 py-2 text-left transition-all duration-300"
                   onMouseEnter={() => setActiveIndex(index)}
                   onFocus={() => setActiveIndex(index)}
                 >
-                  {/* Progress indicator */}
+                  {/* Progress indicator with gradient when active */}
                   <div className="relative h-[2px] w-8 overflow-hidden rounded-full bg-[#1C1F26]/10">
                     <motion.div
-                      className="absolute inset-y-0 left-0 bg-[#1C1F26]"
+                      className="absolute inset-y-0 left-0"
+                      style={{
+                        background: activeIndex === index
+                          ? 'linear-gradient(90deg, #519DFD 0%, #8712F7 100%)'
+                          : '#1C1F26'
+                      }}
                       initial={{ width: 0 }}
                       animate={{
                         width: activeIndex === index ? "100%" : "0%",
@@ -117,9 +122,9 @@ export function Capabilities() {
                     />
                   </div>
 
-                  {/* Title */}
+                  {/* Title with gradient text when active */}
                   <span
-                    className="text-2xl font-semibold tracking-tight transition-colors duration-300 md:text-3xl lg:text-4xl"
+                    className="text-2xl font-semibold tracking-tight transition-all duration-300 md:text-3xl lg:text-4xl"
                     style={{
                       color: activeIndex === index ? "#1C1F26" : "rgba(28, 31, 38, 0.2)",
                     }}
@@ -131,7 +136,7 @@ export function Capabilities() {
             ))}
           </ul>
 
-          {/* Description Panel */}
+          {/* Description Panel with Premium Styling */}
           <div className="w-full md:w-[400px] lg:w-[480px] xl:w-[520px] md:pt-2 shrink-0">
             <div className="sticky top-32">
               <motion.div
@@ -139,20 +144,56 @@ export function Capabilities() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
-                className="rounded-2xl border border-[#E5E5E5] bg-gradient-to-br from-[#FAFAFA] to-white p-8 lg:p-10"
+                className="group relative overflow-hidden rounded-2xl border border-[rgba(28,31,38,0.08)] bg-gradient-to-b from-[#FAFAFA] to-white p-8 shadow-[0_4px_24px_rgba(0,0,0,0.04)] lg:p-10"
               >
-                <div className="flex items-center gap-3 text-xs uppercase tracking-widest text-[#6B7280]">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#1C1F26]/5 text-[10px] font-semibold text-[#1C1F26]">
+                {/* Gradient accent line at top */}
+                <div
+                  className="absolute top-0 left-8 right-8 h-px opacity-30 transition-opacity duration-300 group-hover:opacity-50"
+                  style={{ background: 'linear-gradient(90deg, transparent 0%, #519DFD 25%, #8712F7 50%, #F012E5 75%, transparent 100%)' }}
+                  aria-hidden="true"
+                />
+
+                {/* Subtle glow effect */}
+                <div
+                  className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                  style={{
+                    background: 'radial-gradient(ellipse 80% 50% at 50% 0%, rgba(135, 18, 247, 0.04) 0%, transparent 70%)'
+                  }}
+                  aria-hidden="true"
+                />
+
+                <div className="relative flex items-center gap-3 text-xs uppercase tracking-widest text-[#6B7280]">
+                  {/* Number badge with subtle gradient */}
+                  <span
+                    className="flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-semibold text-white"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(81,157,253,0.9) 0%, rgba(135,18,247,0.9) 100%)'
+                    }}
+                  >
                     {String(activeIndex + 1).padStart(2, "0")}
                   </span>
                   {capabilities[activeIndex].title}
                 </div>
-                <p className="mt-5 text-lg leading-relaxed text-[#3D4149] lg:text-xl lg:mt-6">
+                <p className="relative mt-5 text-lg leading-relaxed text-[#3D4149] lg:text-xl lg:mt-6">
                   {capabilities[activeIndex].description}
                 </p>
 
-                {/* Visual placeholder */}
-                <div className="mt-8 aspect-[4/3] rounded-xl bg-gradient-to-br from-[#F3F4F6] to-[#E5E5E5] lg:mt-10" />
+                {/* Visual placeholder with subtle gradient */}
+                <div
+                  className="relative mt-8 aspect-[4/3] overflow-hidden rounded-xl lg:mt-10"
+                  style={{
+                    background: 'linear-gradient(135deg, #F3F4F6 0%, #E5E5E5 50%, #F3F4F6 100%)'
+                  }}
+                >
+                  {/* Very subtle gradient overlay */}
+                  <div
+                    className="absolute inset-0 opacity-30"
+                    style={{
+                      background: 'linear-gradient(135deg, transparent 0%, rgba(135, 18, 247, 0.02) 50%, transparent 100%)'
+                    }}
+                    aria-hidden="true"
+                  />
+                </div>
               </motion.div>
             </div>
           </div>

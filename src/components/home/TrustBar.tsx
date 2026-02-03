@@ -55,20 +55,42 @@ export function TrustBar() {
         </p>
       </Container>
 
-      {/* Carousel wrapper */}
-      <div className="relative">
-        {/* Gradient masks for fade edges */}
-        <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-24 bg-gradient-to-r from-white to-transparent" />
-        <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-24 bg-gradient-to-l from-white to-transparent" />
-
-        {/* Scrolling track */}
+      {/* Premium container with subtle glow */}
+      <div className="relative mx-auto max-w-6xl px-6">
+        {/* Subtle background glow */}
         <div
-          className="flex gap-8 animate-trust-scroll"
-          style={{ width: "max-content" }}
-        >
-          {duplicatedFirms.map((firm, index) => (
-            <FirmCard key={`${firm.name}-${index}`} firm={firm} />
-          ))}
+          className="pointer-events-none absolute inset-0 opacity-60"
+          style={{
+            background: 'radial-gradient(ellipse 60% 40% at 50% 50%, rgba(135, 18, 247, 0.03) 0%, transparent 70%)'
+          }}
+          aria-hidden="true"
+        />
+
+        {/* Carousel wrapper with premium border treatment */}
+        <div className="relative rounded-2xl border border-[rgba(28,31,38,0.06)] bg-gradient-to-b from-[#FAFAFA]/50 to-white/30 p-4 backdrop-blur-sm">
+          {/* Subtle gradient accent line at top */}
+          <div
+            className="absolute top-0 left-8 right-8 h-px opacity-20"
+            style={{ background: 'linear-gradient(90deg, transparent 0%, #8712F7 50%, transparent 100%)' }}
+            aria-hidden="true"
+          />
+
+          {/* Inner carousel container */}
+          <div className="relative overflow-hidden rounded-xl">
+            {/* Gradient masks for fade edges */}
+            <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-20 bg-gradient-to-r from-white to-transparent" />
+            <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-20 bg-gradient-to-l from-white to-transparent" />
+
+            {/* Scrolling track */}
+            <div
+              className="flex gap-6 animate-trust-scroll py-2"
+              style={{ width: "max-content" }}
+            >
+              {duplicatedFirms.map((firm, index) => (
+                <FirmCard key={`${firm.name}-${index}`} firm={firm} />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -77,11 +99,20 @@ export function TrustBar() {
 
 function FirmCard({ firm }: { firm: Firm }) {
   return (
-    <div className="group flex w-[280px] shrink-0 flex-col items-center gap-4 rounded-2xl border border-[#E5E5E5] bg-[#FAFAFA] px-8 py-6 transition-all duration-300 hover:border-[#D1D5DB] hover:bg-[#F3F4F6]">
+    <div className="group relative flex w-[260px] shrink-0 flex-col items-center gap-4 rounded-xl border border-[rgba(28,31,38,0.06)] bg-white px-6 py-5 transition-all duration-300 hover:border-[rgba(135,18,247,0.12)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
+      {/* Subtle hover glow */}
+      <div
+        className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{
+          background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(135, 18, 247, 0.03) 0%, transparent 70%)'
+        }}
+        aria-hidden="true"
+      />
+
       {/* Logo area */}
-      <div className="flex h-12 w-full items-center justify-center">
+      <div className="relative flex h-10 w-full items-center justify-center">
         {firm.logo ? (
-          <div className="relative h-10 w-24 grayscale opacity-60 transition-all duration-300 group-hover:grayscale-0 group-hover:opacity-100">
+          <div className="relative h-9 w-20 grayscale opacity-60 transition-all duration-300 group-hover:grayscale-0 group-hover:opacity-100">
             <Image
               src={firm.logo}
               alt={`${firm.name} logo`}
@@ -90,14 +121,14 @@ function FirmCard({ firm }: { firm: Firm }) {
             />
           </div>
         ) : (
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#1C1F26]/5 text-lg font-semibold text-[#6B7280] transition-colors duration-300 group-hover:bg-[#1C1F26]/10 group-hover:text-[#1C1F26]">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#1C1F26]/5 text-base font-semibold text-[#6B7280] transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-[rgba(81,157,253,0.1)] group-hover:to-[rgba(135,18,247,0.1)] group-hover:text-[#1C1F26]">
             {firm.name.charAt(0)}
           </div>
         )}
       </div>
 
       {/* Firm info */}
-      <div className="text-center">
+      <div className="relative text-center">
         <p className="text-sm font-medium text-[#1C1F26]/80 transition-colors duration-300 group-hover:text-[#1C1F26]">
           {firm.name}
         </p>

@@ -1,10 +1,11 @@
 @import "tailwindcss";
 
 /* ========================================
-   Design System - Light Theme
+   Design System - Nextlex Brand Tokens
    ======================================== */
 
 :root {
+  /* Core colors */
   --bg: #FFFFFF;
   --fg: #1C1F26;
   --fg-secondary: #3D4149;
@@ -12,9 +13,38 @@
   --muted-light: #9CA3AF;
   --border: #E5E5E5;
   --border-light: #F3F4F6;
-  --brand-blue: #519DFD;
-  --brand-purple: #8712F7;
-  --brand-pink: #F012E5;
+
+  /* Nextlex Brand Colors */
+  --nx-blue: #519DFD;
+  --nx-purple: #8712F7;
+  --nx-pink: #F012E5;
+  --nx-black: #1C1F26;
+  --nx-gray: #969696;
+  --nx-white: #FFFFFF;
+
+  /* Brand gradient */
+  --nx-grad: linear-gradient(90deg, var(--nx-blue) 0%, var(--nx-purple) 50%, var(--nx-pink) 100%);
+  --nx-grad-135: linear-gradient(135deg, var(--nx-blue) 0%, var(--nx-purple) 50%, var(--nx-pink) 100%);
+
+  /* Theme-aware borders */
+  --nx-border-light: rgba(28, 31, 38, 0.08);
+  --nx-border-light-hover: rgba(28, 31, 38, 0.15);
+  --nx-border-dark: rgba(255, 255, 255, 0.10);
+  --nx-border-dark-hover: rgba(255, 255, 255, 0.18);
+
+  /* Subtle gradient-tinted borders */
+  --nx-border-accent-light: rgba(135, 18, 247, 0.08);
+  --nx-border-accent-dark: rgba(135, 18, 247, 0.15);
+
+  /* Glow backgrounds (very subtle) */
+  --nx-glow-light: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(135, 18, 247, 0.04) 0%, transparent 70%);
+  --nx-glow-dark: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(135, 18, 247, 0.08) 0%, transparent 70%);
+  --nx-glow-footer: radial-gradient(ellipse 100% 80% at 50% 100%, rgba(135, 18, 247, 0.06) 0%, transparent 60%);
+
+  /* Legacy aliases */
+  --brand-blue: var(--nx-blue);
+  --brand-purple: var(--nx-purple);
+  --brand-pink: var(--nx-pink);
 }
 
 /* ========================================
@@ -35,19 +65,14 @@
   --color-border-light: var(--border-light);
 
   /* Brand colors */
-  --color-brand-blue: var(--brand-blue);
-  --color-brand-purple: var(--brand-purple);
-  --color-brand-pink: var(--brand-pink);
-  --color-brand-black: #1C1F26;
-  --color-brand-gray: #6B7280;
+  --color-brand-blue: var(--nx-blue);
+  --color-brand-purple: var(--nx-purple);
+  --color-brand-pink: var(--nx-pink);
+  --color-brand-black: var(--nx-black);
+  --color-brand-gray: var(--nx-gray);
 
   /* Brand gradient */
-  --background-image-brand-gradient: linear-gradient(
-    135deg,
-    var(--brand-blue) 0%,
-    var(--brand-purple) 50%,
-    var(--brand-pink) 100%
-  );
+  --background-image-brand-gradient: var(--nx-grad-135);
 }
 
 /* ========================================
@@ -68,13 +93,13 @@ body {
 
 /* Selection */
 ::selection {
-  background-color: color-mix(in srgb, var(--brand-purple) 20%, transparent);
+  background-color: color-mix(in srgb, var(--nx-purple) 20%, transparent);
   color: var(--fg);
 }
 
 /* Focus ring defaults */
 :focus-visible {
-  outline: 2px solid var(--brand-blue);
+  outline: 2px solid var(--nx-blue);
   outline-offset: 2px;
 }
 
@@ -89,15 +114,10 @@ body {
    ======================================== */
 
 .light-section {
-  /* Headings: Near black for maximum contrast */
   --section-heading: var(--fg);
-  /* Body text: Dark enough for AA contrast */
   --section-body: var(--fg-secondary);
-  /* Muted/secondary text: Meets 4.5:1 ratio on white */
   --section-muted: var(--muted);
-  /* Tertiary/eyebrow text: Meets 4.5:1 ratio */
   --section-tertiary: var(--muted);
-  /* Borders */
   --section-border: var(--border);
   --section-border-light: var(--border-light);
 }
@@ -113,6 +133,187 @@ body {
 
 .light-section p {
   color: var(--section-body);
+}
+
+/* ========================================
+   Nextlex Premium Panel System
+   Reusable accent components
+   ======================================== */
+
+/* --- Light Theme Panels --- */
+.nx-panel-light {
+  position: relative;
+  border-radius: 1.5rem;
+  border: 1px solid var(--nx-border-light);
+  background: linear-gradient(180deg, rgba(250, 250, 250, 1) 0%, rgba(255, 255, 255, 1) 100%);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nx-panel-light::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--nx-glow-light);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.nx-panel-light:hover {
+  border-color: var(--nx-border-light-hover);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+}
+
+.nx-panel-light:hover::before {
+  opacity: 1;
+}
+
+/* Gradient top accent line for light panels */
+.nx-panel-light-accent {
+  position: relative;
+  overflow: hidden;
+}
+
+.nx-panel-light-accent::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--nx-grad);
+  opacity: 0.3;
+}
+
+/* --- Dark Theme Panels --- */
+.nx-panel-dark {
+  position: relative;
+  border-radius: 1.5rem;
+  border: 1px solid var(--nx-border-dark);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nx-panel-dark::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--nx-glow-dark);
+  pointer-events: none;
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+
+.nx-panel-dark:hover {
+  border-color: var(--nx-border-dark-hover);
+}
+
+.nx-panel-dark:hover::before {
+  opacity: 1;
+}
+
+/* Gradient top accent line for dark panels */
+.nx-panel-dark-accent::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--nx-grad);
+  opacity: 0.4;
+}
+
+/* --- Divider Lines --- */
+.nx-divider-light {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--nx-border-light) 20%, var(--nx-border-light) 80%, transparent 100%);
+}
+
+.nx-divider-dark {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--nx-border-dark) 20%, var(--nx-border-dark) 80%, transparent 100%);
+}
+
+.nx-divider-gradient {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(135, 18, 247, 0.2) 50%, transparent 100%);
+}
+
+/* --- Gradient Accent Elements --- */
+.nx-gradient-text {
+  background: var(--nx-grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.nx-gradient-border {
+  position: relative;
+}
+
+.nx-gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--nx-grad);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* Active/selected state indicator */
+.nx-active-indicator {
+  position: relative;
+}
+
+.nx-active-indicator::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  border-radius: 2px;
+  background: var(--nx-grad);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.nx-active-indicator.active::before {
+  opacity: 1;
+}
+
+/* Subtle glow background */
+.nx-glow-bg-light {
+  position: relative;
+}
+
+.nx-glow-bg-light::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--nx-glow-light);
+  pointer-events: none;
+}
+
+.nx-glow-bg-dark {
+  position: relative;
+}
+
+.nx-glow-bg-dark::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--nx-glow-dark);
+  pointer-events: none;
 }
 
 /* ========================================
@@ -136,4 +337,20 @@ body {
   .animate-trust-scroll {
     animation: none;
   }
+}
+
+/* ========================================
+   Gradient Check Icon
+   ======================================== */
+
+.nx-check-gradient {
+  background: var(--nx-grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* For SVG icons - use this class on the parent */
+.nx-icon-gradient svg {
+  fill: url(#nx-gradient-def);
 }
