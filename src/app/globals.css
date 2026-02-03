@@ -7,8 +7,11 @@
 :root {
   --bg: #FFFFFF;
   --fg: #1C1F26;
-  --muted: #969696;
+  --fg-secondary: #3D4149;
+  --muted: #6B7280;
+  --muted-light: #9CA3AF;
   --border: #E5E5E5;
+  --border-light: #F3F4F6;
   --brand-blue: #519DFD;
   --brand-purple: #8712F7;
   --brand-pink: #F012E5;
@@ -25,15 +28,18 @@
   /* Core colors */
   --color-bg: var(--bg);
   --color-fg: var(--fg);
+  --color-fg-secondary: var(--fg-secondary);
   --color-muted: var(--muted);
+  --color-muted-light: var(--muted-light);
   --color-border: var(--border);
+  --color-border-light: var(--border-light);
 
   /* Brand colors */
   --color-brand-blue: var(--brand-blue);
   --color-brand-purple: var(--brand-purple);
   --color-brand-pink: var(--brand-pink);
   --color-brand-black: #1C1F26;
-  --color-brand-gray: #969696;
+  --color-brand-gray: #6B7280;
 
   /* Brand gradient */
   --background-image-brand-gradient: linear-gradient(
@@ -75,6 +81,38 @@ body {
 /* Remove default focus for mouse users */
 :focus:not(:focus-visible) {
   outline: none;
+}
+
+/* ========================================
+   Light Section Contrast System
+   Ensures AA+ contrast on light backgrounds
+   ======================================== */
+
+.light-section {
+  /* Headings: Near black for maximum contrast */
+  --section-heading: var(--fg);
+  /* Body text: Dark enough for AA contrast */
+  --section-body: var(--fg-secondary);
+  /* Muted/secondary text: Meets 4.5:1 ratio on white */
+  --section-muted: var(--muted);
+  /* Tertiary/eyebrow text: Meets 4.5:1 ratio */
+  --section-tertiary: var(--muted);
+  /* Borders */
+  --section-border: var(--border);
+  --section-border-light: var(--border-light);
+}
+
+.light-section h1,
+.light-section h2,
+.light-section h3,
+.light-section h4,
+.light-section h5,
+.light-section h6 {
+  color: var(--section-heading);
+}
+
+.light-section p {
+  color: var(--section-body);
 }
 
 /* ========================================

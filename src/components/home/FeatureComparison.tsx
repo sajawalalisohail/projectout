@@ -30,7 +30,7 @@ const features = [
 function CheckIcon() {
   return (
     <svg
-      className="h-5 w-5 text-emerald-500"
+      className="h-5 w-5 text-emerald-400"
       viewBox="0 0 20 20"
       fill="currentColor"
       aria-hidden="true"
@@ -47,7 +47,7 @@ function CheckIcon() {
 function XIcon() {
   return (
     <svg
-      className="h-5 w-5 text-gray-300"
+      className="h-5 w-5 text-white/20"
       viewBox="0 0 20 20"
       fill="currentColor"
       aria-hidden="true"
@@ -71,37 +71,38 @@ export function FeatureComparison() {
     : {
         initial: { opacity: 0, y: 32 },
         animate: isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 32 },
-        transition: { duration: 0.7, delay: 0.2, ease: [0.25, 0.4, 0.25, 1] },
+        transition: { duration: 0.7, delay: 0.2, ease: [0.25, 0.4, 0.25, 1] as const },
       };
 
   return (
-    <section ref={ref} className="py-20 md:py-32 bg-[#FAFAFA]">
+    <section ref={ref} id="comparison" className="scroll-mt-20 py-20 md:py-32">
       <Container>
         <SectionHeading
           eyebrow="Comparison"
           title="Built different. Built for legal."
           description="See how Nextlex stacks up against general-purpose AI tools."
+          dark
         />
 
         <motion.div className="mt-16" {...containerAnimation}>
           {/* Card wrapper */}
-          <div className="overflow-hidden rounded-3xl border border-black/[0.06] bg-white shadow-[0_4px_40px_rgba(0,0,0,0.04)]">
+          <div className="overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_4px_40px_rgba(0,0,0,0.2)]">
             {/* Scrollable table container */}
             <div className="overflow-x-auto">
               <table className="w-full min-w-[600px]">
                 {/* Header */}
                 <thead>
-                  <tr className="border-b border-black/[0.06] bg-[#FAFAFA]">
-                    <th className="px-6 py-5 text-left text-sm font-semibold text-fg">
+                  <tr className="border-b border-white/10 bg-white/5">
+                    <th className="px-6 py-5 text-left text-sm font-semibold text-white">
                       Features
                     </th>
-                    <th className="px-6 py-5 text-center text-sm font-semibold text-fg w-[120px]">
+                    <th className="px-6 py-5 text-center text-sm font-semibold text-white w-[120px]">
                       Nextlex
                     </th>
-                    <th className="px-6 py-5 text-center text-sm font-semibold text-muted w-[120px]">
+                    <th className="px-6 py-5 text-center text-sm font-semibold text-white/50 w-[120px]">
                       Claude
                     </th>
-                    <th className="px-6 py-5 text-center text-sm font-semibold text-muted w-[120px]">
+                    <th className="px-6 py-5 text-center text-sm font-semibold text-white/50 w-[120px]">
                       ChatGPT
                     </th>
                   </tr>
@@ -112,11 +113,11 @@ export function FeatureComparison() {
                   {features.map((feature, index) => (
                     <tr
                       key={feature.name}
-                      className={`border-b border-black/[0.04] last:border-b-0 ${
-                        index % 2 === 1 ? "bg-[#FAFAFA]/50" : "bg-white"
+                      className={`border-b border-white/5 last:border-b-0 ${
+                        index % 2 === 1 ? "bg-white/[0.02]" : ""
                       }`}
                     >
-                      <td className="px-6 py-4 text-sm text-fg/80">
+                      <td className="px-6 py-4 text-sm text-white/70">
                         {feature.name}
                       </td>
                       <td className="px-6 py-4">
@@ -142,7 +143,7 @@ export function FeatureComparison() {
           </div>
 
           {/* Footnote */}
-          <p className="mt-6 text-center text-xs text-muted">
+          <p className="mt-6 text-center text-xs text-white/40">
             Feature availability may vary by plan and configuration.
           </p>
         </motion.div>

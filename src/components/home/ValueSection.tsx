@@ -8,11 +8,15 @@ import { fadeUp } from "@/lib/motion";
 const valuePoints = [
   {
     title: "Unified workflows",
-    description: "Every task, document, and insight in one place.",
+    description: "Research, drafting, review, and practice operations—all in one place.",
   },
   {
     title: "Research you can trust",
-    description: "AI-assisted analysis with citations you can verify.",
+    description: "AI-assisted analysis with citations you can verify. Patent pending.",
+  },
+  {
+    title: "Time back in your day",
+    description: "Earn more. Work smarter. Reclaim hours lost to repetitive tasks.",
   },
 ];
 
@@ -29,20 +33,20 @@ export function ValueSection({ dark = false }: ValueSectionProps) {
           <motion.div {...fadeUp}>
             <SectionHeading
               eyebrow="Why Nextlex"
-              title="Earn more. Work smarter."
-              description="Reclaim the hours lost to repetitive tasks. Operate with the precision your clients expect."
+              title="Earn more. Work smarter. Get time back."
+              description="Operate with the precision your clients expect. Built by lawyers, for lawyers."
               dark={dark}
             />
 
             <div className="mt-10 space-y-6">
               {valuePoints.map((point) => (
                 <div key={point.title} className="flex gap-4">
-                  <div className="mt-1.5 h-2 w-2 flex-shrink-0 rounded-full bg-brand" />
+                  <div className={`mt-1.5 h-2 w-2 flex-shrink-0 rounded-full ${dark ? "bg-white/40" : "bg-[#1C1F26]"}`} />
                   <div>
-                    <h3 className={`text-base font-medium ${dark ? "text-white" : "text-fg"}`}>
+                    <h3 className={`text-base font-medium ${dark ? "text-white" : "text-[#1C1F26]"}`}>
                       {point.title}
                     </h3>
-                    <p className={`mt-1 text-sm ${dark ? "text-white/60" : "text-muted"}`}>
+                    <p className={`mt-1 text-sm ${dark ? "text-white/60" : "text-[#6B7280]"}`}>
                       {point.description}
                     </p>
                   </div>
@@ -59,16 +63,16 @@ export function ValueSection({ dark = false }: ValueSectionProps) {
             <div className={`group rounded-2xl border p-6 backdrop-blur-sm transition-shadow duration-300 hover:shadow-lg md:p-8 ${
               dark
                 ? "border-white/10 bg-white/5"
-                : "border-black/5 bg-white/70"
+                : "border-[#E5E5E5] bg-[#FAFAFA]"
             }`}>
               {/* Card Header */}
               <div className={`mb-6 flex items-center justify-between border-b pb-4 ${
-                dark ? "border-white/10" : "border-black/5"
+                dark ? "border-white/10" : "border-[#E5E5E5]"
               }`}>
                 <div className="flex items-center gap-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand/10">
+                  <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${dark ? "bg-white/10" : "bg-[#1C1F26]/5"}`}>
                     <svg
-                      className="h-4 w-4 text-brand"
+                      className={`h-4 w-4 ${dark ? "text-white/70" : "text-[#1C1F26]"}`}
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -81,35 +85,35 @@ export function ValueSection({ dark = false }: ValueSectionProps) {
                       />
                     </svg>
                   </div>
-                  <span className={`text-sm font-medium ${dark ? "text-white" : "text-fg"}`}>
+                  <span className={`text-sm font-medium ${dark ? "text-white" : "text-[#1C1F26]"}`}>
                     Research Memo
                   </span>
                 </div>
-                <span className={`text-xs ${dark ? "text-white/60" : "text-muted"}`}>Draft</span>
+                <span className={`text-xs ${dark ? "text-white/60" : "text-[#6B7280]"}`}>Draft</span>
               </div>
 
               {/* Placeholder AI Output */}
               <div className="space-y-4 text-sm">
                 <div className="space-y-2">
-                  <div className={`h-3 w-3/4 rounded ${dark ? "bg-white/10" : "bg-black/[0.06]"}`} />
-                  <div className={`h-3 w-full rounded ${dark ? "bg-white/10" : "bg-black/[0.06]"}`} />
-                  <div className={`h-3 w-5/6 rounded ${dark ? "bg-white/10" : "bg-black/[0.06]"}`} />
+                  <div className={`h-3 w-3/4 rounded ${dark ? "bg-white/10" : "bg-[#1C1F26]/[0.08]"}`} />
+                  <div className={`h-3 w-full rounded ${dark ? "bg-white/10" : "bg-[#1C1F26]/[0.08]"}`} />
+                  <div className={`h-3 w-5/6 rounded ${dark ? "bg-white/10" : "bg-[#1C1F26]/[0.08]"}`} />
                 </div>
 
-                <div className={`rounded-lg p-4 ${dark ? "bg-white/5" : "bg-black/[0.03]"}`}>
-                  <p className={`text-xs ${dark ? "text-white/60" : "text-muted"}`}>
-                    <span className={`font-medium ${dark ? "text-white/80" : "text-fg/70"}`}>Key Finding:</span>{" "}
+                <div className={`rounded-lg p-4 ${dark ? "bg-white/5" : "bg-white border border-[#E5E5E5]"}`}>
+                  <p className={`text-xs ${dark ? "text-white/60" : "text-[#6B7280]"}`}>
+                    <span className={`font-medium ${dark ? "text-white/80" : "text-[#1C1F26]"}`}>Key Finding:</span>{" "}
                     Based on analysis of 12 precedents, the likelihood of
                     successful motion is estimated at 78%.
                   </p>
                 </div>
 
                 <div className="space-y-2">
-                  <div className={`h-3 w-full rounded ${dark ? "bg-white/10" : "bg-black/[0.06]"}`} />
-                  <div className={`h-3 w-2/3 rounded ${dark ? "bg-white/10" : "bg-black/[0.06]"}`} />
+                  <div className={`h-3 w-full rounded ${dark ? "bg-white/10" : "bg-[#1C1F26]/[0.08]"}`} />
+                  <div className={`h-3 w-2/3 rounded ${dark ? "bg-white/10" : "bg-[#1C1F26]/[0.08]"}`} />
                 </div>
 
-                <div className={`flex items-center gap-2 pt-2 text-xs ${dark ? "text-white/60" : "text-muted"}`}>
+                <div className={`flex items-center gap-2 pt-2 text-xs ${dark ? "text-white/60" : "text-[#6B7280]"}`}>
                   <svg
                     className="h-3.5 w-3.5"
                     fill="none"

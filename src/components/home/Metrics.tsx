@@ -6,10 +6,10 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { fadeUp } from "@/lib/motion";
 
 const metrics = [
-  { value: "20+", unit: "hours", label: "Hours saved per month" },
+  { value: "20+", unit: "hours", label: "Saved per attorney monthly" },
   { value: "2x", unit: "", label: "Faster research cycles" },
   { value: "—", unit: "", label: "Reduced citation risk" },
-  { value: "1", unit: "platform", label: "Fewer tool switches" },
+  { value: "1", unit: "platform", label: "For everything legal" },
 ];
 
 export function Metrics() {
@@ -19,7 +19,7 @@ export function Metrics() {
         <motion.div {...fadeUp}>
           <SectionHeading
             eyebrow="Results"
-            title="Measurable clarity."
+            title="Measurable impact."
             dark
           />
         </motion.div>
@@ -52,7 +52,7 @@ export function Metrics() {
           {...fadeUp}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          Illustrative metrics. Final benchmarks will vary by firm and configuration.
+          Projected metrics based on internal testing. Results will vary by firm size and usage.
         </motion.p>
       </Container>
     </section>

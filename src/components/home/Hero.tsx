@@ -131,13 +131,20 @@ export function Hero() {
             Your Legal Command Center
           </motion.h1>
 
+          {/* Tagline */}
+          <motion.p
+            className="mt-4 text-lg text-white/60 md:text-xl"
+            {...fadeUp(0.15)}
+          >
+            The next of everything law.
+          </motion.p>
+
           {/* Subtitle */}
           <motion.p
             className="mt-6 max-w-lg text-xl text-white/80 md:text-2xl"
             {...fadeUp(0.2)}
           >
-            Built by lawyers for lawyers-secure, precise, and designed to give
-            your firm back its time.
+            Built by lawyers for lawyers. Unify research, drafting, review, and practice ops in one secure platform.
           </motion.p>
 
           {/* CTAs */}

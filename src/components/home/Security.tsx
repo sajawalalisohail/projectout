@@ -8,7 +8,7 @@ import { fadeUp } from "@/lib/motion";
 const securityFeatures = [
   {
     title: "SOC 2 readiness",
-    description: "Architected for compliance from day one.",
+    description: "Architected for compliance from day one. Pursuing formal certification.",
     icon: (
       <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
@@ -22,7 +22,7 @@ const securityFeatures = [
   },
   {
     title: "Data isolation",
-    description: "Your data never leaves your secure environment.",
+    description: "Your data never trains our models. Complete tenant isolation by design.",
     icon: (
       <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
@@ -36,7 +36,7 @@ const securityFeatures = [
   },
   {
     title: "Audit-friendly exports",
-    description: "Full activity logs, exportable on demand.",
+    description: "Full activity logs and document trails, exportable on demand.",
     icon: (
       <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
@@ -50,7 +50,7 @@ const securityFeatures = [
   },
   {
     title: "Access controls",
-    description: "Role-based permissions at every level.",
+    description: "Role-based permissions at every level. You decide who sees what.",
     icon: (
       <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
@@ -72,7 +72,7 @@ export function Security() {
           <SectionHeading
             eyebrow="Security"
             title="Enterprise-grade. Zero compromise."
-            description="Built for firms where trust and compliance are non-negotiable."
+            description="Built for firms where trust and compliance are non-negotiable. Your data stays yours."
             dark
           />
         </motion.div>

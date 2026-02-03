@@ -15,19 +15,19 @@ export default function Home() {
       {/* Hero section - has its own dark background with images */}
       <Hero />
 
-      {/* LIGHT SECTION - Top half of content after hero */}
-      <section data-nav-theme="light" className="bg-white text-[#1C1F26]">
+      {/* LIGHT SECTION - Content after hero */}
+      <section data-nav-theme="light" className="light-section bg-white">
         <TrustBar />
         <VideoSection />
+        <ValueSection />
         <Capabilities />
-        <FeatureComparison />
       </section>
 
-      {/* DARK SECTION - Bottom half of content */}
+      {/* DARK SECTION - Results and beyond */}
       <section data-nav-theme="dark" className="bg-[#0b0d12] text-white">
         <Metrics />
         <Security />
-        <ValueSection dark />
+        <FeatureComparison />
         <Testimonial />
         <FinalCTA />
       </section>
