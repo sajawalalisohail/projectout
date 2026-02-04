@@ -114,8 +114,8 @@ export function Footer({ theme = "dark" }: FooterProps) {
           <Container>
             {/* Top: Logo + Social */}
             <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
-              {/* Logo */}
-              <a href="/" className="relative h-6 w-auto">
+              {/* Logo with Tagline */}
+              <a href="/" className="relative flex flex-col items-start">
                 <Image
                   src={isDark ? "/logo/main logo.png" : "/logo/main logo 2.png"}
                   alt="Nextlex"
@@ -123,6 +123,13 @@ export function Footer({ theme = "dark" }: FooterProps) {
                   width={120}
                   className="h-6 w-auto object-contain"
                 />
+                <span
+                  className={`mt-1 text-[8px] font-medium uppercase tracking-[0.15em] leading-none ${
+                    isDark ? "text-white/35" : "text-[#1C1F26]/35"
+                  }`}
+                >
+                  The next of everything law
+                </span>
               </a>
 
               {/* Social Icons */}

@@ -41,25 +41,44 @@ export function VideoSection() {
           <div
             className="pointer-events-none absolute -inset-4 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100"
             style={{
-              background: 'radial-gradient(ellipse 50% 40% at 50% 50%, rgba(135, 18, 247, 0.06) 0%, transparent 70%)'
+              background: 'radial-gradient(ellipse 50% 40% at 50% 50%, rgba(135, 18, 247, 0.08) 0%, transparent 70%)'
             }}
             aria-hidden="true"
           />
 
-          {/* Video container with premium border */}
-          <div className="relative overflow-hidden rounded-3xl border border-[rgba(28,31,38,0.08)] bg-black shadow-[0_8px_40px_rgba(0,0,0,0.08)] transition-all duration-300 group-hover:border-[rgba(135,18,247,0.15)] group-hover:shadow-[0_12px_48px_rgba(0,0,0,0.12)]">
-            {/* Gradient accent line at top */}
+          {/* Video container with visible border */}
+          <div className="relative overflow-hidden rounded-2xl border border-[#1C1F26]/15 bg-black shadow-[0_8px_40px_rgba(0,0,0,0.12)] transition-all duration-300 group-hover:border-[rgba(135,18,247,0.25)] group-hover:shadow-[0_12px_48px_rgba(0,0,0,0.16)]">
+            {/* Gradient accent line at top - more visible */}
             <div
-              className="absolute top-0 left-0 right-0 h-px z-10 opacity-40 transition-opacity duration-300 group-hover:opacity-60"
-              style={{ background: 'linear-gradient(90deg, transparent 0%, #519DFD 25%, #8712F7 50%, #F012E5 75%, transparent 100%)' }}
+              className="absolute top-0 left-0 right-0 h-[2px] z-10 transition-opacity duration-300"
+              style={{
+                background: 'linear-gradient(90deg, transparent 0%, #519DFD 20%, #8712F7 50%, #F012E5 80%, transparent 100%)',
+                opacity: 0.6
+              }}
+              aria-hidden="true"
+            />
+
+            {/* Side gradient accents for visibility on all backgrounds */}
+            <div
+              className="absolute top-0 left-0 bottom-0 w-[1px] z-10 opacity-30"
+              style={{
+                background: 'linear-gradient(180deg, #519DFD 0%, transparent 30%, transparent 70%, #519DFD 100%)'
+              }}
+              aria-hidden="true"
+            />
+            <div
+              className="absolute top-0 right-0 bottom-0 w-[1px] z-10 opacity-30"
+              style={{
+                background: 'linear-gradient(180deg, #F012E5 0%, transparent 30%, transparent 70%, #F012E5 100%)'
+              }}
               aria-hidden="true"
             />
 
             {/* Inner glow at top */}
             <div
-              className="pointer-events-none absolute top-0 left-0 right-0 h-32 z-10 opacity-30"
+              className="pointer-events-none absolute top-0 left-0 right-0 h-24 z-10 opacity-40"
               style={{
-                background: 'linear-gradient(180deg, rgba(135, 18, 247, 0.08) 0%, transparent 100%)'
+                background: 'linear-gradient(180deg, rgba(135, 18, 247, 0.1) 0%, transparent 100%)'
               }}
               aria-hidden="true"
             />
@@ -75,6 +94,15 @@ export function VideoSection() {
               <source src="/video/video1.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
+
+            {/* Bottom gradient accent */}
+            <div
+              className="absolute bottom-0 left-0 right-0 h-[1px] z-10 opacity-40"
+              style={{
+                background: 'linear-gradient(90deg, transparent 0%, #519DFD 20%, #8712F7 50%, #F012E5 80%, transparent 100%)'
+              }}
+              aria-hidden="true"
+            />
           </div>
         </motion.div>
       </Container>

@@ -8,7 +8,7 @@ import { fadeUp } from "@/lib/motion";
 const valuePoints = [
   {
     title: "Unified workflows",
-    description: "Research, drafting, review, and practice operations—all in one place.",
+    description: "Research, drafting, review, and practice operations in one place.",
   },
   {
     title: "Research you can trust",

@@ -56,7 +56,7 @@ export default function SecurityPage() {
             <p>
               Your clients trust you with their most sensitive matters. We take
               that responsibility seriously. Nextlex is built from the ground up
-              with security at its core—not as an afterthought.
+              with security at its core, not as an afterthought.
             </p>
             <p>
               Every feature, every integration, every line of code is designed

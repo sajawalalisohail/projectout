@@ -36,7 +36,7 @@ export default function CompanyPage() {
             <p>
               We started Nextlex because we lived the problem. Years spent
               toggling between research databases, document editors, and
-              collaboration tools—each one promising to make legal work easier,
+              collaboration tools, each one promising to make legal work easier,
               none of them talking to each other.
             </p>
 
@@ -71,7 +71,7 @@ export default function CompanyPage() {
 
             <p>
               Our goal is simple: bring precision and calm back to legal work.
-              No noise, no clutter—just the clarity your clients expect and your
+              No noise, no clutter. Just the clarity your clients expect and your
               team deserves.
             </p>
           </div>

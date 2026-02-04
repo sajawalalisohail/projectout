@@ -46,7 +46,7 @@ export default function ProductPage() {
           <div className="mt-12 max-w-2xl space-y-6 text-muted">
             <p>
               Legal work has always demanded precision. But too often, that precision
-              is lost between disconnected systems—research in one place, drafting
+              is lost between disconnected systems: research in one place, drafting
               in another, collaboration scattered across email threads.
             </p>
             <p>

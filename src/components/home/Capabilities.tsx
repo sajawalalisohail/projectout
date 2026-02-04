@@ -16,7 +16,7 @@ const capabilities = [
   },
   {
     title: "Citation Validation",
-    description: "Verify that every citation is accurate and current—catch errors before they cost you.",
+    description: "Verify that every citation is accurate and current. Catch errors before they cost you.",
   },
   {
     title: "AI Drafting",

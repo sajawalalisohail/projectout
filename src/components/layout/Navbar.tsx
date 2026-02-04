@@ -335,8 +335,8 @@ export function Navbar() {
     >
       <div className="w-full px-6 lg:px-10">
         <nav className="flex h-16 items-center justify-between">
-          {/* Logo */}
-          <a href="/" className="relative h-6 w-auto shrink-0">
+          {/* Logo with Tagline */}
+          <a href="/" className="relative shrink-0 flex flex-col items-start">
             <Image
               src={logoSrc}
               alt="Nextlex"
@@ -345,6 +345,16 @@ export function Navbar() {
               className="h-6 w-auto object-contain"
               priority
             />
+            <span
+              className={cn(
+                "mt-0.5 text-[8px] font-medium uppercase tracking-[0.15em] leading-none",
+                effectiveTheme === "dark" || isHeroTransparent
+                  ? "text-white/40"
+                  : "text-[#1C1F26]/40"
+              )}
+            >
+              The next of everything law
+            </span>
           </a>
 
           {/* Desktop Links - Center */}
