@@ -7,14 +7,44 @@ import { Button } from "@/components/ui/Button";
 
 export function Hero() {
   const prefersReducedMotion = useReducedMotion();
-  const [isMobile, setIsMobile] = useState(false);
   const [videoReady, setVideoReady] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Detect mobile for responsive video source selection
   useEffect(() => {
-    setIsMobile(window.matchMedia("(max-width: 768px)").matches);
-  }, []);
+    const video = videoRef.current;
+    if (!video || prefersReducedMotion) return;
+
+    // Swap to 720p on mobile (overrides <source> children)
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    if (isMobile) {
+      video.src = "/video/hero-720p.MP4";
+      video.load();
+    }
+
+    // Mark ready once first frame is available
+    const onReady = () => setVideoReady(true);
+
+    // Check if already loaded (event fired before React hydration)
+    if (video.readyState >= 2) {
+      onReady();
+      return;
+    }
+
+    video.addEventListener("loadeddata", onReady);
+
+    // Safety fallback: poll readyState in case event was missed
+    const fallback = setInterval(() => {
+      if (video.readyState >= 2 || !video.paused) {
+        onReady();
+        clearInterval(fallback);
+      }
+    }, 250);
+
+    return () => {
+      video.removeEventListener("loadeddata", onReady);
+      clearInterval(fallback);
+    };
+  }, [prefersReducedMotion]);
 
   const fadeUp = (delay: number) =>
     prefersReducedMotion
@@ -27,7 +57,7 @@ export function Hero() {
 
   return (
     <section data-nav-theme="dark" className="relative min-h-screen overflow-hidden bg-black pt-40 md:pt-52">
-      {/* Background video — fades in once ready */}
+      {/* Background video — sources are static so browser starts loading from SSR HTML */}
       {!prefersReducedMotion && (
         <video
           ref={videoRef}
@@ -36,19 +66,12 @@ export function Hero() {
           loop
           playsInline
           preload="auto"
-          onCanPlay={() => setVideoReady(true)}
           className="pointer-events-none absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-out"
           style={{ opacity: videoReady ? 1 : 0 }}
           aria-hidden="true"
         >
-          {isMobile ? (
-            <source src="/video/hero-720p.MP4" type="video/mp4" />
-          ) : (
-            <>
-              <source src="/video/hero-1080p.webm" type="video/webm" />
-              <source src="/video/hero-1080p.MP4" type="video/mp4" />
-            </>
-          )}
+          <source src="/video/hero-1080p.webm" type="video/webm" />
+          <source src="/video/hero-1080p.MP4" type="video/mp4" />
         </video>
       )}
 
