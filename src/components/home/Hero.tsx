@@ -1,75 +1,20 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { useEffect, useState, useRef } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 
-const heroImages = [
-  "/hero-pics/hero-1.jpg",
-  "/hero-pics/hero-2.jpg",
-  "/hero-pics/hero-3.jpg",
-  "/hero-pics/hero-4.jpg",
-  "/hero-pics/hero-5.jpg",
-];
-
-const CYCLE_INTERVAL = 6000;
-const CROSSFADE_DURATION = 0.5;
-
 export function Hero() {
   const prefersReducedMotion = useReducedMotion();
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [imagesLoaded, setImagesLoaded] = useState<boolean[]>([]);
+  const [isMobile, setIsMobile] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Preload images and track which ones loaded successfully
+  // Detect mobile for responsive video source selection
   useEffect(() => {
-    const loadStates: boolean[] = [];
-    let mounted = true;
-
-    heroImages.forEach((src, index) => {
-      const img = new Image();
-      img.onload = () => {
-        if (mounted) {
-          loadStates[index] = true;
-          setImagesLoaded([...loadStates]);
-        }
-      };
-      img.onerror = () => {
-        if (mounted) {
-          loadStates[index] = false;
-          setImagesLoaded([...loadStates]);
-        }
-      };
-      img.src = src;
-    });
-
-    return () => {
-      mounted = false;
-    };
+    setIsMobile(window.matchMedia("(max-width: 768px)").matches);
   }, []);
-
-  // Cycle through images (only if motion allowed and images exist)
-  useEffect(() => {
-    if (prefersReducedMotion) return;
-
-    const availableImages = imagesLoaded.filter(Boolean);
-    if (availableImages.length <= 1) return;
-
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => {
-        // Find next available image
-        let next = (prev + 1) % heroImages.length;
-        let attempts = 0;
-        while (!imagesLoaded[next] && attempts < heroImages.length) {
-          next = (next + 1) % heroImages.length;
-          attempts++;
-        }
-        return next;
-      });
-    }, CYCLE_INTERVAL);
-
-    return () => clearInterval(interval);
-  }, [prefersReducedMotion, imagesLoaded]);
 
   const fadeUp = (delay: number) =>
     prefersReducedMotion
@@ -80,35 +25,42 @@ export function Hero() {
           transition: { duration: 0.6, delay, ease: "easeOut" as const },
         };
 
-  const currentImage = imagesLoaded[currentIndex]
-    ? heroImages[currentIndex]
-    : null;
-
   return (
-    <section data-nav-theme="dark" className="relative min-h-screen overflow-hidden pt-40 md:pt-52">
-      {/* Background images with short crossfade */}
-      <AnimatePresence mode="sync">
-        {currentImage && (
-          <motion.div
-            key={currentImage}
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: `url(${currentImage})` }}
-            initial={prefersReducedMotion ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={
-              prefersReducedMotion
-                ? { duration: 0 }
-                : { duration: CROSSFADE_DURATION, ease: "easeInOut" }
-            }
-            aria-hidden="true"
-          />
-        )}
-      </AnimatePresence>
+    <section data-nav-theme="dark" className="relative min-h-screen overflow-hidden bg-black pt-40 md:pt-52">
+      {/* Background video — fades in once ready */}
+      {!prefersReducedMotion && (
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          onCanPlay={() => setVideoReady(true)}
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-out"
+          style={{ opacity: videoReady ? 1 : 0 }}
+          aria-hidden="true"
+        >
+          {isMobile ? (
+            <source src="/video/hero-720p.MP4" type="video/mp4" />
+          ) : (
+            <>
+              <source src="/video/hero-1080p.webm" type="video/webm" />
+              <source src="/video/hero-1080p.MP4" type="video/mp4" />
+            </>
+          )}
+        </video>
+      )}
 
       {/* Dark overlay for text legibility */}
       <div
-        className="pointer-events-none absolute inset-0 bg-black/35"
+        className="pointer-events-none absolute inset-0 bg-black/40"
+        aria-hidden="true"
+      />
+
+      {/* Bottom gradient for extra text readability */}
+      <div
+        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"
         aria-hidden="true"
       />
 
