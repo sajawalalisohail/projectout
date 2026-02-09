@@ -22,9 +22,12 @@ export function VideoSection() {
           <p className="text-sm uppercase tracking-widest text-[#6B7280]">
             See it in action
           </p>
-          <h2 className="mt-3 text-2xl font-semibold tracking-tight text-[#1C1F26] md:text-3xl">
+          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-[#1C1F26] md:text-4xl">
             One platform. Complete clarity.
           </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-[#3D4149] md:text-xl">
+            Watch how Nextlex unifies research, drafting, and review into one seamless workflow.
+          </p>
         </motion.div>
 
         {/* Premium video panel */}

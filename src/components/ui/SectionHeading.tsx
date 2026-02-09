@@ -36,7 +36,7 @@ export function SectionHeading({
       {eyebrow && (
         <motion.p
           className={cn(
-            "text-xs uppercase tracking-widest",
+            "text-sm uppercase tracking-widest",
             dark ? "text-white/60" : "text-[#6B7280]"
           )}
           {...animationProps}
@@ -46,7 +46,7 @@ export function SectionHeading({
       )}
       <motion.h2
         className={cn(
-          "text-3xl font-semibold tracking-tight md:text-5xl",
+          "text-4xl font-semibold tracking-tight md:text-5xl lg:text-6xl",
           dark ? "text-white" : "text-[#1C1F26]"
         )}
         {...animationProps}
@@ -61,7 +61,7 @@ export function SectionHeading({
       {description && (
         <motion.p
           className={cn(
-            "max-w-xl text-lg",
+            "max-w-2xl text-lg md:text-xl",
             dark ? "text-white/60" : "text-[#3D4149]"
           )}
           {...animationProps}

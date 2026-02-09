@@ -7,7 +7,7 @@ import { fadeUp } from "@/lib/motion";
 
 export function FinalCTA() {
   return (
-    <section className="relative py-20 md:py-28">
+    <section className="relative py-16 md:py-24">
       {/* Thin divider line */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 

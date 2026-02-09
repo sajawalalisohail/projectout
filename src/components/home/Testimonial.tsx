@@ -99,7 +99,7 @@ export function Testimonial() {
   };
 
   return (
-    <section className="py-24 md:py-36">
+    <section className="py-16 md:py-24">
       <Container>
         <div
           ref={containerRef}

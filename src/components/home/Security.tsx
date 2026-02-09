@@ -66,7 +66,7 @@ const securityFeatures = [
 
 export function Security() {
   return (
-    <section id="security" className="scroll-mt-20 py-20 md:py-32">
+    <section id="security" className="scroll-mt-20 py-16 md:py-24">
       <Container>
         <motion.div {...fadeUp}>
           <SectionHeading

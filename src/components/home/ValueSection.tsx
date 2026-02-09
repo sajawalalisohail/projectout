@@ -26,7 +26,7 @@ interface ValueSectionProps {
 
 export function ValueSection({ dark = false }: ValueSectionProps) {
   return (
-    <section className="py-20 md:py-32">
+    <section className="py-16 md:py-24">
       <Container>
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Left: Copy */}

@@ -79,7 +79,7 @@ export function Capabilities() {
     <section
       ref={sectionRef}
       id="capabilities"
-      className="scroll-mt-20 py-20 md:py-32"
+      className="scroll-mt-20 py-16 md:py-24"
     >
       <Container>
         <SectionHeading

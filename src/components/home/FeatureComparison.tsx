@@ -102,7 +102,7 @@ export function FeatureComparison() {
       };
 
   return (
-    <section ref={ref} id="comparison" className="scroll-mt-20 py-20 md:py-32">
+    <section ref={ref} id="comparison" className="scroll-mt-20 py-16 md:py-24">
       <Container>
         <SectionHeading
           eyebrow="Comparison"

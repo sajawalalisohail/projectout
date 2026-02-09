@@ -48,11 +48,16 @@ const duplicatedFirms = [...firms, ...firms];
 
 export function TrustBar() {
   return (
-    <section className="py-12 overflow-hidden">
+    <section className="py-10 md:py-14 overflow-hidden">
       <Container>
-        <p className="mb-8 text-center text-xs uppercase tracking-widest text-[#6B7280]">
-          Trusted by forward-thinking firms
-        </p>
+        <div className="mb-10 text-center">
+          <p className="text-sm uppercase tracking-widest text-[#6B7280]">
+            Our clients
+          </p>
+          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-[#1C1F26] md:text-4xl">
+            Trusted by forward-thinking firms
+          </h2>
+        </div>
       </Container>
 
       {/* Premium container with visible border and subtle shadow */}
