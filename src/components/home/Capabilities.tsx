@@ -1,221 +1,260 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useCallback } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-
-// Map capability indices to screenshot images (fallback to gradient placeholder if missing)
-const capabilityImages: Record<number, { src: string; alt: string }> = {
-  0: { src: "/capabilities/legal-research.png", alt: "Legal Research interface showing precedent search results" },
-  1: { src: "/capabilities/citation-management.png", alt: "Citation Management dashboard with organized references" },
-  3: { src: "/capabilities/ai-drafting.png", alt: "AI Drafting editor aligned with firm templates" },
-};
-
-const capabilities = [
-  {
-    title: "Legal Research",
-    description: "Surface relevant precedents and statutes in seconds, not hours. AI-powered search with verified citations.",
-  },
-  {
-    title: "Citation Management",
-    description: "Organize, format, and update citations across all your documents automatically.",
-  },
-  {
-    title: "Citation Validation",
-    description: "Verify that every citation is accurate and current. Catch errors before they cost you.",
-  },
-  {
-    title: "AI Drafting",
-    description: "Generate first drafts grounded in your firm's style, precedents, and best practices.",
-  },
-  {
-    title: "Document Processing",
-    description: "Extract key clauses and data points from any contract, filing, or legal document.",
-  },
-  {
-    title: "Research Memos",
-    description: "Turn complex questions into structured, cite-checked memoranda in minutes.",
-  },
-  {
-    title: "Court Information",
-    description: "Access filing requirements, deadlines, and judge preferences instantly.",
-  },
-  {
-    title: "Secure Collaboration",
-    description: "Share work product with clients and colleagues under enterprise-grade security.",
-  },
-];
-
-const AUTO_CYCLE_INTERVAL = 3000;
+import { NavRail } from "./capabilities/NavRail";
+import { ScreenshotDisplay } from "./capabilities/ScreenshotDisplay";
+import { Lightbox } from "./capabilities/Lightbox";
+import { PILLARS } from "./capabilities/capabilitiesData";
 
 export function Capabilities() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isHovering, setIsHovering] = useState(false);
-  const [isInView, setIsInView] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
+  const [expandedPillarIndex, setExpandedPillarIndex] = useState(0);
+  const [activePillarIndex, setActivePillarIndex] = useState(0);
+  const [activeScreenshotIndex, setActiveScreenshotIndex] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
 
-  // Auto-cycle through capabilities when in view and not hovering
-  useEffect(() => {
-    if (!isInView || isHovering) return;
+  const currentPillar = PILLARS[activePillarIndex];
 
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % capabilities.length);
-    }, AUTO_CYCLE_INTERVAL);
+  const handlePillarExpand = useCallback((index: number) => {
+    setExpandedPillarIndex(index);
+  }, []);
 
-    return () => clearInterval(interval);
-  }, [isInView, isHovering]);
+  const handleScreenshotSelect = useCallback(
+    (pillarIndex: number, screenshotIndex: number) => {
+      setActivePillarIndex(pillarIndex);
+      setActiveScreenshotIndex(screenshotIndex);
+      setExpandedPillarIndex(pillarIndex);
+    },
+    []
+  );
 
-  // Intersection observer to detect when section is in view
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsInView(entry.isIntersecting);
-      },
-      { threshold: 0.3 }
-    );
+  const handleOpenLightbox = useCallback(() => {
+    setLightboxIndex(activeScreenshotIndex);
+    setLightboxOpen(true);
+  }, [activeScreenshotIndex]);
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
+  const handleCloseLightbox = useCallback(() => {
+    setLightboxOpen(false);
+  }, []);
 
-    return () => observer.disconnect();
+  const handleLightboxIndexChange = useCallback((index: number) => {
+    setLightboxIndex(index);
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      id="capabilities"
-      className="scroll-mt-20 py-16 md:py-24"
-    >
+    <section id="capabilities" className="scroll-mt-20 py-16 md:py-24">
       <Container>
         <SectionHeading
-          eyebrow="Workflows"
-          title="Capabilities that compound."
-          description="Legal intelligence designed for high-trust environments. Patent pending."
+          eyebrow="Platform"
+          title="Explore the platform."
+          description="Six integrated capabilities. One connected workspace. Click any screen to explore."
         />
-
-        <div className="mt-16 flex flex-col gap-12 md:flex-row md:gap-16 lg:gap-20">
-          {/* Typographic List */}
-          <ul
-            className="flex-1 space-y-1"
-            onMouseEnter={() => setIsHovering(true)}
-            onMouseLeave={() => setIsHovering(false)}
-          >
-            {capabilities.map((cap, index) => (
-              <li key={cap.title}>
-                <button
-                  className="group relative flex w-full items-center gap-4 py-2 text-left transition-all duration-300"
-                  onMouseEnter={() => setActiveIndex(index)}
-                  onFocus={() => setActiveIndex(index)}
-                >
-                  {/* Progress indicator with gradient when active */}
-                  <div className="relative h-[2px] w-8 overflow-hidden rounded-full bg-[#1C1F26]/10">
-                    <motion.div
-                      className="absolute inset-y-0 left-0"
-                      style={{
-                        background: activeIndex === index
-                          ? 'linear-gradient(90deg, #519DFD 0%, #8712F7 100%)'
-                          : '#1C1F26'
-                      }}
-                      initial={{ width: 0 }}
-                      animate={{
-                        width: activeIndex === index ? "100%" : "0%",
-                      }}
-                      transition={{
-                        duration: activeIndex === index && !isHovering ? AUTO_CYCLE_INTERVAL / 1000 : 0.3,
-                        ease: "linear",
-                      }}
-                    />
-                  </div>
-
-                  {/* Title with gradient text when active */}
-                  <span
-                    className="text-2xl font-semibold tracking-tight transition-all duration-300 md:text-3xl lg:text-4xl"
-                    style={{
-                      color: activeIndex === index ? "#1C1F26" : "rgba(28, 31, 38, 0.2)",
-                    }}
-                  >
-                    {cap.title}
-                  </span>
-                </button>
-              </li>
-            ))}
-          </ul>
-
-          {/* Description Panel with Premium Styling */}
-          <div className="w-full md:w-[400px] lg:w-[480px] xl:w-[520px] md:pt-2 shrink-0">
-            <div className="sticky top-32">
-              <motion.div
-                key={activeIndex}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="group relative overflow-hidden rounded-2xl border border-[rgba(28,31,38,0.08)] bg-gradient-to-b from-[#FAFAFA] to-white p-8 shadow-[0_4px_24px_rgba(0,0,0,0.04)] lg:p-10"
-              >
-                {/* Gradient accent line at top */}
-                <div
-                  className="absolute top-0 left-8 right-8 h-px opacity-30 transition-opacity duration-300 group-hover:opacity-50"
-                  style={{ background: 'linear-gradient(90deg, transparent 0%, #519DFD 25%, #8712F7 50%, #F012E5 75%, transparent 100%)' }}
-                  aria-hidden="true"
-                />
-
-                {/* Subtle glow effect */}
-                <div
-                  className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-                  style={{
-                    background: 'radial-gradient(ellipse 80% 50% at 50% 0%, rgba(135, 18, 247, 0.04) 0%, transparent 70%)'
-                  }}
-                  aria-hidden="true"
-                />
-
-                <div className="relative flex items-center gap-3 text-xs uppercase tracking-widest text-[#6B7280]">
-                  {/* Number badge with subtle gradient */}
-                  <span
-                    className="flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-semibold text-white"
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(81,157,253,0.9) 0%, rgba(135,18,247,0.9) 100%)'
-                    }}
-                  >
-                    {String(activeIndex + 1).padStart(2, "0")}
-                  </span>
-                  {capabilities[activeIndex].title}
-                </div>
-                <p className="relative mt-5 text-lg leading-relaxed text-[#3D4149] lg:text-xl lg:mt-6">
-                  {capabilities[activeIndex].description}
-                </p>
-
-                {/* Screenshot or gradient placeholder */}
-                <div
-                  className="relative mt-8 aspect-[4/3] overflow-hidden rounded-xl border border-black/5 transition-all duration-300 group-hover:shadow-md group-hover:-translate-y-0.5 lg:mt-10"
-                  style={{
-                    background: 'linear-gradient(135deg, #F3F4F6 0%, #E5E5E5 50%, #F3F4F6 100%)'
-                  }}
-                >
-                  {capabilityImages[activeIndex] ? (
-                    <Image
-                      src={capabilityImages[activeIndex].src}
-                      alt={capabilityImages[activeIndex].alt}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 520px"
-                    />
-                  ) : (
-                    <div
-                      className="absolute inset-0 opacity-30"
-                      style={{
-                        background: 'linear-gradient(135deg, transparent 0%, rgba(135, 18, 247, 0.02) 50%, transparent 100%)'
-                      }}
-                      aria-hidden="true"
-                    />
-                  )}
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </div>
       </Container>
+
+      {/* Full-width layout below heading */}
+      <div className="mx-auto mt-12 max-w-[1600px] px-6 lg:mt-16 lg:px-8">
+        {/* Desktop: side-by-side */}
+        <div className="hidden lg:flex lg:gap-12">
+          <NavRail
+            pillars={PILLARS}
+            expandedPillarIndex={expandedPillarIndex}
+            activePillarIndex={activePillarIndex}
+            activeScreenshotIndex={activeScreenshotIndex}
+            onPillarExpand={handlePillarExpand}
+            onScreenshotSelect={handleScreenshotSelect}
+          />
+          <ScreenshotDisplay
+            pillar={currentPillar}
+            pillarIndex={activePillarIndex}
+            activeScreenshotIndex={activeScreenshotIndex}
+            onImageClick={handleOpenLightbox}
+            isFirstDefault={activePillarIndex === 0}
+          />
+        </div>
+
+        {/* Mobile: accordion */}
+        <div className="lg:hidden">
+          <MobileAccordion
+            activePillarIndex={activePillarIndex}
+            activeScreenshotIndex={activeScreenshotIndex}
+            onScreenshotSelect={handleScreenshotSelect}
+            onImageClick={(pillarIdx, ssIdx) => {
+              setActivePillarIndex(pillarIdx);
+              setActiveScreenshotIndex(ssIdx);
+              setLightboxIndex(ssIdx);
+              setLightboxOpen(true);
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Lightbox */}
+      {lightboxOpen && (
+        <Lightbox
+          screenshots={currentPillar.screenshots}
+          activeIndex={lightboxIndex}
+          onIndexChange={handleLightboxIndexChange}
+          onClose={handleCloseLightbox}
+        />
+      )}
     </section>
+  );
+}
+
+/* ─── Mobile Accordion ─── */
+
+function MobileAccordion({
+  activePillarIndex,
+  activeScreenshotIndex,
+  onScreenshotSelect,
+  onImageClick,
+}: {
+  activePillarIndex: number;
+  activeScreenshotIndex: number;
+  onScreenshotSelect: (pillarIndex: number, ssIndex: number) => void;
+  onImageClick: (pillarIndex: number, ssIndex: number) => void;
+}) {
+  const [expandedIndex, setExpandedIndex] = useState(0);
+
+  return (
+    <div className="space-y-2">
+      {PILLARS.map((pillar, pillarIndex) => {
+        const isExpanded = pillarIndex === expandedIndex;
+
+        return (
+          <div
+            key={pillar.title}
+            className="overflow-hidden rounded-xl border border-black/[0.06]"
+          >
+            {/* Pillar header */}
+            <button
+              className="flex w-full items-center justify-between px-4 py-3.5 text-left"
+              onClick={() => {
+                setExpandedIndex(isExpanded ? -1 : pillarIndex);
+                if (!isExpanded) {
+                  onScreenshotSelect(pillarIndex, 0);
+                }
+              }}
+              aria-expanded={isExpanded}
+            >
+              <span className="flex items-center gap-2 text-sm font-semibold text-[#1C1F26]">
+                {pillar.title}
+                {pillar.badge && (
+                  <span
+                    className="shrink-0 rounded-full px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-white"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, #519DFD 0%, #8712F7 100%)",
+                    }}
+                  >
+                    {pillar.badge}
+                  </span>
+                )}
+              </span>
+              <svg
+                className={`h-4 w-4 shrink-0 text-[#6B7280] transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+
+            {/* Expanded content */}
+            <AnimatePresence initial={false}>
+              {isExpanded && (
+                <motion.div
+                  initial={{ height: 0 }}
+                  animate={{ height: "auto" }}
+                  exit={{ height: 0 }}
+                  transition={{ duration: 0.2, ease: "easeInOut" }}
+                  className="overflow-hidden"
+                >
+                  <div className="px-4 pb-4">
+                    {/* Subcategory pills */}
+                    <div className="flex flex-wrap gap-2 pb-3">
+                      {pillar.screenshots.map((ss, ssIndex) => {
+                        const isActive =
+                          pillarIndex === activePillarIndex &&
+                          ssIndex === activeScreenshotIndex;
+                        return (
+                          <button
+                            key={ss.title}
+                            className={`rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200 ${
+                              isActive
+                                ? "bg-[#1C1F26] text-white"
+                                : "bg-[#F3F4F6] text-[#6B7280] hover:bg-[#E5E7EB]"
+                            }`}
+                            onClick={() =>
+                              onScreenshotSelect(pillarIndex, ssIndex)
+                            }
+                          >
+                            {ss.title}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {/* Screenshot */}
+                    <button
+                      type="button"
+                      className="relative block w-full cursor-zoom-in overflow-hidden rounded-lg border border-black/[0.06]"
+                      onClick={() =>
+                        onImageClick(
+                          pillarIndex,
+                          pillarIndex === activePillarIndex
+                            ? activeScreenshotIndex
+                            : 0
+                        )
+                      }
+                      aria-label={`View ${pillar.screenshots[pillarIndex === activePillarIndex ? activeScreenshotIndex : 0].title} full screen`}
+                    >
+                      <div
+                        className="relative aspect-[16/10]"
+                        style={{
+                          background:
+                            "linear-gradient(135deg, #F3F4F6 0%, #E5E5E5 50%, #F3F4F6 100%)",
+                        }}
+                      >
+                        <Image
+                          src={
+                            pillar.screenshots[
+                              pillarIndex === activePillarIndex
+                                ? activeScreenshotIndex
+                                : 0
+                            ].src
+                          }
+                          alt={
+                            pillar.screenshots[
+                              pillarIndex === activePillarIndex
+                                ? activeScreenshotIndex
+                                : 0
+                            ].alt
+                          }
+                          fill
+                          className="object-contain"
+                          sizes="calc(100vw - 48px)"
+                        />
+                      </div>
+                    </button>
+
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        );
+      })}
+    </div>
   );
 }

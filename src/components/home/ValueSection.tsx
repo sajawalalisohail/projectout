@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -10,16 +11,23 @@ const features = [
     title: "Unified Workspace",
     description:
       "Research, drafting, review, and practice operations consolidated into a single environment. No more switching between disconnected tools.",
+    image: "/capabilities/Dashboard View.png",
+    alt: "Dashboard overview showing unified workspace",
   },
   {
     title: "Verified Research with Citations",
     description:
       "AI-assisted analysis that surfaces relevant precedents and statutes with citations you can verify. Patent pending.",
+    image: "/capabilities/Legal Research Page.png",
+    alt: "Legal research interface with verified citations",
   },
   {
     title: "AI Drafting Aligned with Firm Standards",
     description:
       "Generate first drafts grounded in your firm's style, precedents, and templates. Every output reflects how your team actually works.",
+    image:
+      "/capabilities/Drafting Canvas In Action - Drafting a Motion to Supress for a case.png",
+    alt: "AI drafting canvas generating a motion",
   },
 ];
 
@@ -47,46 +55,16 @@ export function ValueSection({ dark = false }: ValueSectionProps) {
           </p>
         </motion.div>
 
-        <motion.div
-          className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-          {...fadeUp}
-          transition={{ duration: 0.6, delay: 0.1 }}
-        >
-          {features.map((feature) => (
-            <div
+        <div className="mt-16 space-y-20 lg:space-y-28">
+          {features.map((feature, index) => (
+            <motion.div
               key={feature.title}
-              className={`group relative overflow-hidden rounded-2xl p-6 transition-all duration-300 md:p-8 ${
-                dark
-                  ? "border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.02] hover:border-white/[0.18]"
-                  : "nx-panel-light nx-panel-light-accent"
-              }`}
+              className="flex flex-col items-center gap-8 lg:flex-row lg:gap-16"
+              {...fadeUp}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
             >
-              {/* Gradient accent line (dark mode only; light handled by nx-panel-light-accent) */}
-              {dark && (
-                <div
-                  className="absolute top-0 left-6 right-6 h-px opacity-40 transition-opacity duration-300 group-hover:opacity-60"
-                  style={{
-                    background:
-                      "linear-gradient(90deg, transparent 0%, #519DFD 25%, #8712F7 50%, #F012E5 75%, transparent 100%)",
-                  }}
-                  aria-hidden="true"
-                />
-              )}
-
-              {/* Subtle glow on hover (dark mode only; light handled by nx-panel-light::before) */}
-              {dark && (
-                <div
-                  className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-                  style={{
-                    background:
-                      "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(135, 18, 247, 0.08) 0%, transparent 70%)",
-                  }}
-                  aria-hidden="true"
-                />
-              )}
-
-              <div className="relative">
-                {/* Small accent line */}
+              {/* Text */}
+              <div className="flex-1 lg:max-w-md">
                 <div
                   className="mb-4 h-[2px] w-8 rounded-full"
                   style={{
@@ -96,32 +74,46 @@ export function ValueSection({ dark = false }: ValueSectionProps) {
                   }}
                   aria-hidden="true"
                 />
-
                 <h3
-                  className={`text-lg font-semibold ${
+                  className={`text-2xl font-semibold tracking-tight md:text-3xl ${
                     dark ? "text-white" : "text-[#1C1F26]"
                   }`}
                 >
                   {feature.title}
                 </h3>
                 <p
-                  className={`mt-2 text-sm leading-relaxed ${
+                  className={`mt-3 text-base leading-relaxed md:text-lg ${
                     dark ? "text-white/60" : "text-[#6B7280]"
                   }`}
                 >
                   {feature.description}
                 </p>
-
-                {/* Minimal placeholder container */}
-                <div
-                  className={`mt-6 aspect-[16/9] rounded-lg ${
-                    dark ? "bg-white/5" : "bg-[#F3F4F6]"
-                  }`}
-                />
               </div>
-            </div>
+
+              {/* Screenshot - floating, no border */}
+              <div className="relative flex-1 min-w-0 w-full lg:w-auto">
+                {/* Subtle glow */}
+                <div
+                  className="pointer-events-none absolute -inset-4 rounded-2xl opacity-40"
+                  style={{
+                    background:
+                      "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(135, 18, 247, 0.06) 0%, transparent 70%)",
+                  }}
+                  aria-hidden="true"
+                />
+                <div className="relative aspect-[16/10] overflow-hidden rounded-xl shadow-[0_8px_40px_rgba(0,0,0,0.08)]">
+                  <Image
+                    src={feature.image}
+                    alt={feature.alt}
+                    fill
+                    className="object-contain"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                </div>
+              </div>
+            </motion.div>
           ))}
-        </motion.div>
+        </div>
       </Container>
     </section>
   );
