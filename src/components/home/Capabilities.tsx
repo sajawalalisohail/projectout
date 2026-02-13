@@ -58,7 +58,7 @@ export function Capabilities() {
       {/* Full-width layout below heading */}
       <div className="mx-auto mt-12 max-w-[1600px] px-6 lg:mt-16 lg:px-8">
         {/* Desktop: side-by-side */}
-        <div className="hidden lg:flex lg:items-start lg:gap-12">
+        <div className="hidden lg:flex lg:items-center lg:gap-12">
           <NavRail
             pillars={PILLARS}
             expandedPillarIndex={expandedPillarIndex}
