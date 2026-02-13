@@ -153,7 +153,7 @@ export function Lightbox({
 
         {/* Image - centered */}
         <div
-          className="relative z-10 w-full max-w-[90vw]"
+          className="relative z-10 flex w-full max-w-[90vw] flex-col items-center"
           style={{ maxHeight: "90vh" }}
           onClick={(e) => e.stopPropagation()}
         >
@@ -165,6 +165,7 @@ export function Lightbox({
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               className="relative aspect-[16/10] w-full"
+              style={{ maxHeight: "calc(90vh - 48px)" }}
             >
               <Image
                 src={screenshot.src}
@@ -176,6 +177,18 @@ export function Lightbox({
               />
             </motion.div>
           </AnimatePresence>
+
+          {/* Caption overlay */}
+          <div className="mt-3 text-center">
+            <p className="text-sm font-medium text-white/80">
+              {screenshot.title}
+            </p>
+            {screenshots.length > 1 && (
+              <p className="mt-0.5 text-xs text-white/40">
+                {activeIndex + 1} of {screenshots.length}
+              </p>
+            )}
+          </div>
         </div>
 
         {/* Right arrow */}

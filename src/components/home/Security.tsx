@@ -91,7 +91,7 @@ export function Security() {
           {securityFeatures.map((feature) => (
             <div
               key={feature.title}
-              className="space-y-3 rounded-2xl border border-white/10 bg-white/5 p-6 transition-shadow duration-200 hover:shadow-lg"
+              className="relative space-y-3 rounded-2xl border border-white/10 bg-white/5 p-6 transition-all duration-300 hover:border-white/15 hover:shadow-[0_0_24px_rgba(81,157,253,0.08),0_0_48px_rgba(135,18,247,0.06)]"
             >
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 text-white/60">
                 {feature.icon}

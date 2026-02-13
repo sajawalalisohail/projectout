@@ -200,7 +200,7 @@ export function Navbar() {
   // Always light theme - solid white navbar everywhere
   const effectiveTheme = "light" as NavTheme;
 
-  const navBg = "bg-white border-b border-black/5";
+  const navBg = "bg-white/95 backdrop-blur-md border-b border-black/[0.06]";
 
   const textColorMuted = "text-[#1C1F26]/80 hover:text-[#1C1F26]";
 
