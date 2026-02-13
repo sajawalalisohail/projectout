@@ -67,6 +67,12 @@ const securityFeatures = [
 export function Security() {
   return (
     <section id="security" className="scroll-mt-20 py-16 md:py-24">
+      {/* Section divider */}
+      <div
+        className="mx-auto mb-16 h-px max-w-4xl"
+        style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(135, 18, 247, 0.2) 50%, transparent 100%)' }}
+        aria-hidden="true"
+      />
       <Container>
         <motion.div {...fadeUp}>
           <SectionHeading

@@ -56,8 +56,8 @@ export function Hero() {
         };
 
   return (
-    <section data-nav-theme="dark" className="relative min-h-screen overflow-hidden bg-black pt-40 md:pt-52">
-      {/* Background video — sources are static so browser starts loading from SSR HTML */}
+    <section data-nav-theme="dark" className="relative min-h-screen overflow-hidden bg-black pt-48 md:pt-52">
+      {/* Background video - sources are static so browser starts loading from SSR HTML */}
       {!prefersReducedMotion && (
         <video
           ref={videoRef}
@@ -127,9 +127,32 @@ export function Hero() {
             className="mt-10 flex flex-col gap-4 sm:flex-row"
             {...fadeUp(0.3)}
           >
-            <Button asChild>
-              <a href="/request-access">Request a Demo</a>
-            </Button>
+            <a
+              href="/request-access"
+              className="group relative inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-medium text-[#1C1F26] transition-all duration-300 hover:opacity-95"
+            >
+              {/* Gradient border ring */}
+              <span
+                className="pointer-events-none absolute inset-0 rounded-full opacity-40 transition-opacity duration-300 group-hover:opacity-70"
+                style={{
+                  padding: '1px',
+                  background: 'linear-gradient(135deg, #519DFD 0%, #8712F7 50%, #F012E5 100%)',
+                  WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                  WebkitMaskComposite: 'xor',
+                  maskComposite: 'exclude',
+                }}
+                aria-hidden="true"
+              />
+              {/* Soft hover glow */}
+              <span
+                className="pointer-events-none absolute -inset-1 rounded-full opacity-0 blur-md transition-opacity duration-300 group-hover:opacity-30"
+                style={{
+                  background: 'linear-gradient(135deg, #519DFD 0%, #8712F7 50%, #F012E5 100%)',
+                }}
+                aria-hidden="true"
+              />
+              <span className="relative">Request a Demo</span>
+            </a>
             <Button variant="ghost" className="text-white hover:bg-white/10" asChild>
               <a href="#capabilities">View Workflows</a>
             </Button>

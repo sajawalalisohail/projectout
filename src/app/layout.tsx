@@ -38,12 +38,43 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  // Set NEXT_PUBLIC_SITE_URL in your environment for production
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://nextlex.ai"
+  ),
   title: {
-    default: "Nextlex",
+    default: "Nextlex - Your Legal Command Center",
     template: "%s | Nextlex",
   },
   description:
-    "The modern platform for building secure, scalable applications.",
+    "Built by lawyers for lawyers. Unify research, drafting, review, and practice ops in one secure platform.",
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
+  openGraph: {
+    title: "Nextlex - Your Legal Command Center",
+    description:
+      "Built by lawyers for lawyers. Unify research, drafting, review, and practice ops in one secure platform.",
+    url: "/",
+    siteName: "Nextlex",
+    type: "website",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Nextlex - Your Legal Command Center",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Nextlex - Your Legal Command Center",
+    description:
+      "Built by lawyers for lawyers. Unify research, drafting, review, and practice ops in one secure platform.",
+    images: ["/og.png"],
+  },
 };
 
 export default function RootLayout({

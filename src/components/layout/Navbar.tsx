@@ -93,17 +93,11 @@ type NavTheme = "light" | "dark";
 
 export function Navbar() {
   const pathname = usePathname();
-  const isHomePage = pathname === "/";
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [productDropdownOpen, setProductDropdownOpen] = useState(false);
   const [companyDropdownOpen, setCompanyDropdownOpen] = useState(false);
   const [resourcesDropdownOpen, setResourcesDropdownOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
-  const [isOnHero, setIsOnHero] = useState(isHomePage);
-  const [navTheme, setNavTheme] = useState<NavTheme>(isHomePage ? "dark" : "light");
-  const lastScrollY = useRef(0);
-  const intersectingSections = useRef<Set<Element>>(new Set());
   const dropdownRef = useRef<HTMLDivElement>(null);
   const companyDropdownRef = useRef<HTMLDivElement>(null);
   const resourcesDropdownRef = useRef<HTMLDivElement>(null);
@@ -130,89 +124,6 @@ export function Navbar() {
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [closeAllDropdowns]);
-
-  // IntersectionObserver to detect which section is at the top
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            intersectingSections.current.add(entry.target);
-          } else {
-            intersectingSections.current.delete(entry.target);
-          }
-        });
-
-        let topSection: Element | null = null;
-        let maxTop = -Infinity;
-
-        intersectingSections.current.forEach((section) => {
-          const rect = section.getBoundingClientRect();
-          if (rect.top <= 64 && rect.bottom > 64 && rect.top > maxTop) {
-            maxTop = rect.top;
-            topSection = section;
-          }
-        });
-
-        if (topSection) {
-          const theme = (topSection as Element).getAttribute("data-nav-theme") as NavTheme;
-          if (theme) {
-            setNavTheme(theme);
-          }
-        }
-      },
-      {
-        rootMargin: "-64px 0px -80% 0px",
-        threshold: [0, 0.1, 0.5],
-      }
-    );
-
-    const observeSections = () => {
-      const sections = document.querySelectorAll("[data-nav-theme]");
-      sections.forEach((section) => observer.observe(section));
-    };
-
-    observeSections();
-
-    const mutationObserver = new MutationObserver(observeSections);
-    mutationObserver.observe(document.body, { childList: true, subtree: true });
-
-    return () => {
-      observer.disconnect();
-      mutationObserver.disconnect();
-      intersectingSections.current.clear();
-    };
-  }, []);
-
-  // Scroll-based visibility and hero detection
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      if (isHomePage) {
-        const heroThreshold = window.innerHeight * 0.8;
-        const onHero = currentScrollY < heroThreshold;
-        setIsOnHero(onHero);
-
-        if (onHero) {
-          setIsVisible(true);
-        } else {
-          const scrollingUp = currentScrollY < lastScrollY.current;
-          setIsVisible(scrollingUp || currentScrollY < 100);
-        }
-      } else {
-        setIsOnHero(false);
-        const scrollingUp = currentScrollY < lastScrollY.current;
-        setIsVisible(scrollingUp || currentScrollY < 100);
-      }
-
-      lastScrollY.current = currentScrollY;
-    };
-
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isHomePage]);
 
   // Close mobile menu on route change
   useEffect(() => {
@@ -286,24 +197,14 @@ export function Navbar() {
     };
   }, []);
 
-  const anyDropdownOpen = productDropdownOpen || companyDropdownOpen || resourcesDropdownOpen;
-  const isHeroTransparent = isHomePage && isOnHero && !anyDropdownOpen && !mobileMenuOpen;
-  const effectiveTheme: NavTheme = navTheme;
+  // Always light theme - solid white navbar everywhere
+  const effectiveTheme = "light" as NavTheme;
 
-  const navBg = isHeroTransparent
-    ? "bg-transparent"
-    : effectiveTheme === "dark"
-    ? "bg-[#0b0d12]/95 backdrop-blur-md"
-    : "bg-white/95 backdrop-blur-md";
+  const navBg = "bg-white border-b border-black/5";
 
-  const textColorMuted =
-    effectiveTheme === "dark"
-      ? "text-white/60 hover:text-white"
-      : "text-[#1C1F26]/60 hover:text-[#1C1F26]";
+  const textColorMuted = "text-[#1C1F26]/80 hover:text-[#1C1F26]";
 
-  const logoSrc = effectiveTheme === "dark" || isHeroTransparent
-    ? "/logo/main logo.png"
-    : "/logo/main logo 2.png";
+  const logoSrc = "/logo/main logo 2.png";
 
   // Dropdown chevron icon
   const ChevronIcon = ({ isOpen }: { isOpen: boolean }) => (
@@ -328,8 +229,7 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        "fixed top-0 z-50 w-full transition-all duration-300",
-        isVisible ? "translate-y-0" : "-translate-y-full",
+        "fixed top-0 z-50 w-full",
         navBg
       )}
     >
@@ -346,12 +246,7 @@ export function Navbar() {
               priority
             />
             <span
-              className={cn(
-                "mt-0.5 text-[8px] font-medium uppercase tracking-[0.15em] leading-none",
-                effectiveTheme === "dark" || isHeroTransparent
-                  ? "text-white/40"
-                  : "text-[#1C1F26]/40"
-              )}
+              className="mt-0.5 text-[10px] font-medium uppercase tracking-[0.15em] leading-none text-[#1C1F26]"
             >
               The next of everything law
             </span>
@@ -368,7 +263,7 @@ export function Navbar() {
             >
               <button
                 className={cn(
-                  "flex items-center gap-1 text-sm font-medium tracking-wide transition-colors duration-200",
+                  "flex items-center gap-1 text-[15px] font-medium tracking-wide transition-colors duration-200",
                   textColorMuted
                 )}
                 aria-expanded={productDropdownOpen}
@@ -383,7 +278,7 @@ export function Navbar() {
             <a
               href="/security"
               className={cn(
-                "text-sm font-medium tracking-wide transition-colors duration-200",
+                "text-[15px] font-medium tracking-wide transition-colors duration-200",
                 textColorMuted
               )}
             >
@@ -399,7 +294,7 @@ export function Navbar() {
             >
               <button
                 className={cn(
-                  "flex items-center gap-1 text-sm font-medium tracking-wide transition-colors duration-200",
+                  "flex items-center gap-1 text-[15px] font-medium tracking-wide transition-colors duration-200",
                   textColorMuted
                 )}
                 aria-expanded={companyDropdownOpen}
@@ -419,7 +314,7 @@ export function Navbar() {
             >
               <button
                 className={cn(
-                  "flex items-center gap-1 text-sm font-medium tracking-wide transition-colors duration-200",
+                  "flex items-center gap-1 text-[15px] font-medium tracking-wide transition-colors duration-200",
                   textColorMuted
                 )}
                 aria-expanded={resourcesDropdownOpen}
@@ -431,19 +326,8 @@ export function Navbar() {
             </div>
           </div>
 
-          {/* Right side: Login + Request a Demo */}
-          <div className="hidden items-center gap-6 lg:flex">
-            <a
-              href="#"
-              className={cn(
-                "text-sm font-medium tracking-wide transition-colors duration-200 opacity-50 cursor-not-allowed",
-                textColorMuted
-              )}
-              onClick={(e) => e.preventDefault()}
-              title="Coming soon"
-            >
-              Login
-            </a>
+          {/* Right side: Request a Demo */}
+          <div className="hidden items-center lg:flex">
             <a
               href="/request-access"
               className={cn(
@@ -811,19 +695,8 @@ export function Navbar() {
                 </div>
               </div>
 
-              {/* Mobile CTAs */}
-              <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-current/10">
-                <span
-                  className={cn(
-                    "text-sm font-medium opacity-50 cursor-not-allowed",
-                    effectiveTheme === "dark"
-                      ? "text-white/70"
-                      : "text-[#1C1F26]/70"
-                  )}
-                  title="Coming soon"
-                >
-                  Login
-                </span>
+              {/* Mobile CTA */}
+              <div className="flex flex-col gap-3 mt-4">
                 <a
                   href="/request-access"
                   className={cn(

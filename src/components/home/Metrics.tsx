@@ -11,18 +11,18 @@ const sparklines = [
   "M0,24 L8,20 L16,22 L24,16 L32,18 L40,12 L48,14 L56,8 L64,10 L72,4 L80,6",
   // Stepped increase (2x faster)
   "M0,24 L12,24 L12,18 L28,18 L28,12 L44,12 L44,8 L60,8 L60,4 L80,4",
-  // Downward trend (reduced risk)
-  "M0,4 L10,6 L20,8 L30,12 L40,14 L50,16 L60,20 L70,22 L80,24",
+  // Upward improvement (research time saved)
+  "M0,22 L10,20 L20,18 L30,16 L40,14 L50,10 L60,8 L70,6 L80,4",
   // Unified plateau (1 platform)
   "M0,20 L10,16 L20,12 L30,10 L40,8 L50,8 L60,8 L70,8 L80,8",
 ];
 
-const trendLabels = ["trending up", "accelerating", "declining", "unified"];
+const trendLabels = ["trending up", "accelerating", "improving", "unified"];
 
 const metrics = [
   { value: "20+", unit: "hours", label: "Saved per attorney monthly" },
   { value: "2x", unit: "", label: "Faster research cycles" },
-  { value: "0", unit: "errors", label: "Reduced citation risk" },
+  { value: "35", unit: "%", label: "Reduction in research time" },
   { value: "1", unit: "platform", label: "For everything legal" },
 ];
 

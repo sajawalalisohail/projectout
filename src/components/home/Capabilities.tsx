@@ -1,9 +1,17 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+
+// Map capability indices to screenshot images (fallback to gradient placeholder if missing)
+const capabilityImages: Record<number, { src: string; alt: string }> = {
+  0: { src: "/capabilities/legal-research.png", alt: "Legal Research interface showing precedent search results" },
+  1: { src: "/capabilities/citation-management.png", alt: "Citation Management dashboard with organized references" },
+  3: { src: "/capabilities/ai-drafting.png", alt: "AI Drafting editor aligned with firm templates" },
+};
 
 const capabilities = [
   {
@@ -178,21 +186,30 @@ export function Capabilities() {
                   {capabilities[activeIndex].description}
                 </p>
 
-                {/* Visual placeholder with subtle gradient */}
+                {/* Screenshot or gradient placeholder */}
                 <div
-                  className="relative mt-8 aspect-[4/3] overflow-hidden rounded-xl lg:mt-10"
+                  className="relative mt-8 aspect-[4/3] overflow-hidden rounded-xl border border-black/5 transition-all duration-300 group-hover:shadow-md group-hover:-translate-y-0.5 lg:mt-10"
                   style={{
                     background: 'linear-gradient(135deg, #F3F4F6 0%, #E5E5E5 50%, #F3F4F6 100%)'
                   }}
                 >
-                  {/* Very subtle gradient overlay */}
-                  <div
-                    className="absolute inset-0 opacity-30"
-                    style={{
-                      background: 'linear-gradient(135deg, transparent 0%, rgba(135, 18, 247, 0.02) 50%, transparent 100%)'
-                    }}
-                    aria-hidden="true"
-                  />
+                  {capabilityImages[activeIndex] ? (
+                    <Image
+                      src={capabilityImages[activeIndex].src}
+                      alt={capabilityImages[activeIndex].alt}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 520px"
+                    />
+                  ) : (
+                    <div
+                      className="absolute inset-0 opacity-30"
+                      style={{
+                        background: 'linear-gradient(135deg, transparent 0%, rgba(135, 18, 247, 0.02) 50%, transparent 100%)'
+                      }}
+                      aria-hidden="true"
+                    />
+                  )}
                 </div>
               </motion.div>
             </div>

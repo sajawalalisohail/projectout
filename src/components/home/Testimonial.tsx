@@ -100,6 +100,12 @@ export function Testimonial() {
 
   return (
     <section className="py-16 md:py-24">
+      {/* Section divider */}
+      <div
+        className="mx-auto mb-16 h-px max-w-4xl"
+        style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(135, 18, 247, 0.2) 50%, transparent 100%)' }}
+        aria-hidden="true"
+      />
       <Container>
         <div
           ref={containerRef}
@@ -193,9 +199,17 @@ export function Testimonial() {
                     </blockquote>
 
                     {/* Attribution */}
-                    <div className="relative mt-8 space-y-1">
-                      <p className="text-sm font-medium text-white/80">{testimonial.name}</p>
-                      <p className="text-xs text-white/50">
+                    <div className="relative mt-5 space-y-1">
+                      {/* Subtle accent divider */}
+                      <div
+                        className="mx-auto mb-3 h-px w-8"
+                        style={{
+                          background: 'linear-gradient(90deg, transparent 0%, rgba(135, 18, 247, 0.3) 50%, transparent 100%)',
+                        }}
+                        aria-hidden="true"
+                      />
+                      <p className="text-sm font-semibold text-white/80">{testimonial.name}</p>
+                      <p className="text-xs text-white/40">
                         {testimonial.title}, {testimonial.firm}
                       </p>
                     </div>
