@@ -581,130 +581,26 @@ export function Navbar() {
         >
           <div className="w-full px-6">
             <div className="flex flex-col gap-4 py-6">
-              {/* Mobile Product Section */}
-              <div className="flex flex-col gap-3">
-                <span
-                  className={cn(
-                    "text-xs uppercase tracking-widest",
-                    effectiveTheme === "dark" ? "text-white/40" : "text-[#1C1F26]/40"
-                  )}
+              {[
+                { label: "Product", href: "/product" },
+                { label: "Security", href: "/security" },
+                { label: "Company", href: "/company" },
+                { label: "Resources", href: "/resources/guides" },
+              ].map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className="text-sm font-medium text-[#1C1F26]/80 transition-colors hover:text-[#1C1F26]"
                 >
-                  Product
-                </span>
-                <div className="flex flex-col gap-2">
-                  {productDropdownItems.map((item) => (
-                    <a
-                      key={item.label}
-                      href={item.href}
-                      className={cn(
-                        "text-sm font-medium transition-colors",
-                        effectiveTheme === "dark"
-                          ? "text-white/70 hover:text-white"
-                          : "text-[#1C1F26]/70 hover:text-[#1C1F26]"
-                      )}
-                    >
-                      {item.label}
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              {/* Security Link */}
-              <a
-                href="/security"
-                className={cn(
-                  "text-sm font-medium transition-colors",
-                  effectiveTheme === "dark"
-                    ? "text-white/70 hover:text-white"
-                    : "text-[#1C1F26]/70 hover:text-[#1C1F26]"
-                )}
-              >
-                Security
-              </a>
-
-              {/* Mobile Company Section */}
-              <div className="flex flex-col gap-3">
-                <span
-                  className={cn(
-                    "text-xs uppercase tracking-widest",
-                    effectiveTheme === "dark" ? "text-white/40" : "text-[#1C1F26]/40"
-                  )}
-                >
-                  Company
-                </span>
-                <div className="flex flex-col gap-2">
-                  {companyDropdownItems.map((item) => (
-                    <a
-                      key={item.label}
-                      href={item.href}
-                      className={cn(
-                        "text-sm font-medium transition-colors",
-                        effectiveTheme === "dark"
-                          ? "text-white/70 hover:text-white"
-                          : "text-[#1C1F26]/70 hover:text-[#1C1F26]"
-                      )}
-                    >
-                      {item.label}
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              {/* Mobile Resources Section */}
-              <div className="flex flex-col gap-3">
-                <span
-                  className={cn(
-                    "text-xs uppercase tracking-widest",
-                    effectiveTheme === "dark" ? "text-white/40" : "text-[#1C1F26]/40"
-                  )}
-                >
-                  Resources
-                </span>
-                <div className="flex flex-col gap-2">
-                  {resourcesDropdownItems.map((item) => (
-                    <div
-                      key={item.label}
-                      className="flex items-center gap-2"
-                    >
-                      <span
-                        className={cn(
-                          "text-sm font-medium",
-                          item.comingSoon
-                            ? effectiveTheme === "dark"
-                              ? "text-white/40"
-                              : "text-[#1C1F26]/40"
-                            : effectiveTheme === "dark"
-                            ? "text-white/70"
-                            : "text-[#1C1F26]/70"
-                        )}
-                      >
-                        {item.label}
-                      </span>
-                      {item.comingSoon && (
-                        <span className={cn(
-                          "rounded-full px-1.5 py-0.5 text-[9px] font-medium uppercase tracking-wider",
-                          effectiveTheme === "dark"
-                            ? "bg-white/10 text-white/40"
-                            : "bg-black/5 text-[#1C1F26]/40"
-                        )}>
-                          Soon
-                        </span>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
+                  {item.label}
+                </a>
+              ))}
 
               {/* Mobile CTA */}
-              <div className="flex flex-col gap-3 mt-4">
+              <div className="mt-4">
                 <a
                   href="/request-access"
-                  className={cn(
-                    "rounded-full px-5 py-2.5 text-sm font-medium text-center transition-all duration-200",
-                    effectiveTheme === "dark"
-                      ? "bg-white text-[#1C1F26] hover:bg-white/90"
-                      : "bg-[#1C1F26] text-white hover:bg-[#1C1F26]/90"
-                  )}
+                  className="block rounded-full bg-[#1C1F26] px-5 py-2.5 text-sm font-medium text-center text-white transition-all duration-200 hover:bg-[#1C1F26]/90"
                 >
                   Request a Demo
                 </a>
