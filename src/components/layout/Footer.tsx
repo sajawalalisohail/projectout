@@ -62,22 +62,22 @@ export function Footer({ theme = "dark" }: FooterProps) {
         {/* Top Border */}
         <div className="h-px w-full bg-white/10" />
 
-        <Container className="py-20 md:py-32">
+        <Container className="py-12 md:py-32">
           {/* Main CTA Section */}
-          <div className="mb-24 flex flex-col md:mb-32">
+          <div className="mb-12 flex flex-col md:mb-32">
             <a href="/request-access" className="group block w-fit">
-              <h2 className="mb-8 text-6xl font-medium tracking-tight transition-opacity duration-300 md:text-[8rem] md:leading-[0.9] group-hover:opacity-80">
+              <h2 className="mb-6 text-5xl font-medium tracking-tight transition-opacity duration-300 md:mb-8 md:text-[8rem] md:leading-[0.9] group-hover:opacity-80">
                 Request
                 <br />
                 <span className="text-[#8712F7]">a Demo</span>
               </h2>
             </a>
-
+            
             <div className="h-px w-full bg-white/20 my-8" />
           </div>
 
           {/* Footer Bottom Grid */}
-          <div className="grid grid-cols-1 gap-12 md:grid-cols-12 md:gap-8">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-8">
             {/* Column 1: Info (Left) */}
             <div className="flex flex-col gap-6 text-sm font-medium text-white/50 md:col-span-4">
               <a href="/" className="block">

@@ -102,7 +102,7 @@ export function Navbar() {
           "hidden items-center md:flex transition-all duration-1000",
           isScrolled
             ? "gap-1 relative border border-transparent p-0"
-            : "absolute left-1/2 -translate-x-1/2 gap-1 rounded-full border p-1 backdrop-blur-sm shadow-lg",
+            : "mx-auto lg:absolute lg:left-1/2 lg:-translate-x-1/2 gap-1 rounded-full border p-1 backdrop-blur-sm shadow-lg",
           !isScrolled && isDark ? "border-white/10 bg-white/5" : "",
           !isScrolled && !isDark ? "border-black/5 bg-black/5" : ""
         )}>
