@@ -79,7 +79,7 @@ export function Hero() {
         aria-hidden="true"
       />
 
-      <Container className="relative flex min-h-screen flex-col pt-52 md:pt-60">
+      <Container className="relative flex min-h-screen flex-col pt-32 md:pt-60">
         {/* Top-left: Badge, Headline, Subcopy, CTAs */}
         <div className="max-w-2xl">
           {/* Badge pill */}

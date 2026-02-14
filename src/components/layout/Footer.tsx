@@ -52,12 +52,12 @@ export function Footer({ theme = "dark" }: FooterProps) {
 
   return (
     <>
-      {/* Spacer */}
-      <div style={{ height: footerHeight }} aria-hidden="true" />
+      {/* Spacer - Only for desktop fixed footer */}
+      <div style={{ height: footerHeight }} aria-hidden="true" className="hidden md:block" />
 
       <footer
         ref={footerRef}
-        className="fixed bottom-0 left-0 right-0 z-0 bg-[#0b0d12] text-white"
+        className="relative z-0 w-full bg-[#0b0d12] text-white md:fixed md:bottom-0 md:left-0 md:right-0"
       >
         {/* Top Border */}
         <div className="h-px w-full bg-white/10" />
