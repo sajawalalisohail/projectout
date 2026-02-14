@@ -3,7 +3,6 @@
 import { useEffect, useState, useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
-import { Button } from "@/components/ui/Button";
 
 export function Hero() {
   const prefersReducedMotion = useReducedMotion();
@@ -14,17 +13,14 @@ export function Hero() {
     const video = videoRef.current;
     if (!video || prefersReducedMotion) return;
 
-    // Swap to 720p on mobile (overrides <source> children)
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
     if (isMobile) {
       video.src = "/video/hero-720p.MP4";
       video.load();
     }
 
-    // Mark ready once first frame is available
     const onReady = () => setVideoReady(true);
 
-    // Check if already loaded (event fired before React hydration)
     if (video.readyState >= 2) {
       onReady();
       return;
@@ -32,7 +28,6 @@ export function Hero() {
 
     video.addEventListener("loadeddata", onReady);
 
-    // Safety fallback: poll readyState in case event was missed
     const fallback = setInterval(() => {
       if (video.readyState >= 2 || !video.paused) {
         onReady();
@@ -56,8 +51,8 @@ export function Hero() {
         };
 
   return (
-    <section data-nav-theme="dark" className="relative min-h-screen overflow-hidden bg-black pt-48 md:pt-52">
-      {/* Background video - sources are static so browser starts loading from SSR HTML */}
+    <section data-nav-theme="dark" className="relative min-h-screen overflow-hidden bg-black pt-44 pb-24 md:pt-56 md:pb-36">
+      {/* Background video */}
       {!prefersReducedMotion && (
         <video
           ref={videoRef}
@@ -75,32 +70,28 @@ export function Hero() {
         </video>
       )}
 
-      {/* Dark overlay for text legibility */}
       <div
         className="pointer-events-none absolute inset-0 bg-black/40"
         aria-hidden="true"
       />
-
-      {/* Bottom gradient for extra text readability */}
       <div
         className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"
         aria-hidden="true"
       />
 
-      {/* Content */}
       <Container className="relative">
         <div className="max-w-2xl">
-          {/* Eyebrow */}
-          <motion.p
-            className="text-base uppercase tracking-widest text-white/70 md:text-lg"
-            {...fadeUp(0)}
-          >
-            Invite-only &bull; Early 2026
-          </motion.p>
+          {/* Badge pill */}
+          <motion.div {...fadeUp(0)}>
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs uppercase tracking-widest text-white/70 backdrop-blur-sm shadow-[0_0_16px_rgba(81,157,253,0.1),inset_0_0_8px_rgba(255,255,255,0.04)]">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" aria-hidden="true" />
+              Invite-only &middot; Early 2026
+            </span>
+          </motion.div>
 
           {/* Title */}
           <motion.h1
-            className="mt-6 text-5xl font-semibold tracking-tight text-white sm:text-6xl md:text-7xl"
+            className="mt-8 text-5xl font-bold leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl"
             {...fadeUp(0.1)}
           >
             Your Legal Command Center
@@ -108,7 +99,7 @@ export function Hero() {
 
           {/* Tagline */}
           <motion.p
-            className="mt-4 text-lg text-white/60 md:text-xl"
+            className="mt-5 text-base text-white/50 md:text-lg"
             {...fadeUp(0.15)}
           >
             The next of everything law.
@@ -116,22 +107,21 @@ export function Hero() {
 
           {/* Subtitle */}
           <motion.p
-            className="mt-6 max-w-lg text-xl text-white/80 md:text-2xl"
+            className="mt-8 max-w-lg text-lg text-white/70 md:text-xl"
             {...fadeUp(0.2)}
           >
-            Built by lawyers for lawyers. Unify research, drafting, review, and practice ops in one secure platform.
+            Unify research, drafting, review, and practice ops in one secure platform.
           </motion.p>
 
           {/* CTAs */}
           <motion.div
-            className="mt-10 flex flex-col gap-4 sm:flex-row"
+            className="mt-12 flex flex-col gap-5 sm:flex-row sm:items-center"
             {...fadeUp(0.3)}
           >
             <a
               href="/request-access"
-              className="group relative inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-medium text-[#1C1F26] transition-all duration-300 hover:opacity-95"
+              className="group relative inline-flex items-center justify-center rounded-full bg-white px-8 py-3.5 text-[15px] font-medium text-[#1C1F26] transition-all duration-300 hover:opacity-95 focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
             >
-              {/* Gradient border ring */}
               <span
                 className="pointer-events-none absolute inset-0 rounded-full opacity-40 transition-opacity duration-300 group-hover:opacity-70"
                 style={{
@@ -143,7 +133,6 @@ export function Hero() {
                 }}
                 aria-hidden="true"
               />
-              {/* Soft hover glow */}
               <span
                 className="pointer-events-none absolute -inset-1 rounded-full opacity-0 blur-md transition-opacity duration-300 group-hover:opacity-30"
                 style={{
@@ -153,9 +142,39 @@ export function Hero() {
               />
               <span className="relative">Request a Demo</span>
             </a>
-            <Button variant="ghost" className="text-white hover:bg-white/10" asChild>
-              <a href="#capabilities">View Workflows</a>
-            </Button>
+            <a
+              href="#capabilities"
+              className="text-sm text-white/50 underline underline-offset-4 decoration-white/20 transition-colors hover:text-white/80 hover:decoration-white/40"
+            >
+              View Workflows &rarr;
+            </a>
+          </motion.div>
+
+          {/* Trust strip */}
+          <motion.div className="mt-16 flex flex-col gap-4" {...fadeUp(0.4)}>
+            <p className="text-xs uppercase tracking-widest text-white/30">
+              Built by lawyers, for lawyers
+            </p>
+            <div className="flex flex-wrap items-center gap-3 text-xs text-white/40">
+              <span className="flex items-center gap-1.5 rounded-full border border-white/10 px-3 py-1">
+                <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                SOC 2 In Progress
+              </span>
+              <span className="flex items-center gap-1.5 rounded-full border border-white/10 px-3 py-1">
+                <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+                Data Isolation
+              </span>
+              <span className="flex items-center gap-1.5 rounded-full border border-white/10 px-3 py-1">
+                <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Patent Pending
+              </span>
+            </div>
           </motion.div>
         </div>
       </Container>

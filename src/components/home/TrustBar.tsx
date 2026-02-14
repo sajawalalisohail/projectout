@@ -117,7 +117,7 @@ function FirmCard({ firm }: { firm: Firm }) {
       {/* Logo area - Larger */}
       <div className="relative flex h-12 w-full items-center justify-center">
         {firm.logo ? (
-          <div className="relative h-11 w-24 opacity-90 transition-opacity duration-300 group-hover:opacity-100">
+          <div className="relative h-11 w-24 grayscale opacity-70 transition-all duration-300 group-hover:grayscale-0 group-hover:opacity-100">
             <Image
               src={firm.logo}
               alt={`${firm.name} logo`}

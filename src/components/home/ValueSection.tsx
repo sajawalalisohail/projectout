@@ -17,7 +17,7 @@ const features = [
   {
     title: "Verified Research with Citations",
     description:
-      "AI-assisted analysis that surfaces relevant precedents and statutes with citations you can verify. Patent pending.",
+      "AI-assisted analysis that surfaces relevant precedents and statutes with citations you can verify.",
     image: "/capabilities/Legal Research Page.png",
     alt: "Legal research interface with verified citations",
   },
@@ -25,9 +25,8 @@ const features = [
     title: "AI Drafting Aligned with Firm Standards",
     description:
       "Generate first drafts grounded in your firm's style, precedents, and templates. Every output reflects how your team actually works.",
-    image:
-      "/capabilities/Drafting Canvas In Action - Drafting a Motion to Supress for a case.png",
-    alt: "AI drafting canvas generating a motion",
+    image: "/capabilities/Draft page - drafting canvas opened up.png",
+    alt: "Drafting canvas expanded for full-screen editing",
   },
 ];
 

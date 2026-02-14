@@ -92,10 +92,10 @@ export function VideoSection() {
               loop
               playsInline
               controls
+              poster="/capabilities/Dashboard View.png"
               className="relative z-0 w-full"
             >
               <source src="/video/video1.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
             </video>
 
             {/* Bottom gradient accent */}

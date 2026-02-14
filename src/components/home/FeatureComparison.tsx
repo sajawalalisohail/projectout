@@ -5,37 +5,32 @@ import { motion, useInView, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
-const features = [
-  { name: "Built for legal teams", nextlex: true, claude: false, chatgpt: false },
+interface Feature {
+  name: string;
+  nextlex: boolean;
+  claude: boolean;
+  chatgpt: boolean;
+  category?: string;
+}
+
+const features: Feature[] = [
+  { name: "Built for legal teams", nextlex: true, claude: false, chatgpt: false, category: "Legal AI & Workflows" },
   { name: "Legal-specific AI workflows", nextlex: true, claude: false, chatgpt: false },
-  { name: "Legal research tools", nextlex: true, claude: false, chatgpt: false },
-  { name: "Citation management", nextlex: true, claude: false, chatgpt: false },
-  { name: "Citation validation", nextlex: true, claude: false, chatgpt: false },
-  { name: "AI document drafting (legal)", nextlex: true, claude: true, chatgpt: true },
-  { name: "AI document processing", nextlex: true, claude: false, chatgpt: false },
+  { name: "Citation management & validation", nextlex: true, claude: false, chatgpt: false },
+  { name: "AI document drafting & processing", nextlex: true, claude: true, chatgpt: true },
+  { name: "Legal research tools", nextlex: true, claude: false, chatgpt: false, category: "Research & Drafting" },
   { name: "Research memo generation", nextlex: true, claude: false, chatgpt: false },
-  { name: "Court information access", nextlex: true, claude: false, chatgpt: false },
-  { name: "Custom legal fields", nextlex: true, claude: false, chatgpt: false },
   { name: "In-house prompt library", nextlex: true, claude: false, chatgpt: false },
-  { name: "Secure enterprise environment", nextlex: true, claude: false, chatgpt: false },
-  { name: "Microsoft Word workflows", nextlex: true, claude: false, chatgpt: false },
-  { name: "Gmail & Microsoft 365 integration", nextlex: true, claude: false, chatgpt: false },
+  { name: "Microsoft Word, Gmail & 365", nextlex: true, claude: false, chatgpt: false, category: "Integrations" },
   { name: "Clio integration", nextlex: true, claude: false, chatgpt: false },
-  { name: "Multi-channel communications", nextlex: true, claude: false, chatgpt: false },
-  { name: "Phone, SMS, Zoom integrations", nextlex: true, claude: false, chatgpt: false },
-  { name: "Legal billing automation", nextlex: true, claude: false, chatgpt: false },
-  { name: "Priority enterprise support", nextlex: true, claude: false, chatgpt: false },
+  { name: "Phone, SMS & Zoom", nextlex: true, claude: false, chatgpt: false },
+  { name: "Legal billing automation", nextlex: true, claude: false, chatgpt: false, category: "Operations" },
+  { name: "Secure enterprise environment", nextlex: true, claude: false, chatgpt: false },
 ];
 
-// Gradient check icon for Nextlex column
 function GradientCheckIcon() {
   return (
-    <svg
-      className="h-5 w-5"
-      viewBox="0 0 20 20"
-      fill="none"
-      aria-hidden="true"
-    >
+    <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
       <defs>
         <linearGradient id="checkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="#519DFD" />
@@ -53,15 +48,9 @@ function GradientCheckIcon() {
   );
 }
 
-// Regular check icon for other columns
 function CheckIcon() {
   return (
-    <svg
-      className="h-5 w-5 text-emerald-400"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-      aria-hidden="true"
-    >
+    <svg className="h-5 w-5 text-emerald-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
       <path
         fillRule="evenodd"
         d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
@@ -73,12 +62,7 @@ function CheckIcon() {
 
 function XIcon() {
   return (
-    <svg
-      className="h-5 w-5 text-white/20"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-      aria-hidden="true"
-    >
+    <svg className="h-5 w-5 text-white/20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
       <path
         fillRule="evenodd"
         d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
@@ -103,7 +87,6 @@ export function FeatureComparison() {
 
   return (
     <section ref={ref} id="comparison" className="scroll-mt-20 py-16 md:py-24">
-      {/* Section divider */}
       <div
         className="mx-auto mb-16 h-px max-w-4xl"
         style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(135, 18, 247, 0.2) 50%, transparent 100%)' }}
@@ -118,16 +101,12 @@ export function FeatureComparison() {
         />
 
         <motion.div className="mt-16" {...containerAnimation}>
-          {/* Card wrapper with premium styling */}
           <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.02] shadow-[0_4px_40px_rgba(0,0,0,0.2)]">
-            {/* Gradient accent line at top */}
             <div
               className="absolute top-0 left-8 right-8 h-px opacity-40"
               style={{ background: 'linear-gradient(90deg, transparent 0%, #519DFD 25%, #8712F7 50%, #F012E5 75%, transparent 100%)' }}
               aria-hidden="true"
             />
-
-            {/* Subtle glow effect */}
             <div
               className="pointer-events-none absolute inset-0 opacity-50"
               style={{
@@ -136,10 +115,8 @@ export function FeatureComparison() {
               aria-hidden="true"
             />
 
-            {/* Scrollable table container */}
             <div className="relative overflow-x-auto">
               <table className="w-full min-w-[600px]">
-                {/* Header */}
                 <thead>
                   <tr className="border-b border-white/10 bg-white/[0.03]">
                     <th className="px-6 py-5 text-left text-sm font-semibold text-white">
@@ -148,7 +125,6 @@ export function FeatureComparison() {
                     <th className="relative px-6 py-5 text-center text-sm font-semibold text-white w-[120px]">
                       <span className="relative">
                         Nextlex
-                        {/* Gradient underline for Nextlex column */}
                         <span
                           className="absolute -bottom-1 left-0 right-0 h-[2px] rounded-full"
                           style={{ background: 'linear-gradient(90deg, #519DFD 0%, #8712F7 50%, #F012E5 100%)' }}
@@ -164,42 +140,48 @@ export function FeatureComparison() {
                     </th>
                   </tr>
                 </thead>
-
-                {/* Body */}
                 <tbody>
                   {features.map((feature, index) => (
-                    <tr
-                      key={feature.name}
-                      className={`border-b border-white/5 last:border-b-0 transition-colors duration-150 hover:bg-white/[0.02] ${
-                        index % 2 === 1 ? "bg-white/[0.01]" : ""
-                      }`}
-                    >
-                      <td className="px-6 py-4 text-sm text-white/70">
-                        {feature.name}
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex justify-center">
-                          {feature.nextlex ? <GradientCheckIcon /> : <XIcon />}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex justify-center">
-                          {feature.claude ? <CheckIcon /> : <XIcon />}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex justify-center">
-                          {feature.chatgpt ? <CheckIcon /> : <XIcon />}
-                        </div>
-                      </td>
-                    </tr>
+                    <>
+                      {feature.category && (
+                        <tr key={`cat-${feature.category}`} className="border-b border-white/5">
+                          <td colSpan={4} className="px-6 pt-5 pb-2 text-xs font-semibold uppercase tracking-wider text-white/30">
+                            {feature.category}
+                          </td>
+                        </tr>
+                      )}
+                      <tr
+                        key={feature.name}
+                        className={`border-b border-white/5 last:border-b-0 transition-colors duration-150 hover:bg-white/[0.02] ${
+                          index % 2 === 1 ? "bg-white/[0.01]" : ""
+                        }`}
+                      >
+                        <td className="px-6 py-3.5 text-sm text-white/70">
+                          {feature.name}
+                        </td>
+                        <td className="px-6 py-3.5">
+                          <div className="flex justify-center">
+                            {feature.nextlex ? <GradientCheckIcon /> : <XIcon />}
+                          </div>
+                        </td>
+                        <td className="px-6 py-3.5">
+                          <div className="flex justify-center">
+                            {feature.claude ? <CheckIcon /> : <XIcon />}
+                          </div>
+                        </td>
+                        <td className="px-6 py-3.5">
+                          <div className="flex justify-center">
+                            {feature.chatgpt ? <CheckIcon /> : <XIcon />}
+                          </div>
+                        </td>
+                      </tr>
+                    </>
                   ))}
                 </tbody>
               </table>
             </div>
           </div>
 
-          {/* Footnote */}
           <p className="mt-6 text-center text-xs text-white/40">
             Feature availability may vary by plan and configuration.
           </p>
