@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { fadeUp } from "@/lib/motion";
@@ -37,73 +37,8 @@ interface ValueSectionProps {
 }
 
 export function ValueSection({ dark = false }: ValueSectionProps) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [itemsPerView, setItemsPerView] = useState(3);
-  const touchStartRef = useRef(0);
-  const carouselRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const update = () => {
-      const w = window.innerWidth;
-      if (w < 640) setItemsPerView(1);
-      else if (w < 1024) setItemsPerView(2);
-      else setItemsPerView(3);
-    };
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
-
-  const maxIndex = Math.max(0, features.length - itemsPerView);
-
-  // Clamp currentIndex when itemsPerView changes
-  useEffect(() => {
-    setCurrentIndex((prev) => Math.min(prev, maxIndex));
-  }, [maxIndex]);
-
-  const prev = useCallback(() => {
-    setCurrentIndex((i) => Math.max(0, i - 1));
-  }, []);
-
-  const next = useCallback(() => {
-    setCurrentIndex((i) => Math.min(maxIndex, i + 1));
-  }, [maxIndex]);
-
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (e.key === "ArrowLeft") {
-        e.preventDefault();
-        prev();
-      } else if (e.key === "ArrowRight") {
-        e.preventDefault();
-        next();
-      }
-    },
-    [prev, next]
-  );
-
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    touchStartRef.current = e.touches[0].clientX;
-  }, []);
-
-  const handleTouchEnd = useCallback(
-    (e: React.TouchEvent) => {
-      const delta = touchStartRef.current - e.changedTouches[0].clientX;
-      if (Math.abs(delta) > 50) {
-        if (delta > 0) next();
-        else prev();
-      }
-    },
-    [prev, next]
-  );
-
-  const showArrows = maxIndex > 0;
-  const totalDots = maxIndex + 1;
-
-  // Calculate card width percentage based on items per view with gap consideration
-  const gapRem = 1.5; // gap-6 = 1.5rem
-  const cardWidthCalc = `calc((100% - ${(itemsPerView - 1) * gapRem}rem) / ${itemsPerView})`;
-  const translateCalc = `calc(-${currentIndex} * (${cardWidthCalc} + ${gapRem}rem))`;
+  const [activeIndex, setActiveIndex] = useState(0);
+  const active = features[activeIndex];
 
   return (
     <section className="py-16 md:py-24">
@@ -124,134 +59,125 @@ export function ValueSection({ dark = false }: ValueSectionProps) {
           </p>
         </motion.div>
 
-        {/* Carousel */}
-        <motion.div className="mt-16" {...fadeUp} transition={{ duration: 0.6, delay: 0.1 }}>
-          <div
-            ref={carouselRef}
-            className="relative"
-            role="region"
-            aria-label="Why Nextlex features"
-            aria-roledescription="carousel"
-            tabIndex={0}
-            onKeyDown={handleKeyDown}
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-          >
-            {/* Arrow buttons */}
-            {showArrows && (
-              <>
-                <button
-                  onClick={prev}
-                  disabled={currentIndex === 0}
-                  aria-label="Previous"
-                  className="absolute -left-4 top-1/2 z-10 -translate-y-1/2 rounded-full border border-black/10 bg-white p-2.5 shadow-sm transition-all duration-200 hover:bg-black/5 disabled:opacity-30 disabled:cursor-not-allowed md:-left-5"
-                >
-                  <svg className="h-4 w-4 text-[#1C1F26]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                  </svg>
-                </button>
-                <button
-                  onClick={next}
-                  disabled={currentIndex === maxIndex}
-                  aria-label="Next"
-                  className="absolute -right-4 top-1/2 z-10 -translate-y-1/2 rounded-full border border-black/10 bg-white p-2.5 shadow-sm transition-all duration-200 hover:bg-black/5 disabled:opacity-30 disabled:cursor-not-allowed md:-right-5"
-                >
-                  <svg className="h-4 w-4 text-[#1C1F26]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
-              </>
-            )}
-
-            {/* Track */}
-            <div className="overflow-hidden">
+        {/* Two-column layout: text left, screenshot right */}
+        <motion.div
+          className="mt-16 grid items-start gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-16"
+          {...fadeUp}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
+          {/* Left: Active description + thumbnail selector */}
+          <div className="order-2 lg:order-1">
+            {/* Active feature description */}
+            <AnimatePresence mode="wait">
               <motion.div
-                className="flex gap-6"
-                animate={{ x: translateCalc }}
-                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                key={activeIndex}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.25 }}
               >
-                {features.map((feature, index) => (
-                  <div
-                    key={feature.title}
-                    className="shrink-0"
-                    style={{ width: cardWidthCalc }}
-                    role="group"
-                    aria-roledescription="slide"
-                    aria-label={`${index + 1} of ${features.length}`}
-                  >
-                    <div className="group overflow-hidden rounded-2xl border border-black/[0.06] bg-white transition-all duration-300 hover:border-black/10 hover:shadow-lg">
-                      {/* Screenshot */}
-                      <div className="relative aspect-[16/10] overflow-hidden bg-gray-50">
-                        <Image
-                          src={feature.image}
-                          alt={feature.alt}
-                          fill
-                          className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-                          sizes={
-                            itemsPerView === 1
-                              ? "100vw"
-                              : itemsPerView === 2
-                                ? "50vw"
-                                : "33vw"
-                          }
-                        />
-                      </div>
-
-                      {/* Text content */}
-                      <div className="p-6">
-                        <div
-                          className="mb-3 h-[2px] w-8 rounded-full"
-                          style={{
-                            background:
-                              "linear-gradient(90deg, #519DFD 0%, #8712F7 100%)",
-                            opacity: dark ? 0.6 : 0.5,
-                          }}
-                          aria-hidden="true"
-                        />
-                        <h3
-                          className={`text-lg font-semibold tracking-tight ${
-                            dark ? "text-white" : "text-[#1C1F26]"
-                          }`}
-                        >
-                          {feature.title}
-                        </h3>
-                        <p
-                          className={`mt-2 text-sm leading-relaxed ${
-                            dark ? "text-white/60" : "text-[#6B7280]"
-                          }`}
-                        >
-                          {feature.description}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                <h3
+                  className={`text-2xl font-semibold tracking-tight ${
+                    dark ? "text-white" : "text-[#1C1F26]"
+                  }`}
+                >
+                  {active.title}
+                </h3>
+                <p
+                  className={`mt-3 text-base leading-relaxed ${
+                    dark ? "text-white/60" : "text-[#6B7280]"
+                  }`}
+                >
+                  {active.description}
+                </p>
               </motion.div>
+            </AnimatePresence>
+
+            {/* Thumbnail selector */}
+            <div className="mt-8 flex flex-col gap-2">
+              {features.map((feature, index) => (
+                <button
+                  key={feature.title}
+                  onClick={() => setActiveIndex(index)}
+                  className={`group relative rounded-lg px-4 py-3 text-left transition-all duration-200 ${
+                    activeIndex === index
+                      ? dark
+                        ? "bg-white/5"
+                        : "bg-black/[0.03]"
+                      : dark
+                        ? "hover:bg-white/[0.03]"
+                        : "hover:bg-black/[0.02]"
+                  }`}
+                >
+                  {/* Gradient left border for active */}
+                  <div
+                    className="absolute left-0 top-2 bottom-2 w-[3px] rounded-full transition-opacity duration-200"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, #519DFD 0%, #8712F7 100%)",
+                      opacity: activeIndex === index ? 1 : 0,
+                    }}
+                    aria-hidden="true"
+                  />
+                  <span
+                    className={`text-sm font-medium transition-colors duration-200 ${
+                      activeIndex === index
+                        ? dark
+                          ? "text-white"
+                          : "text-[#1C1F26]"
+                        : dark
+                          ? "text-white/40 group-hover:text-white/60"
+                          : "text-[#6B7280] group-hover:text-[#3D4149]"
+                    }`}
+                  >
+                    {feature.title}
+                  </span>
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* Dots */}
-          {totalDots > 1 && (
-            <div className="mt-8 flex items-center justify-center gap-2" role="tablist" aria-label="Carousel navigation">
-              {Array.from({ length: totalDots }, (_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrentIndex(i)}
-                  role="tab"
-                  aria-selected={currentIndex === i}
-                  aria-label={`Go to slide ${i + 1}`}
-                  className="relative h-2 rounded-full transition-all duration-300"
-                  style={{
-                    width: currentIndex === i ? "1.5rem" : "0.5rem",
-                    background:
-                      currentIndex === i
-                        ? "linear-gradient(90deg, #519DFD 0%, #8712F7 50%, #F012E5 100%)"
-                        : "rgba(28, 31, 38, 0.15)",
-                  }}
-                />
-              ))}
+          {/* Right: Screenshot */}
+          <div className="order-1 lg:order-2">
+            {/* Gradient border wrapper */}
+            <div className="relative rounded-2xl p-px" style={{
+              background: "linear-gradient(135deg, rgba(81,157,253,0.2) 0%, rgba(135,18,247,0.2) 50%, rgba(240,18,229,0.2) 100%)",
+            }}>
+              {/* Subtle glow behind */}
+              <div
+                className="pointer-events-none absolute -inset-4 opacity-30"
+                style={{
+                  background:
+                    "radial-gradient(ellipse 70% 50% at 50% 50%, rgba(135, 18, 247, 0.15) 0%, transparent 70%)",
+                }}
+                aria-hidden="true"
+              />
+
+              <div className={`relative overflow-hidden rounded-2xl ${dark ? "bg-[#0b0d12]" : "bg-gray-50"}`}>
+                <div className="relative aspect-[16/10]">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={activeIndex}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="absolute inset-0"
+                    >
+                      <Image
+                        src={active.image}
+                        alt={active.alt}
+                        fill
+                        className="object-contain"
+                        sizes="(max-width: 1024px) 100vw, 60vw"
+                        priority={activeIndex === 0}
+                      />
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+              </div>
             </div>
-          )}
+          </div>
         </motion.div>
       </Container>
     </section>

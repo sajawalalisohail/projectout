@@ -7,21 +7,24 @@ import { Container } from "@/components/ui/Container";
 const testimonials = [
   {
     quote: "Nextlex brought calm back to our workflow. Research, drafting, and review finally feel unified.",
-    name: "Sarah Mitchell",
-    title: "Managing Partner",
-    firm: "Mitchell & Associates LLP",
+    name: "Michael Umina",
+    title: "Managing Attorney",
+    firm: "Umina Legal PLLC",
+    descriptor: "Business Law",
   },
   {
     quote: "We cut research time in half while improving accuracy. The citation validation alone has saved us from costly errors.",
-    name: "David Chen",
-    title: "Senior Partner",
-    firm: "Chen Legal Group",
+    name: "Jim Leach",
+    title: "Lead Trial Attorney",
+    firm: "Jim Leach LC",
+    descriptor: "Trial Attorneys",
   },
   {
-    quote: "Finally, a legal AI tool that understands how we actually work. The integration with our existing tools was seamless.",
-    name: "Rebecca Torres",
-    title: "Practice Director",
-    firm: "Torres Williams PC",
+    quote: "Finally, a legal platform that understands how we actually work. Everything we need is in one place now.",
+    name: "Rishi Desai",
+    title: "Founding Partner",
+    firm: "Desai Law",
+    descriptor: "Immigration Law",
   },
 ];
 
@@ -180,37 +183,30 @@ export function Testimonial() {
                       />
                     )}
 
-                    {/* Portrait Placeholder */}
-                    <div className="relative mx-auto mb-8 h-14 w-14 overflow-hidden rounded-full bg-white/10">
-                      {isActive && (
-                        <div
-                          className="absolute inset-0 opacity-20"
-                          style={{
-                            background: "linear-gradient(135deg, rgba(81,157,253,0.4) 0%, rgba(135,18,247,0.4) 100%)"
-                          }}
-                          aria-hidden="true"
-                        />
-                      )}
-                    </div>
-
                     {/* Quote */}
-                    <blockquote className="relative text-xl font-medium leading-relaxed tracking-tight text-white md:text-2xl lg:text-3xl">
+                    <blockquote className="relative mt-2 text-xl font-medium leading-relaxed tracking-tight text-white md:text-2xl lg:text-3xl">
                       &ldquo;{testimonial.quote}&rdquo;
                     </blockquote>
 
                     {/* Attribution */}
-                    <div className="relative mt-5 space-y-1">
+                    <div className="relative mt-8 flex flex-col items-center gap-3">
                       {/* Subtle accent divider */}
                       <div
-                        className="mx-auto mb-3 h-px w-8"
+                        className="h-px w-8"
                         style={{
                           background: 'linear-gradient(90deg, transparent 0%, rgba(135, 18, 247, 0.3) 50%, transparent 100%)',
                         }}
                         aria-hidden="true"
                       />
-                      <p className="text-sm font-semibold text-white/80">{testimonial.name}</p>
+
+                      {/* Firm name (prominent) */}
+                      <p className="text-sm font-semibold tracking-wide text-white/70">
+                        {testimonial.firm}
+                      </p>
+
+                      {/* Person + title + practice area */}
                       <p className="text-xs text-white/40">
-                        {testimonial.title}, {testimonial.firm}
+                        {testimonial.name} &middot; {testimonial.title} &middot; {testimonial.descriptor}
                       </p>
                     </div>
                   </div>

@@ -7,8 +7,8 @@ import { fadeUp } from "@/lib/motion";
 
 const securityFeatures = [
   {
-    title: "SOC 2 readiness",
-    description: "Architected for compliance from day one. Pursuing formal certification.",
+    title: "Compliance-ready architecture",
+    description: "Architected for compliance from day one. Built to meet enterprise standards.",
     icon: (
       <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path

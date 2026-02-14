@@ -205,9 +205,6 @@ export function Footer({ theme = "dark" }: FooterProps) {
                 <p className={`text-sm ${textColorMuted}`}>
                   &copy; 2026 Nextlex. All rights reserved.
                 </p>
-                <p className={`text-xs ${textColorSubtle}`}>
-                  Certain technologies used by Nextlex™ are patent pending.
-                </p>
               </div>
             </div>
           </Container>

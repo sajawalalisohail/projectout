@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/Card";
 
 const securityFeatures = [
   {
-    title: "SOC 2 readiness",
+    title: "Compliance-ready architecture",
     description: "Architected for compliance from day one.",
   },
   {

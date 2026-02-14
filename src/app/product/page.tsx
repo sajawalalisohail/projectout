@@ -27,7 +27,7 @@ const features = [
   },
   {
     title: "Enterprise Security",
-    description: "SOC 2 compliant infrastructure with end-to-end encryption.",
+    description: "Enterprise-grade infrastructure with end-to-end encryption.",
   },
 ];
 

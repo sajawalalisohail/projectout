@@ -80,7 +80,7 @@ export function Hero() {
       />
 
       <Container className="relative flex min-h-screen flex-col pt-32 md:pt-40">
-        {/* Top-left: Badge, Headline, Tagline, Subtitle */}
+        {/* Top-left: Badge, Headline, Subcopy, CTAs */}
         <div className="max-w-2xl">
           {/* Badge pill */}
           <motion.div {...fadeUp(0)}>
@@ -106,20 +106,17 @@ export function Hero() {
             The next of everything law.
           </motion.p>
 
-          {/* Subtitle */}
+          {/* Subcopy */}
           <motion.p
-            className="mt-8 max-w-lg text-lg text-white/70 md:text-xl"
+            className="mt-8 max-w-xl text-lg text-white/70 md:text-xl"
             {...fadeUp(0.2)}
           >
-            Unify research, drafting, review, and practice ops in one secure platform.
+            Built by lawyers for lawyers. Unify research, drafting, review, and practice ops in one secure platform.
           </motion.p>
-        </div>
 
-        {/* Bottom-center: CTAs + Trust strip */}
-        <div className="mt-auto flex w-full flex-col items-center gap-6 pb-10 md:pb-16">
           {/* CTAs */}
           <motion.div
-            className="flex flex-col items-center gap-5 sm:flex-row"
+            className="mt-10 flex flex-col gap-5 sm:flex-row sm:items-center"
             {...fadeUp(0.3)}
           >
             <a
@@ -153,34 +150,54 @@ export function Hero() {
               View Workflows &rarr;
             </a>
           </motion.div>
-
-          {/* Trust strip */}
-          <motion.div className="flex flex-col items-center gap-3" {...fadeUp(0.4)}>
-            <p className="text-xs uppercase tracking-widest text-white/30">
-              Built by lawyers, for lawyers
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-white/40">
-              <span className="flex items-center gap-1.5 rounded-full border border-white/10 px-3 py-1">
-                <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
-                SOC 2 In Progress
-              </span>
-              <span className="flex items-center gap-1.5 rounded-full border border-white/10 px-3 py-1">
-                <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-                Data Isolation
-              </span>
-              <span className="flex items-center gap-1.5 rounded-full border border-white/10 px-3 py-1">
-                <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-                Patent Pending
-              </span>
-            </div>
-          </motion.div>
         </div>
+
+        {/* Bottom-center: Trust indicators */}
+        <motion.div
+          className="mt-auto flex w-full flex-col items-center pb-12 md:pb-16"
+          {...fadeUp(0.45)}
+        >
+          {/* Desktop: single row with vertical separators */}
+          <div className="grid grid-cols-2 gap-x-6 gap-y-4 sm:flex sm:items-center sm:gap-0">
+            {/* SOC 2 Ready */}
+            <div className="flex items-center gap-2 text-[11px] text-white/45 sm:pr-6">
+              <svg className="h-3.5 w-3.5 shrink-0 text-white/25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+              SOC 2 Ready
+            </div>
+
+            <div className="hidden h-3 w-px bg-white/10 sm:block" aria-hidden="true" />
+
+            {/* Enterprise-grade security */}
+            <div className="flex items-center gap-2 text-[11px] text-white/45 sm:px-6">
+              <svg className="h-3.5 w-3.5 shrink-0 text-white/25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+              Enterprise-grade security
+            </div>
+
+            <div className="hidden h-3 w-px bg-white/10 sm:block" aria-hidden="true" />
+
+            {/* Data isolation */}
+            <div className="flex items-center gap-2 text-[11px] text-white/45 sm:px-6">
+              <svg className="h-3.5 w-3.5 shrink-0 text-white/25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+              </svg>
+              Data isolation
+            </div>
+
+            <div className="hidden h-3 w-px bg-white/10 sm:block" aria-hidden="true" />
+
+            {/* Audit-ready controls */}
+            <div className="flex items-center gap-2 text-[11px] text-white/45 sm:pl-6">
+              <svg className="h-3.5 w-3.5 shrink-0 text-white/25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+              </svg>
+              Audit-ready controls
+            </div>
+          </div>
+        </motion.div>
       </Container>
     </section>
   );

@@ -153,8 +153,7 @@ screenshots: [
   },
   {
     title: "AI-Powered 24/7 Receptionist",
-badge: "Coming Soon",
-    screenshots: [
+screenshots: [
       {
         src: "/capabilities/AI Receptionist Page - Coming Soon - Have Lexi answer your phones!.png",
         alt: "AI receptionist page showing automated phone answering interface",
