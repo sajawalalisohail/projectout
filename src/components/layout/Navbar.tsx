@@ -140,7 +140,7 @@ export function Navbar() {
 
   const effectiveTheme = "light" as NavTheme;
 
-  const navBg = "bg-white/95 backdrop-blur-md border-b border-black/[0.06]";
+  const navBg = "bg-white/80 backdrop-blur-xl border-b border-black/[0.04] shadow-[0_4px_30px_rgba(0,0,0,0.02)]";
 
   const textColorMuted = "text-[#1C1F26]/80 hover:text-[#1C1F26]";
 
@@ -197,7 +197,7 @@ export function Navbar() {
             >
               <button
                 className={cn(
-                  "flex items-center gap-1 text-[15px] font-medium tracking-wide transition-colors duration-200",
+                  "flex items-center gap-1.5 px-3 py-2 rounded-full text-[14px] font-medium tracking-tight transition-all duration-200 hover:bg-black/[0.04]",
                   textColorMuted
                 )}
                 aria-expanded={productDropdownOpen}
@@ -212,7 +212,7 @@ export function Navbar() {
             <a
               href="/security"
               className={cn(
-                "text-[15px] font-medium tracking-wide transition-colors duration-200",
+                "px-3 py-2 rounded-full text-[14px] font-medium tracking-tight transition-all duration-200 hover:bg-black/[0.04]",
                 textColorMuted
               )}
             >
@@ -228,7 +228,7 @@ export function Navbar() {
             >
               <button
                 className={cn(
-                  "flex items-center gap-1 text-[15px] font-medium tracking-wide transition-colors duration-200",
+                  "flex items-center gap-1.5 px-3 py-2 rounded-full text-[14px] font-medium tracking-tight transition-all duration-200 hover:bg-black/[0.04]",
                   textColorMuted
                 )}
                 aria-expanded={companyDropdownOpen}
@@ -245,13 +245,24 @@ export function Navbar() {
             <a
               href="/request-access"
               className={cn(
-                "rounded-full px-5 py-2 text-sm font-medium tracking-wide transition-all duration-200",
+                "relative overflow-hidden rounded-full px-5 py-2.5 text-[14px] font-medium tracking-tight transition-all duration-300 shadow-[0_1px_2px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] hover:-translate-y-0.5",
                 effectiveTheme === "dark"
-                  ? "bg-white text-[#1C1F26] hover:bg-white/90"
-                  : "bg-[#1C1F26] text-white hover:bg-[#1C1F26]/90"
+                  ? "bg-white text-[#1C1F26]"
+                  : "bg-[#1C1F26] text-white"
               )}
             >
-              Request a Demo
+              {/* Subtle gradient border/inner glow effect */}
+              <div
+                className="absolute inset-0 rounded-full opacity-20 pointer-events-none"
+                style={{
+                  background: "linear-gradient(135deg, rgba(81,157,253,0.5) 0%, rgba(135,18,247,0.5) 100%)",
+                  maskImage: "linear-gradient(black, black) content-box, linear-gradient(black, black)",
+                  maskComposite: "exclude",
+                  WebkitMaskComposite: "xor",
+                  padding: "1px"
+                }}
+              />
+              <span className="relative z-10">Request a Demo</span>
             </a>
           </div>
 
@@ -292,8 +303,6 @@ export function Navbar() {
           </button>
         </nav>
       </div>
-
-      {/* MEGA DROPDOWN - Product (Desktop) */}
       <div
         className={cn(
           "absolute left-0 top-full w-full transition-all duration-200 hidden lg:block",
@@ -308,8 +317,8 @@ export function Navbar() {
           className={cn(
             "w-full border-t transition-colors duration-200",
             effectiveTheme === "dark"
-              ? "bg-[#0b0d12]/98 backdrop-blur-md border-white/10"
-              : "bg-white/98 backdrop-blur-md border-black/5"
+              ? "bg-[#0b0d12]/95 backdrop-blur-xl border-white/10"
+              : "bg-white/90 backdrop-blur-xl border-black/5 shadow-lg"
           )}
         >
           <Container>
@@ -365,8 +374,8 @@ export function Navbar() {
           className={cn(
             "w-full border-t transition-colors duration-200",
             effectiveTheme === "dark"
-              ? "bg-[#0b0d12]/98 backdrop-blur-md border-white/10"
-              : "bg-white/98 backdrop-blur-md border-black/5"
+              ? "bg-[#0b0d12]/95 backdrop-blur-xl border-white/10"
+              : "bg-white/90 backdrop-blur-xl border-black/5 shadow-lg"
           )}
         >
           <Container>

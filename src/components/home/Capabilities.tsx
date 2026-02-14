@@ -46,7 +46,7 @@ export function Capabilities() {
   }, []);
 
   return (
-    <section id="capabilities" className="scroll-mt-20 py-16 md:py-24">
+    <section id="capabilities" className="scroll-mt-20 py-12 md:py-16">
       <Container>
         <SectionHeading
           eyebrow="Platform"
@@ -190,11 +190,10 @@ function MobileAccordion({
                         return (
                           <button
                             key={ss.title}
-                            className={`rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200 ${
-                              isActive
+                            className={`rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-200 ${isActive
                                 ? "bg-[#1C1F26] text-white"
                                 : "bg-[#F3F4F6] text-[#6B7280] hover:bg-[#E5E7EB]"
-                            }`}
+                              }`}
                             onClick={() =>
                               onScreenshotSelect(pillarIndex, ssIndex)
                             }

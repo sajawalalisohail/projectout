@@ -45,10 +45,10 @@ export function Hero() {
     prefersReducedMotion
       ? {}
       : {
-          initial: { opacity: 0, y: 20 },
-          animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.6, delay, ease: "easeOut" as const },
-        };
+        initial: { opacity: 0, y: 20 },
+        animate: { opacity: 1, y: 0 },
+        transition: { duration: 0.6, delay, ease: "easeOut" as const },
+      };
 
   return (
     <section data-nav-theme="dark" className="relative min-h-screen overflow-hidden bg-black">
@@ -79,7 +79,7 @@ export function Hero() {
         aria-hidden="true"
       />
 
-      <Container className="relative flex min-h-screen flex-col pt-32 md:pt-40">
+      <Container className="relative flex min-h-screen flex-col pt-44 md:pt-60">
         {/* Top-left: Badge, Headline, Subcopy, CTAs */}
         <div className="max-w-2xl">
           {/* Badge pill */}
@@ -152,49 +152,42 @@ export function Hero() {
           </motion.div>
         </div>
 
-        {/* Bottom-center: Trust indicators */}
+        {/* Bottom: Trust indicators */}
         <motion.div
-          className="mt-auto flex w-full flex-col items-center pb-12 md:pb-16"
+          className="mt-auto w-full pb-12 md:pb-16"
           {...fadeUp(0.45)}
         >
-          {/* Desktop: single row with vertical separators */}
-          <div className="grid grid-cols-2 gap-x-6 gap-y-4 sm:flex sm:items-center sm:gap-0">
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
             {/* SOC 2 Ready */}
-            <div className="flex items-center gap-2 text-[11px] text-white/45 sm:pr-6">
-              <svg className="h-3.5 w-3.5 shrink-0 text-white/25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="group flex items-center justify-center gap-3 rounded-xl border border-white/5 bg-white/[0.02] p-4 text-sm text-white/60 transition-all duration-300 hover:border-white/10 hover:bg-white/[0.04] hover:text-white hover:shadow-[0_0_20px_rgba(81,157,253,0.1)]">
+              <svg className="h-5 w-5 shrink-0 text-white/40 transition-colors group-hover:text-[#519DFD]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
-              SOC 2 Ready
+              <span className="font-medium">SOC 2 Ready</span>
             </div>
-
-            <div className="hidden h-3 w-px bg-white/10 sm:block" aria-hidden="true" />
 
             {/* Enterprise-grade security */}
-            <div className="flex items-center gap-2 text-[11px] text-white/45 sm:px-6">
-              <svg className="h-3.5 w-3.5 shrink-0 text-white/25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="group flex items-center justify-center gap-3 rounded-xl border border-white/5 bg-white/[0.02] p-4 text-sm text-white/60 transition-all duration-300 hover:border-white/10 hover:bg-white/[0.04] hover:text-white hover:shadow-[0_0_20px_rgba(135,18,247,0.1)]">
+              <svg className="h-5 w-5 shrink-0 text-white/40 transition-colors group-hover:text-[#8712F7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
-              Enterprise-grade security
+              <span className="font-medium">Enterprise Security</span>
             </div>
-
-            <div className="hidden h-3 w-px bg-white/10 sm:block" aria-hidden="true" />
 
             {/* Data isolation */}
-            <div className="flex items-center gap-2 text-[11px] text-white/45 sm:px-6">
-              <svg className="h-3.5 w-3.5 shrink-0 text-white/25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="group flex items-center justify-center gap-3 rounded-xl border border-white/5 bg-white/[0.02] p-4 text-sm text-white/60 transition-all duration-300 hover:border-white/10 hover:bg-white/[0.04] hover:text-white hover:shadow-[0_0_20px_rgba(240,18,229,0.1)]">
+              <svg className="h-5 w-5 shrink-0 text-white/40 transition-colors group-hover:text-[#F012E5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
               </svg>
-              Data isolation
+              <span className="font-medium">Data Isolation</span>
             </div>
 
-            <div className="hidden h-3 w-px bg-white/10 sm:block" aria-hidden="true" />
-
             {/* Audit-ready controls */}
-            <div className="flex items-center gap-2 text-[11px] text-white/45 sm:pl-6">
-              <svg className="h-3.5 w-3.5 shrink-0 text-white/25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="group flex items-center justify-center gap-3 rounded-xl border border-white/5 bg-white/[0.02] p-4 text-sm text-white/60 transition-all duration-300 hover:border-white/10 hover:bg-white/[0.04] hover:text-white hover:shadow-[0_0_20px_rgba(81,157,253,0.1)]">
+              <svg className="h-5 w-5 shrink-0 text-white/40 transition-colors group-hover:text-[#519DFD]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
               </svg>
-              Audit-ready controls
+              <span className="font-medium">Audit-Ready Controls</span>
             </div>
           </div>
         </motion.div>

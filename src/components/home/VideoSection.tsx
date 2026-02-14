@@ -9,14 +9,14 @@ export function VideoSection() {
   const fadeUp = prefersReducedMotion
     ? {}
     : {
-        initial: { opacity: 0, y: 24 },
-        whileInView: { opacity: 1, y: 0 },
-        viewport: { once: true, margin: "-100px" },
-        transition: { duration: 0.6, ease: [0.25, 0.4, 0.25, 1] as const },
-      };
+      initial: { opacity: 0, y: 24 },
+      whileInView: { opacity: 1, y: 0 },
+      viewport: { once: true, margin: "-100px" },
+      transition: { duration: 0.6, ease: [0.25, 0.4, 0.25, 1] as const },
+    };
 
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-12 md:py-16">
       <Container>
         <motion.div className="mb-8 text-center" {...fadeUp}>
           <p className="text-sm uppercase tracking-widest text-[#6B7280]">

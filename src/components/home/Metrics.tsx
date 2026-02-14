@@ -89,7 +89,7 @@ function Sparkline({ path, index }: { path: string; index: number }) {
 
 export function Metrics() {
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-12 md:py-16">
       <Container>
         <motion.div {...fadeUp}>
           <SectionHeading

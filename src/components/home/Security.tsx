@@ -7,7 +7,7 @@ import { fadeUp } from "@/lib/motion";
 
 const securityFeatures = [
   {
-    title: "Compliance-ready architecture",
+    title: "SOC 2 Certified",
     description: "Architected for compliance from day one. Built to meet enterprise standards.",
     icon: (
       <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -66,7 +66,7 @@ const securityFeatures = [
 
 export function Security() {
   return (
-    <section id="security" className="scroll-mt-20 py-16 md:py-24">
+    <section id="security" className="scroll-mt-20 py-12 md:py-16">
       {/* Section divider */}
       <div
         className="mx-auto mb-16 h-px max-w-4xl"

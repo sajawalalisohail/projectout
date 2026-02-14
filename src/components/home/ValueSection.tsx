@@ -41,7 +41,7 @@ export function ValueSection({ dark = false }: ValueSectionProps) {
   const active = features[activeIndex];
 
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-12 md:py-16">
       <Container>
         <motion.div {...fadeUp}>
           <SectionHeading
@@ -50,9 +50,8 @@ export function ValueSection({ dark = false }: ValueSectionProps) {
             dark={dark}
           />
           <p
-            className={`mt-4 max-w-2xl text-lg md:text-xl ${
-              dark ? "text-white/60" : "text-[#3D4149]"
-            }`}
+            className={`mt-4 max-w-2xl text-lg md:text-xl ${dark ? "text-white/60" : "text-[#3D4149]"
+              }`}
           >
             Workflow clarity, reduced context switching, and unified operations
             - designed for how legal teams actually practice.
@@ -77,16 +76,14 @@ export function ValueSection({ dark = false }: ValueSectionProps) {
                 transition={{ duration: 0.25 }}
               >
                 <h3
-                  className={`text-2xl font-semibold tracking-tight ${
-                    dark ? "text-white" : "text-[#1C1F26]"
-                  }`}
+                  className={`text-2xl font-semibold tracking-tight ${dark ? "text-white" : "text-[#1C1F26]"
+                    }`}
                 >
                   {active.title}
                 </h3>
                 <p
-                  className={`mt-3 text-base leading-relaxed ${
-                    dark ? "text-white/60" : "text-[#6B7280]"
-                  }`}
+                  className={`mt-3 text-base leading-relaxed ${dark ? "text-white/60" : "text-[#6B7280]"
+                    }`}
                 >
                   {active.description}
                 </p>
@@ -99,15 +96,14 @@ export function ValueSection({ dark = false }: ValueSectionProps) {
                 <button
                   key={feature.title}
                   onClick={() => setActiveIndex(index)}
-                  className={`group relative rounded-lg px-4 py-3 text-left transition-all duration-200 ${
-                    activeIndex === index
+                  className={`group relative rounded-lg px-4 py-3 text-left transition-all duration-200 ${activeIndex === index
                       ? dark
                         ? "bg-white/5"
                         : "bg-black/[0.03]"
                       : dark
                         ? "hover:bg-white/[0.03]"
                         : "hover:bg-black/[0.02]"
-                  }`}
+                    }`}
                 >
                   {/* Gradient left border for active */}
                   <div
@@ -120,15 +116,14 @@ export function ValueSection({ dark = false }: ValueSectionProps) {
                     aria-hidden="true"
                   />
                   <span
-                    className={`text-sm font-medium transition-colors duration-200 ${
-                      activeIndex === index
+                    className={`text-sm font-medium transition-colors duration-200 ${activeIndex === index
                         ? dark
                           ? "text-white"
                           : "text-[#1C1F26]"
                         : dark
                           ? "text-white/40 group-hover:text-white/60"
                           : "text-[#6B7280] group-hover:text-[#3D4149]"
-                    }`}
+                      }`}
                   >
                     {feature.title}
                   </span>

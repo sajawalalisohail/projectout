@@ -50,7 +50,7 @@ function GradientCheckIcon() {
 
 function CheckIcon() {
   return (
-    <svg className="h-5 w-5 text-emerald-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <svg className="h-5 w-5 text-white/40" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
       <path
         fillRule="evenodd"
         d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
@@ -80,13 +80,13 @@ export function FeatureComparison() {
   const containerAnimation = prefersReducedMotion
     ? {}
     : {
-        initial: { opacity: 0, y: 32 },
-        animate: isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 32 },
-        transition: { duration: 0.7, delay: 0.2, ease: [0.25, 0.4, 0.25, 1] as const },
-      };
+      initial: { opacity: 0, y: 32 },
+      animate: isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 32 },
+      transition: { duration: 0.7, delay: 0.2, ease: [0.25, 0.4, 0.25, 1] as const },
+    };
 
   return (
-    <section ref={ref} id="comparison" className="scroll-mt-20 py-16 md:py-24">
+    <section ref={ref} id="comparison" className="scroll-mt-20 py-12 md:py-16">
       <div
         className="mx-auto mb-16 h-px max-w-4xl"
         style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(135, 18, 247, 0.2) 50%, transparent 100%)' }}
@@ -152,9 +152,8 @@ export function FeatureComparison() {
                       )}
                       <tr
                         key={feature.name}
-                        className={`border-b border-white/5 last:border-b-0 transition-colors duration-150 hover:bg-white/[0.02] ${
-                          index % 2 === 1 ? "bg-white/[0.01]" : ""
-                        }`}
+                        className={`border-b border-white/5 last:border-b-0 transition-colors duration-150 hover:bg-white/[0.02] ${index % 2 === 1 ? "bg-white/[0.01]" : ""
+                          }`}
                       >
                         <td className="px-6 py-3.5 text-sm text-white/70">
                           {feature.name}

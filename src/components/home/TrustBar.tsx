@@ -48,7 +48,7 @@ const duplicatedFirms = [...firms, ...firms];
 
 export function TrustBar() {
   return (
-    <section className="py-10 md:py-14 overflow-hidden">
+    <section className="py-8 md:py-12 overflow-hidden">
       <Container>
         <div className="mb-10 text-center">
           <p className="text-sm uppercase tracking-widest text-[#6B7280]">

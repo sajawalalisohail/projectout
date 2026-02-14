@@ -7,8 +7,8 @@ import { Container } from "@/components/ui/Container";
 const testimonials = [
   {
     quote: "Nextlex brought calm back to our workflow. Research, drafting, and review finally feel unified.",
-    name: "Michael Umina",
-    title: "Managing Attorney",
+    name: "Ryan Umina",
+    title: "CEO",
     firm: "Umina Legal PLLC",
     descriptor: "Business Law",
   },
@@ -102,7 +102,7 @@ export function Testimonial() {
   };
 
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-12 md:py-16">
       {/* Section divider */}
       <div
         className="mx-auto mb-16 h-px max-w-4xl"
