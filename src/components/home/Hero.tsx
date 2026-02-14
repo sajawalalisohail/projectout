@@ -51,7 +51,7 @@ export function Hero() {
         };
 
   return (
-    <section data-nav-theme="dark" className="relative min-h-screen overflow-hidden bg-black pt-44 pb-24 md:pt-56 md:pb-36">
+    <section data-nav-theme="dark" className="relative min-h-screen overflow-hidden bg-black">
       {/* Background video */}
       {!prefersReducedMotion && (
         <video
@@ -79,7 +79,8 @@ export function Hero() {
         aria-hidden="true"
       />
 
-      <Container className="relative">
+      <Container className="relative flex min-h-screen flex-col pt-32 md:pt-40">
+        {/* Top-left: Badge, Headline, Tagline, Subtitle */}
         <div className="max-w-2xl">
           {/* Badge pill */}
           <motion.div {...fadeUp(0)}>
@@ -112,10 +113,13 @@ export function Hero() {
           >
             Unify research, drafting, review, and practice ops in one secure platform.
           </motion.p>
+        </div>
 
+        {/* Bottom-center: CTAs + Trust strip */}
+        <div className="mt-auto flex w-full flex-col items-center gap-6 pb-10 md:pb-16">
           {/* CTAs */}
           <motion.div
-            className="mt-12 flex flex-col gap-5 sm:flex-row sm:items-center"
+            className="flex flex-col items-center gap-5 sm:flex-row"
             {...fadeUp(0.3)}
           >
             <a
@@ -151,11 +155,11 @@ export function Hero() {
           </motion.div>
 
           {/* Trust strip */}
-          <motion.div className="mt-16 flex flex-col gap-4" {...fadeUp(0.4)}>
+          <motion.div className="flex flex-col items-center gap-3" {...fadeUp(0.4)}>
             <p className="text-xs uppercase tracking-widest text-white/30">
               Built by lawyers, for lawyers
             </p>
-            <div className="flex flex-wrap items-center gap-3 text-xs text-white/40">
+            <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-white/40">
               <span className="flex items-center gap-1.5 rounded-full border border-white/10 px-3 py-1">
                 <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
