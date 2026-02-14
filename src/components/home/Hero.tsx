@@ -79,7 +79,7 @@ export function Hero() {
         aria-hidden="true"
       />
 
-      <Container className="relative flex min-h-screen flex-col pt-44 md:pt-60">
+      <Container className="relative flex min-h-screen flex-col pt-52 md:pt-60">
         {/* Top-left: Badge, Headline, Subcopy, CTAs */}
         <div className="max-w-2xl">
           {/* Badge pill */}
@@ -92,7 +92,7 @@ export function Hero() {
 
           {/* Title */}
           <motion.h1
-            className="mt-8 text-5xl font-bold leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl"
+            className="mt-6 text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl"
             {...fadeUp(0.1)}
           >
             Your Legal Command Center
